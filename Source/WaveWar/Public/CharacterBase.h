@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
 
 #pragma once
 
@@ -6,24 +6,22 @@
 #include "GameFramework/Character.h"
 #include "CharacterBase.generated.h"
 
+
+
+
 UCLASS()
 class WAVEWAR_API ACharacterBase : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
 	ACharacterBase();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+protected:
+	virtual void BeginPlay() override;
 
 };
