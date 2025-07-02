@@ -9,6 +9,9 @@
 
 
 
+class UAbilitySystemComponent;
+class UAttributeSet;
+
 
 UCLASS(config = Game)
 class WAVEWAR_API ACharacterBase : public ACharacter
@@ -50,6 +53,14 @@ public:
 
 protected:
 
+	UPROPERTY()
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+
+	UPROPERTY()
+	TObjectPtr<UAttributeSet> AttributeSet;
+
+	////****	FUNCTIONS	****////
+
 	virtual void BeginPlay() override;
 
 	/** Called for movement input */
@@ -61,6 +72,13 @@ protected:
 	AActor* FindPlayerStart() const;
 
 public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector CheckpointLocation;
+
+	FVector SafeLocation;
+
+	////****	FUNCTIONS	****////
 
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
@@ -74,10 +92,5 @@ public:
 	void SetCheckpointLocation(FVector NewCheckpointLocation);
 
 	void SafePlayerLocation();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FVector CheckpointLocation;
-
-	FVector SafeLocation;
 
 };
