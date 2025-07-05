@@ -3,3 +3,16 @@
 
 #include "Player/ShadowEnemy.h"
 
+
+
+
+
+void AShadowEnemy::HighlightActor()
+{
+	bHighlighted = true;
+}
+
+void AShadowEnemy::UnHighlightActor()
+{
+	bHighlighted = false;
+}

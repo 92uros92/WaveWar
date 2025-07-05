@@ -4,14 +4,24 @@
 
 #include "CoreMinimal.h"
 #include "Player/CharacterBase.h"
+#include "Interaction/EnemyInterface.h"
 #include "ShadowEnemy.generated.h"
 
 
 
 
 UCLASS()
-class WAVEWAR_API AShadowEnemy : public ACharacterBase
+class WAVEWAR_API AShadowEnemy : public ACharacterBase, public IEnemyInterface
 {
 	GENERATED_BODY()
 	
+public:
+
+	UPROPERTY(BlueprintReadOnly)
+	bool bHighlighted = false;
+
+	////****	FUNCTIONS	****////
+
+	virtual void HighlightActor() override;
+	virtual void UnHighlightActor() override;
 };
