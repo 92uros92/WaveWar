@@ -30,7 +30,7 @@ private:
 
 	////****	FUNCTIONS	****////
 
-	void CursorTrace();
+	//void CursorTrace();
 
 protected:
 
