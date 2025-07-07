@@ -41,6 +41,10 @@ class WAVEWAR_API AShadowCharacter : public ACharacterBase
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
+	/** Shoot Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* ShootAction;
+
 public:
 
 	AShadowCharacter();
@@ -66,14 +70,15 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
-	AActor* FindPlayerStart() const;
+	/** Called for shooting input */
+	void GunShoot();
 
 public:
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FVector CheckpointLocation;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	//FVector CheckpointLocation;
 
-	FVector SafeLocation;
+	//FVector SafeLocation;
 
 	////****	FUNCTIONS	****////
 
@@ -81,13 +86,5 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return SpringArm; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-
-	void RespawnAtPlayerStart();
-
-	void RespawnAtCheckpoint();
-
-	void SetCheckpointLocation(FVector NewCheckpointLocation);
-
-	void SafePlayerLocation();
 
 };

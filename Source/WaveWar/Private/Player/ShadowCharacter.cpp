@@ -65,60 +65,6 @@ void AShadowCharacter::BeginPlay()
 	}
 }
 
-AActor* AShadowCharacter::FindPlayerStart() const
-{
-	AActor* PlayerStart = UGameplayStatics::GetActorOfClass(GetWorld(), APlayerStart::StaticClass());
-	return PlayerStart;
-}
-
-void AShadowCharacter::RespawnAtPlayerStart()
-{
-	AActor* PlayerStart = FindPlayerStart();
-
-	if (PlayerStart)
-	{
-		SetActorLocation(PlayerStart->GetActorLocation());
-		SetActorRotation(PlayerStart->GetActorRotation());
-
-		UE_LOG(LogTemp, Warning, TEXT("Player respawned at PlayerStart!"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No PlayerStart found!"));
-	}
-}
-
-void AShadowCharacter::RespawnAtCheckpoint()
-{
-	if (!CheckpointLocation.IsZero())
-	{
-		SetActorLocation(CheckpointLocation);
-
-		UE_LOG(LogTemp, Warning, TEXT("Player respawned at Checkpoint!"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No Checkpoint set!"));
-	}
-}
-
-void AShadowCharacter::SetCheckpointLocation(FVector NewCheckpointLocation)
-{
-	SafePlayerLocation();
-	CheckpointLocation = NewCheckpointLocation;
-}
-
-void AShadowCharacter::SafePlayerLocation()
-{
-	//UCharacterMovementComponent Falling = GetMovementComponent()->IsFalling();
-
-	if (&UCharacterMovementComponent::FindFloor)
-	{
-		AActor* PlayerStart = FindPlayerStart();
-		CheckpointLocation = PlayerStart->GetActorLocation();
-	}
-}
-
 //////////////////////////////////////////////////////////////////////////
 //	********************      Input      ****************************	//
 //////////////////////////////////////////////////////////////////////////
@@ -138,6 +84,8 @@ void AShadowCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		//Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShadowCharacter::Look);
 
+		//Shooting
+		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Triggered, this, &AShadowCharacter::GunShoot);
 	}
 }
 
@@ -175,4 +123,9 @@ void AShadowCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AShadowCharacter::GunShoot()
+{
+	//GetWorld()->SpawnActor<AActor>();
 }
