@@ -10,6 +10,7 @@
 
 class UAbilitySystemComponent;
 class UAttributeSet;
+class UAnimMontage;
 
 
 UCLASS(config = Game)
@@ -54,6 +55,14 @@ public:
 
 protected:
 
+	UPROPERTY(EditAnywhere, Category = Projectile)
+	TSubclassOf<AActor> ProjectileClass;
+
+	UPROPERTY(EditAnywhere, Category = Projectile)
+	UAnimMontage* ShotMontage;
+
+	FTimerHandle ShotTimer;
+
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
@@ -72,6 +81,9 @@ protected:
 
 	/** Called for shooting input */
 	void GunShoot();
+
+	/** Called for TimerManager of shooting function */
+	void GunShoot_TimerManager();
 
 public:
 

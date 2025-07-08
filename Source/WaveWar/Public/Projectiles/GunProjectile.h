@@ -22,8 +22,6 @@ public:
 
 	AGunProjectile();
 
-	virtual void Tick(float DeltaTime) override;
-
 protected:
 
 	UPROPERTY(VisibleAnywhere)

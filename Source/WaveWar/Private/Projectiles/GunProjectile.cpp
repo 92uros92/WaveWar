@@ -11,9 +11,10 @@
 
 AGunProjectile::AGunProjectile()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("CapsuleComponent"));
+	BoxComponent->SetCollisionProfileName("Projectile");
 	RootComponent = BoxComponent;
 
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
@@ -21,6 +22,8 @@ AGunProjectile::AGunProjectile()
 
 	MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComponent"));
 	MovementComponent->InitialSpeed = 1000.0f;
+	MovementComponent->MaxSpeed = 1000.0f;
+	MovementComponent->ProjectileGravityScale = 0.0f;
 	MovementComponent->bRotationFollowsVelocity = true;
 	MovementComponent->bInitialVelocityInLocalSpace = true;
 
@@ -30,11 +33,5 @@ void AGunProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	
-}
-
-void AGunProjectile::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 

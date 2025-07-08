@@ -127,5 +127,21 @@ void AShadowCharacter::Look(const FInputActionValue& Value)
 
 void AShadowCharacter::GunShoot()
 {
-	//GetWorld()->SpawnActor<AActor>();
+	PlayAnimMontage(ShotMontage);
+
+	GetWorldTimerManager().SetTimer(ShotTimer, this, &AShadowCharacter::GunShoot_TimerManager, 0.2f);
+
+}
+
+void AShadowCharacter::GunShoot_TimerManager()
+{
+	FVector GunLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+
+	FTransform Transform = FTransform(GetControlRotation(), GunLocation);
+
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	GetWorld()->SpawnActor<AActor>(ProjectileClass, Transform, SpawnParams);
+
 }
