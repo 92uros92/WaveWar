@@ -8,8 +8,6 @@
 
 
 
-class UAbilitySystemComponent;
-class UAttributeSet;
 class UAnimMontage;
 
 
@@ -53,6 +51,14 @@ public:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	/** Returns CameraBoom subobject **/
+	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return SpringArm; }
+	/** Returns FollowCamera subobject **/
+	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	/** Begin AActor Interface **/
+	virtual void PossessedBy(AController* NewController) override;
+
 protected:
 
 	UPROPERTY(EditAnywhere, Category = Projectile)
@@ -62,12 +68,6 @@ protected:
 	UAnimMontage* ShotMontage;
 
 	FTimerHandle ShotTimer;
-
-	UPROPERTY()
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
-
-	UPROPERTY()
-	TObjectPtr<UAttributeSet> AttributeSet;
 
 	////****	FUNCTIONS	****////
 
@@ -84,19 +84,5 @@ protected:
 
 	/** Called for TimerManager of shooting function */
 	void GunShoot_TimerManager();
-
-public:
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//FVector CheckpointLocation;
-
-	//FVector SafeLocation;
-
-	////****	FUNCTIONS	****////
-
-	/** Returns CameraBoom subobject **/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return SpringArm; }
-	/** Returns FollowCamera subobject **/
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 };

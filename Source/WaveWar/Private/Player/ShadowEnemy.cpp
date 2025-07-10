@@ -2,10 +2,23 @@
 
 
 #include "Player/ShadowEnemy.h"
+#include "GAS/ShadowAbilitySystemComponent.h"
+#include "GAS/ShadowAttributeSet.h"
 
 
 
 
+
+AShadowEnemy::AShadowEnemy()
+{
+	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+
+	AbilitySystemComponent = CreateDefaultSubobject<UShadowAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+
+	AttributeSet = CreateDefaultSubobject<UShadowAttributeSet>("AttributeSet");
+}
 
 void AShadowEnemy::HighlightActor()
 {
@@ -15,4 +28,11 @@ void AShadowEnemy::HighlightActor()
 void AShadowEnemy::UnHighlightActor()
 {
 	bHighlighted = false;
+}
+
+void AShadowEnemy::BeginPlay()
+{
+	Super:BeginPlay();
+
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
