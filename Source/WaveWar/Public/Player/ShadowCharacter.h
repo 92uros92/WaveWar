@@ -59,6 +59,8 @@ public:
 	/** Begin AActor Interface **/
 	virtual void PossessedBy(AController* NewController) override;
 
+	virtual void OnRep_PlayerState() override;
+
 protected:
 
 	UPROPERTY(EditAnywhere, Category = Projectile)
@@ -85,4 +87,7 @@ protected:
 	/** Called for TimerManager of shooting function */
 	void GunShoot_TimerManager();
 
+private:
+
+	void InitAbilityActorInfo();
 };

@@ -2,6 +2,7 @@
 
 
 #include "Player/ShadowCharacter.h"
+#include "Player/ShadowPlayerState.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
@@ -10,6 +11,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerStart.h"
+#include "AbilitySystemComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
@@ -144,4 +146,34 @@ void AShadowCharacter::GunShoot_TimerManager()
 
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, Transform, SpawnParams);
 
+}
+
+//////////////////////////////////////////////////////////////////////////
+//	********************      END Input      **************************	//
+//////////////////////////////////////////////////////////////////////////
+
+void AShadowCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	// Initialize ability for the Server
+	InitAbilityActorInfo();
+}
+
+void AShadowCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	// Initialize ability for the Client
+	InitAbilityActorInfo();
+}
+
+void AShadowCharacter::InitAbilityActorInfo()
+{
+	if (AShadowPlayerState* ShadowPlayerState = GetPlayerState<AShadowPlayerState>())
+	{
+		ShadowPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(ShadowPlayerState, this);
+		AbilitySystemComponent = ShadowPlayerState->GetAbilitySystemComponent();
+		AttributeSet = ShadowPlayerState->GetAttributeSet();
+	}
 }
