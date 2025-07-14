@@ -2,7 +2,6 @@
 
 
 #include "GAS/ShadowAttributeSet.h"
-#include "AbilitySystemComponent.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -11,7 +10,8 @@
 
 UShadowAttributeSet::UShadowAttributeSet()
 {
-
+	InitHealth(100.0f);
+	InitMaxHealth(100.0f);
 }
 
 void UShadowAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

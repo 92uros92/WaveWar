@@ -32,7 +32,7 @@ void AShadowEnemy::UnHighlightActor()
 
 void AShadowEnemy::BeginPlay()
 {
-	Super:BeginPlay();
+	Super::BeginPlay();
 
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
