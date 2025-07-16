@@ -3,3 +3,14 @@
 
 #include "UI/WW_WidgetController.h"
 
+
+
+
+
+void UWW_WidgetController::SetWidgetControllerParams(const FWidgetControllerParams& WCParams)
+{
+	PlayerController = WCParams.PlayerController;
+	PlayerState = WCParams.PlayerState;
+	AbilitySystemComponent = WCParams.AbilitySystemComponent;
+	AttributeSet = WCParams.AttributeSet;
+}
