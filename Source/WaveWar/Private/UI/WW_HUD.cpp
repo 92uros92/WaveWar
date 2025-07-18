@@ -4,24 +4,38 @@
 #include "UI/WW_HUD.h"
 #include "UI/WW_UserWidget.h"
 #include "UI/ScreenWidgetController.h"
+#include "UI/WW_WidgetController.h"
 
 
 
 
-void AWW_HUD::BeginPlay()
+
+void AWW_HUD::InitScreenWidget(APlayerController* PCont, APlayerState* PSta, UAbilitySystemComponent* ASysCom, UAttributeSet* AttS)
 {
-	Super::BeginPlay();
+	/** Don´t forget to set  ScreenWidgetClass and ScreenWidgetControllerClass in BP_WWHUD */
+	check(ScreenWidgetClass);
+	check(ScreenWidgetControllerClass);
 
 	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), ScreenWidgetClass);
-	Widget->AddToViewport();
+	ScreenWidget = Cast<UWW_UserWidget>(Widget);
 
+	/** Initialize FWidgetControllerParams */
+	const FWidgetControllerParams WidgetControllerParams(PCont, PSta, ASysCom, AttS);
+
+	/** Call GetScreenWidgetController() to set WidgetControllerParams */
+	UScreenWidgetController* WidgetController = GetScreenWidgetController(WidgetControllerParams);
+
+	/** Call SetWidgetController() from UWW_UserWidget */
+	ScreenWidget->SetWidgetController(WidgetController);
+
+	Widget->AddToViewport();
 }
 
 UScreenWidgetController* AWW_HUD::GetScreenWidgetController(const FWidgetControllerParams& WCParams)
 {
 	if (ScreenWidgetController == nullptr)
 	{
-		ScreenWidgetController = NewObject<UScreenWidgetController>(this, ScreenWidgetClass);
+		ScreenWidgetController = NewObject<UScreenWidgetController>(this, ScreenWidgetControllerClass);
 		ScreenWidgetController->SetWidgetControllerParams(WCParams);
 
 		return ScreenWidgetController;

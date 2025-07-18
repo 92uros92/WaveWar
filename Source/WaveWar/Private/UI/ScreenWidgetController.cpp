@@ -3,3 +3,11 @@
 
 #include "UI/ScreenWidgetController.h"
 
+
+
+
+
+void UScreenWidgetController::BroadcastInitialValues()
+{
+
+}

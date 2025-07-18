@@ -3,15 +3,19 @@
 
 #include "Player/ShadowCharacter.h"
 #include "Player/ShadowPlayerState.h"
+#include "Player/ShadowPlayerController.h"
+#include "UI/WW_HUD.h"
+
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerStart.h"
 #include "AbilitySystemComponent.h"
+
+#include "Components/InputComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
@@ -175,5 +179,15 @@ void AShadowCharacter::InitAbilityActorInfo()
 		ShadowPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(ShadowPlayerState, this);
 		AbilitySystemComponent = ShadowPlayerState->GetAbilitySystemComponent();
 		AttributeSet = ShadowPlayerState->GetAttributeSet();
+
+		AShadowPlayerController* ShadowPlayerController = Cast<AShadowPlayerController>(GetController());
+		if (ShadowPlayerController)
+		{
+			AWW_HUD* WWHUD = Cast<AWW_HUD>(ShadowPlayerController->GetHUD());
+			if (WWHUD)
+			{
+				WWHUD->InitScreenWidget(ShadowPlayerController, ShadowPlayerState, AbilitySystemComponent, AttributeSet);
+			}
+		}
 	}
 }

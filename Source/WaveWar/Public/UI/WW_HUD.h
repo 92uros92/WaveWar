@@ -11,6 +11,8 @@
 class UWW_UserWidget;
 class UScreenWidgetController;
 struct FWidgetControllerParams;
+class UAbilitySystemComponent;
+class UAttributeSet;
 
 
 UCLASS()
@@ -27,9 +29,7 @@ public:
 
 	UScreenWidgetController* GetScreenWidgetController(const FWidgetControllerParams& WCParams);
 
-protected:
-
-	virtual void BeginPlay() override;
+	void InitScreenWidget(APlayerController* PCont, APlayerState* PSta, UAbilitySystemComponent* ASysCom, UAttributeSet* AttS);
 
 private:
 

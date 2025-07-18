@@ -14,3 +14,8 @@ void UWW_WidgetController::SetWidgetControllerParams(const FWidgetControllerPara
 	AbilitySystemComponent = WCParams.AbilitySystemComponent;
 	AttributeSet = WCParams.AttributeSet;
 }
+
+void UWW_WidgetController::BroadcastInitialValues()
+{
+
+}
