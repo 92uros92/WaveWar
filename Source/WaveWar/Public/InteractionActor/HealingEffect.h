@@ -8,33 +8,28 @@
 
 
 
-class USphereComponent;
-class UStaticMeshComponent;
+class UGameplayEffect;
 
 
 UCLASS()
 class WAVEWAR_API AHealingEffect : public AActor
 {
 	GENERATED_BODY()
-	
-	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* Mesh;
-
-	UPROPERTY(VisibleAnywhere)
-	USphereComponent* SphereComponent;
 
 public:	
 
 	AHealingEffect();
 
-	UFUNCTION()
-	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
-	UFUNCTION()
-	void OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
 protected:
 
+	UPROPERTY(EditAnywhere, Category = "Effect")
+	TSubclassOf<UGameplayEffect> HealGameplayEffectClass;
+
+	////****	FUNCTIONS	****////
+
 	virtual void BeginPlay() override;
+
+	UFUNCTION(BlueprintCallable)
+	void ApplyEffectToActor(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass);
 
 };

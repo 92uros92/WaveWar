@@ -3,9 +3,8 @@
 
 #include "InteractionActor/HealingEffect.h"
 #include "GAS/ShadowAttributeSet.h"
-#include "Components/SphereComponent.h"
-#include "Components/StaticMeshComponent.h"
-#include "AbilitySystemInterface.h"
+
+#include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
 
 
@@ -15,34 +14,28 @@ AHealingEffect::AHealingEffect()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
-	SetRootComponent(Mesh);
-
-	SphereComponent = CreateDefaultSubobject<USphereComponent>("SphereComponent");
-	SphereComponent->SetupAttachment(Mesh);
-
+	SetRootComponent(CreateDefaultSubobject<USceneComponent>("SceneRoot"));
 }
 
 void AHealingEffect::BeginPlay()
 {
 	Super::BeginPlay();
+
+}
+
+void AHealingEffect::ApplyEffectToActor(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
+{
+	UAbilitySystemComponent* TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+
+	if (TargetAbilitySystemComponent == nullptr)
+		return;
 	
-	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AHealingEffect::OnOverlap);
-	SphereComponent->OnComponentEndOverlap.AddDynamic(this, &AHealingEffect::OnEndOverlap);
-}
+	check(GameplayEffectClass);
 
-void AHealingEffect::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (IAbilitySystemInterface* ASInterface = Cast<IAbilitySystemInterface>(OtherActor))
-	{
-		const UShadowAttributeSet* ShadowAS = Cast<UShadowAttributeSet>(ASInterface->GetAbilitySystemComponent()->GetAttributeSet(UShadowAttributeSet::StaticClass()));
-		UShadowAttributeSet* ConShadowAS = const_cast<UShadowAttributeSet*>(ShadowAS);
-		ConShadowAS->SetHealth(ShadowAS->GetHealth() + 5.0f);
-		Destroy();
-	}
-}
-
-void AHealingEffect::OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
+	FGameplayEffectContextHandle EffectContextHandle = TargetAbilitySystemComponent->MakeEffectContext();
+	EffectContextHandle.AddSourceObject(this);
+	FGameplayEffectSpecHandle EffectSpecHandle = TargetAbilitySystemComponent->MakeOutgoingSpec(GameplayEffectClass, 1.0f, EffectContextHandle);
+	TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 
 }
+
