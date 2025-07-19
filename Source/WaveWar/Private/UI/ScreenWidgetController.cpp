@@ -2,6 +2,7 @@
 
 
 #include "UI/ScreenWidgetController.h"
+#include "GAS/ShadowAttributeSet.h"
 
 
 
@@ -9,5 +10,8 @@
 
 void UScreenWidgetController::BroadcastInitialValues()
 {
+	const UShadowAttributeSet* ShadowAttributeSet = CastChecked<UShadowAttributeSet>(AttributeSet);
 
+	OnHealthChanged.Broadcast(ShadowAttributeSet->GetHealth());
+	OnMaxHealthChanged.Broadcast(ShadowAttributeSet->GetMaxHealth());
 }

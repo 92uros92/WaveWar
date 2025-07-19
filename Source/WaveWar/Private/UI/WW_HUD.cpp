@@ -28,6 +28,9 @@ void AWW_HUD::InitScreenWidget(APlayerController* PCont, APlayerState* PSta, UAb
 	/** Call SetWidgetController() from UWW_UserWidget */
 	ScreenWidget->SetWidgetController(WidgetController);
 
+	/** Broadcast to Health and MaxHealth */
+	WidgetController->BroadcastInitialValues();
+
 	Widget->AddToViewport();
 }
 

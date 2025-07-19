@@ -11,7 +11,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangedSignature, float, Ne
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangedSignature, float, NewMaxHealth);
 
 
-UCLASS()
+UCLASS(BlueprintType, Blueprintable)
 class WAVEWAR_API UScreenWidgetController : public UWW_WidgetController
 {
 	GENERATED_BODY()
