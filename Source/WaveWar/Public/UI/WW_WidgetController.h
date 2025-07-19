@@ -46,6 +46,8 @@ public:
 
 	virtual void BroadcastInitialValues();
 
+	virtual void InitBindingAttributes();
+
 protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")

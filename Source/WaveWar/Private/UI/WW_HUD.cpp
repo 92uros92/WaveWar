@@ -38,8 +38,12 @@ UScreenWidgetController* AWW_HUD::GetScreenWidgetController(const FWidgetControl
 {
 	if (ScreenWidgetController == nullptr)
 	{
+		/** If ScreenWidgetController is NULL then create one */
 		ScreenWidgetController = NewObject<UScreenWidgetController>(this, ScreenWidgetControllerClass);
 		ScreenWidgetController->SetWidgetControllerParams(WCParams);
+
+		/** Whenever attributes changed then bind new value */
+		ScreenWidgetController->InitBindingAttributes();
 
 		return ScreenWidgetController;
 	}

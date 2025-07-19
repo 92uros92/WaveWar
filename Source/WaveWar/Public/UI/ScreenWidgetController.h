@@ -11,6 +11,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangedSignature, float, Ne
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangedSignature, float, NewMaxHealth);
 
 
+struct FOnAttributeChangeData;
+
 UCLASS(BlueprintType, Blueprintable)
 class WAVEWAR_API UScreenWidgetController : public UWW_WidgetController
 {
@@ -27,4 +29,11 @@ public:
 	////****	FUNCTIONS	****////
 
 	virtual void BroadcastInitialValues() override;
+
+	virtual void InitBindingAttributes() override;
+
+protected:
+
+	void HealthChanged(const FOnAttributeChangeData& Data) const;
+	void MaxHealthChanged(const FOnAttributeChangeData& Data) const;
 };

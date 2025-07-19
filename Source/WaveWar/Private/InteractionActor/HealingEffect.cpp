@@ -37,7 +37,7 @@ void AHealingEffect::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 	{
 		const UShadowAttributeSet* ShadowAS = Cast<UShadowAttributeSet>(ASInterface->GetAbilitySystemComponent()->GetAttributeSet(UShadowAttributeSet::StaticClass()));
 		UShadowAttributeSet* ConShadowAS = const_cast<UShadowAttributeSet*>(ShadowAS);
-		ConShadowAS->SetHealth(ShadowAS->GetHealth() + 25.0f);
+		ConShadowAS->SetHealth(ShadowAS->GetHealth() + 5.0f);
 		Destroy();
 	}
 }

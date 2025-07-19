@@ -19,3 +19,8 @@ void UWW_WidgetController::BroadcastInitialValues()
 {
 
 }
+
+void UWW_WidgetController::InitBindingAttributes()
+{
+
+}
