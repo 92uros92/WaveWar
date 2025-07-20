@@ -22,7 +22,7 @@ public:
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = "Effect")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effect")
 	TSubclassOf<UGameplayEffect> HealGameplayEffectClass;
 
 	////****	FUNCTIONS	****////
