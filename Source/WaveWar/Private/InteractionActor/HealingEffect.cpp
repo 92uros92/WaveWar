@@ -23,6 +23,7 @@ void AHealingEffect::BeginPlay()
 
 }
 
+/** Call in the Blueprint */
 void AHealingEffect::ApplyEffectToActor(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
 	UAbilitySystemComponent* TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
@@ -32,6 +33,7 @@ void AHealingEffect::ApplyEffectToActor(AActor* TargetActor, TSubclassOf<UGamepl
 	
 	check(GameplayEffectClass);
 
+	/** Create effect for the owner of this ability --> get an outgoing effect that is ready to be applied --> Applies a previously created gameplay effect spec */
 	FGameplayEffectContextHandle EffectContextHandle = TargetAbilitySystemComponent->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
 	FGameplayEffectSpecHandle EffectSpecHandle = TargetAbilitySystemComponent->MakeOutgoingSpec(GameplayEffectClass, 1.0f, EffectContextHandle);
