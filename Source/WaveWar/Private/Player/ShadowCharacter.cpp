@@ -5,6 +5,7 @@
 #include "Player/ShadowPlayerState.h"
 #include "Player/ShadowPlayerController.h"
 #include "UI/WW_HUD.h"
+#include "GAS/ShadowAbilitySystemComponent.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -180,7 +181,9 @@ void AShadowCharacter::InitAbilityActorInfo()
 {
 	if (AShadowPlayerState* ShadowPlayerState = GetPlayerState<AShadowPlayerState>())
 	{
+		/** Initialize ShadowPlayerState, AbilitySystemComponent and AttributeSet */
 		ShadowPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(ShadowPlayerState, this);
+		Cast<UShadowAbilitySystemComponent>(ShadowPlayerState->GetAbilitySystemComponent())->SetAbilityActorInfo(); // Call SetAbilityActorInfo() from ShadowAbilitySystemComponent() class
 		AbilitySystemComponent = ShadowPlayerState->GetAbilitySystemComponent();
 		AttributeSet = ShadowPlayerState->GetAttributeSet();
 
@@ -190,6 +193,7 @@ void AShadowCharacter::InitAbilityActorInfo()
 			AWW_HUD* WWHUD = Cast<AWW_HUD>(ShadowPlayerController->GetHUD());
 			if (WWHUD)
 			{
+				/** Initialize ScreenWidget */
 				WWHUD->InitScreenWidget(ShadowPlayerController, ShadowPlayerState, AbilitySystemComponent, AttributeSet);
 			}
 		}

@@ -8,10 +8,21 @@
 
 
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer&)
+
 
 UCLASS()
 class WAVEWAR_API UShadowAbilitySystemComponent : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
 	
+public:
+
+	FEffectAssetTags EffectAssetTags;
+
+	void SetAbilityActorInfo();
+
+protected:
+
+	void ApplyEffect(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayEffectHandle);
 };

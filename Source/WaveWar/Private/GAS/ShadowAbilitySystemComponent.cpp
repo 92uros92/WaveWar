@@ -3,3 +3,22 @@
 
 #include "GAS/ShadowAbilitySystemComponent.h"
 
+
+
+
+
+void UShadowAbilitySystemComponent::SetAbilityActorInfo()
+{
+	/** Bind to ApplyEffect function */
+	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UShadowAbilitySystemComponent::ApplyEffect);
+}
+
+void UShadowAbilitySystemComponent::ApplyEffect(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayEffectHandle)
+{
+	FGameplayTagContainer GameplayTagContainer;
+	EffectSpec.GetAllAssetTags(GameplayTagContainer);
+
+	EffectAssetTags.Broadcast(GameplayTagContainer);
+
+	
+}
