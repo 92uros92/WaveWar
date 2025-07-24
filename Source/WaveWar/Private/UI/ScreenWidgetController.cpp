@@ -24,9 +24,19 @@ void UScreenWidgetController::InitBindingAttributes()
 {
 	const UShadowAttributeSet* ShadowAttributeSet = CastChecked<UShadowAttributeSet>(AttributeSet);
 
-	/** Call bind function whenever attributes changed */
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(ShadowAttributeSet->GetHealthAttribute()).AddUObject(this, &UScreenWidgetController::HealthChanged);
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(ShadowAttributeSet->GetMaxHealthAttribute()).AddUObject(this, &UScreenWidgetController::MaxHealthChanged);
+	/** Call lambda whenever attributes changed */
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(ShadowAttributeSet->GetHealthAttribute()).AddLambda(
+		[this](const FOnAttributeChangeData& Data)
+		{
+			OnHealthChanged.Broadcast(Data.NewValue);
+		}
+	);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(ShadowAttributeSet->GetMaxHealthAttribute()).AddLambda(
+		[this](const FOnAttributeChangeData& Data)
+		{
+			OnMaxHealthChanged.Broadcast(Data.NewValue);
+		}
+	);
 
 	Cast<UShadowAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
 		[this](const FGameplayTagContainer& AssetTags) 
@@ -53,12 +63,13 @@ void UScreenWidgetController::InitBindingAttributes()
 	);
 }
 
-void UScreenWidgetController::HealthChanged(const FOnAttributeChangeData& Data) const
-{
-	OnHealthChanged.Broadcast(Data.NewValue);
-}
+/** One way to do: "GetMaxHealthAttribute()).AddUObject" and then call that function. The secon one is with lambda as in InitBindingAttributes() function */
+//void UScreenWidgetController::HealthChanged(const FOnAttributeChangeData& Data) const
+//{
+//	OnHealthChanged.Broadcast(Data.NewValue);
+//}
 
-void UScreenWidgetController::MaxHealthChanged(const FOnAttributeChangeData& Data) const
-{
-	OnMaxHealthChanged.Broadcast(Data.NewValue);
-}
+//void UScreenWidgetController::MaxHealthChanged(const FOnAttributeChangeData& Data) const
+//{
+//	OnMaxHealthChanged.Broadcast(Data.NewValue);
+//}

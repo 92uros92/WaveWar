@@ -45,4 +45,5 @@ public:
 
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 
+	void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 };

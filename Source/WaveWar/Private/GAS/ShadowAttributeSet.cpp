@@ -2,7 +2,9 @@
 
 
 #include "GAS/ShadowAttributeSet.h"
+
 #include "Net/UnrealNetwork.h"
+#include "GameplayEffectExtension.h"
 
 
 
@@ -42,4 +44,15 @@ void UShadowAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute
 	{
 		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxHealth());
 	}
+}
+
+void UShadowAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+{
+	Super::PostGameplayEffectExecute(Data);
+
+	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+		SetHealth(FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth()));
+	}
+	
 }
