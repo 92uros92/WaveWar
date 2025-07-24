@@ -198,4 +198,7 @@ void AShadowCharacter::InitAbilityActorInfo()
 			}
 		}
 	}
+
+	/** Because AbilitySystemComponent is valid, InitializePrimaryAttributes() function from CharacterBase can be called */
+	InitializePrimaryAttributes();
 }

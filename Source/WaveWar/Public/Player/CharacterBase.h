@@ -12,6 +12,7 @@
 
 class UAbilitySystemComponent;
 class UAttributeSet;
+class UGameplayEffect;
 
 
 UCLASS(ABSTRACT)
@@ -37,10 +38,15 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
 
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "PrimaryAttributes")
+	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
+
 	////****	FUNCTIONS	****////
 
 	virtual void BeginPlay() override;
 
 	virtual void InitAbilityActorInfo();
+
+	void InitializePrimaryAttributes() const;
 
 };

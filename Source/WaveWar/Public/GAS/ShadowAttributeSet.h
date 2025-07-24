@@ -23,13 +23,38 @@ class WAVEWAR_API UShadowAttributeSet : public UAttributeSet
 	
 public:
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Health")
+	/*
+	*	Primary Attributes
+	*/
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Damage, Category = "Primary Attributes")
+	FGameplayAttributeData Damage;
+	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, Damage);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_AddMaxHP, Category = "Primary Attributes")
+	FGameplayAttributeData AddMaxHP;
+	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, AddMaxHP);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MovementSpeed, Category = "Primary Attributes")
+	FGameplayAttributeData MovementSpeed;
+	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, MovementSpeed);
+	/*
+	*	END Primary Attributes
+	*/
+
+	/*
+	*	Life Attributes
+	*/
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Life Attributes")
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, Health);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Health")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Life Attributes")
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, MaxHealth);
+	/*
+	*	END Life Attributes
+	*/
+
 
 	////****	FUNCTIONS	****////
 
@@ -37,13 +62,27 @@ public:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+
+	void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
+
+	/** Life Attributes "OnRep" function */
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
 
 	UFUNCTION()
 	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const;
+	/** END Life Attributes "OnRep" function */
 
-	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+	/** Primary Attributes "OnRep" function */
+	UFUNCTION()
+	void OnRep_Damage(const FGameplayAttributeData& OldDamage) const;
 
-	void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
+	UFUNCTION()
+	void OnRep_AddMaxHP(const FGameplayAttributeData& OldAddMaxHP) const;
+	
+	UFUNCTION()
+	void OnRep_MovementSpeed(const FGameplayAttributeData& OldMovementSpeed) const;
+	/** END Primary Attributes "OnRep" function */
+
 };

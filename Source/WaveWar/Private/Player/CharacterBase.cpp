@@ -3,6 +3,8 @@
 
 #include "Player/CharacterBase.h"
 
+#include "AbilitySystemComponent.h"
+
 
 
 
@@ -29,6 +31,18 @@ void ACharacterBase::BeginPlay()
 
 void ACharacterBase::InitAbilityActorInfo()
 {
+	/** It is override in the child class */
+}
 
+void ACharacterBase::InitializePrimaryAttributes() const
+{
+	/** Check for AbilitySystemComponent and TSubclassOf DefaultPrimaryAttributes */
+	check(IsValid(GetAbilitySystemComponent()));
+	check(DefaultPrimaryAttributes);
+
+	/** Create EffectContext for the owner of this ability system --> get an outgoing effect that is ready to be applied --> Applies a previously created gameplay effect spec */
+	FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(DefaultPrimaryAttributes, 1.0f, ContextHandle);
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
 }
 
