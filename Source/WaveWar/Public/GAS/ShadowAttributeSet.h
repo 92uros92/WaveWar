@@ -26,6 +26,10 @@ public:
 	/*
 	*	Primary Attributes
 	*/
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Endurance, Category = "Primary Attributes")
+	FGameplayAttributeData Endurance;
+	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, Endurance);
+
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Damage, Category = "Primary Attributes")
 	FGameplayAttributeData Damage;
 	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, Damage);
@@ -42,15 +46,33 @@ public:
 	*/
 
 	/*
+	*	Secondary Attributes
+	*/
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Secondary Attributes")
+	FGameplayAttributeData Armor;
+	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, Armor);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CriticalHit, Category = "Secondary Attributes")
+	FGameplayAttributeData CriticalHit;
+	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, CriticalHit);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_BlockChance, Category = "Secondary Attributes")
+	FGameplayAttributeData BlockChance;
+	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, BlockChance);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Secondary Attributes")
+	FGameplayAttributeData MaxHealth;
+	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, MaxHealth);
+	/*
+	*	END Secondary Attributes
+	*/
+
+	/*
 	*	Life Attributes
 	*/
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Life Attributes")
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, Health);
-
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Life Attributes")
-	FGameplayAttributeData MaxHealth;
-	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, MaxHealth);
 	/*
 	*	END Life Attributes
 	*/
@@ -69,12 +91,12 @@ public:
 	/** Life Attributes "OnRep" function */
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
-
-	UFUNCTION()
-	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const;
 	/** END Life Attributes "OnRep" function */
 
 	/** Primary Attributes "OnRep" function */
+	UFUNCTION()
+	void OnRep_Endurance(const FGameplayAttributeData& OldEndurance) const;
+
 	UFUNCTION()
 	void OnRep_Damage(const FGameplayAttributeData& OldDamage) const;
 
@@ -85,4 +107,17 @@ public:
 	void OnRep_MovementSpeed(const FGameplayAttributeData& OldMovementSpeed) const;
 	/** END Primary Attributes "OnRep" function */
 
+	/** Secondary Attributes "OnRep" function */
+	UFUNCTION()
+	void OnRep_Armor(const FGameplayAttributeData& OldArmor) const;
+
+	UFUNCTION()
+	void OnRep_CriticalHit(const FGameplayAttributeData& OldCriticalHit) const;
+
+	UFUNCTION()
+	void OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance) const;
+
+	UFUNCTION()
+	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const;
+	/** END Secondary Attributes "OnRep" function */
 };
