@@ -38,9 +38,9 @@ public:
 	FGameplayAttributeData AddMaxHP;
 	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, AddMaxHP);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MovementSpeed, Category = "Primary Attributes")
-	FGameplayAttributeData MovementSpeed;
-	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, MovementSpeed);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_AddMovementSpeed, Category = "Primary Attributes")
+	FGameplayAttributeData AddMovementSpeed;
+	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, AddMovementSpeed);
 	/*
 	*	END Primary Attributes
 	*/
@@ -63,6 +63,10 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Secondary Attributes")
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, MaxHealth);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MovementSpeed, Category = "Secondary Attributes")
+	FGameplayAttributeData MovementSpeed;
+	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, MovementSpeed);
 	/*
 	*	END Secondary Attributes
 	*/
@@ -104,7 +108,7 @@ public:
 	void OnRep_AddMaxHP(const FGameplayAttributeData& OldAddMaxHP) const;
 	
 	UFUNCTION()
-	void OnRep_MovementSpeed(const FGameplayAttributeData& OldMovementSpeed) const;
+	void OnRep_AddMovementSpeed(const FGameplayAttributeData& OldAddMovementSpeed) const;
 	/** END Primary Attributes "OnRep" function */
 
 	/** Secondary Attributes "OnRep" function */
@@ -119,5 +123,8 @@ public:
 
 	UFUNCTION()
 	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const;
+
+	UFUNCTION()
+	void OnRep_MovementSpeed(const FGameplayAttributeData& OldMovementSpeed) const;
 	/** END Secondary Attributes "OnRep" function */
 };

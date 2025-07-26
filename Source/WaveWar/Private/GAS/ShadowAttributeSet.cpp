@@ -13,7 +13,6 @@
 UShadowAttributeSet::UShadowAttributeSet()
 {
 	InitHealth(70.0f);
-	InitMaxHealth(100.0f);
 }
 
 void UShadowAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -27,13 +26,14 @@ void UShadowAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 	/** Primary Attributes */
 	DOREPLIFETIME_CONDITION_NOTIFY(UShadowAttributeSet, Endurance, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UShadowAttributeSet, Damage, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UShadowAttributeSet, AddMovementSpeed, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UShadowAttributeSet, AddMaxHP, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UShadowAttributeSet, MovementSpeed, COND_None, REPNOTIFY_Always);
 
 	/** Secondary Attributes */
 	DOREPLIFETIME_CONDITION_NOTIFY(UShadowAttributeSet, Armor, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UShadowAttributeSet, CriticalHit, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UShadowAttributeSet, BlockChance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UShadowAttributeSet, MovementSpeed, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UShadowAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 }
 
@@ -79,27 +79,32 @@ void UShadowAttributeSet::OnRep_AddMaxHP(const FGameplayAttributeData& OldAddMax
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UShadowAttributeSet, AddMaxHP, OldAddMaxHP);
 }
 
-void UShadowAttributeSet::OnRep_MovementSpeed(const FGameplayAttributeData& OldMovementSpeed) const
+void UShadowAttributeSet::OnRep_AddMovementSpeed(const FGameplayAttributeData& OldAddMovementSpeed) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UShadowAttributeSet, MovementSpeed, OldMovementSpeed);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UShadowAttributeSet, AddMovementSpeed, OldAddMovementSpeed);
 }
 
 void UShadowAttributeSet::OnRep_Armor(const FGameplayAttributeData& OldArmor) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UShadowAttributeSet, MovementSpeed, OldArmor);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UShadowAttributeSet, Armor, OldArmor);
 }
 
 void UShadowAttributeSet::OnRep_CriticalHit(const FGameplayAttributeData& OldCriticalHit) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UShadowAttributeSet, MovementSpeed, OldCriticalHit);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UShadowAttributeSet, CriticalHit, OldCriticalHit);
 }
 
 void UShadowAttributeSet::OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UShadowAttributeSet, MovementSpeed, OldBlockChance);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UShadowAttributeSet, BlockChance, OldBlockChance);
 }
 
 void UShadowAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UShadowAttributeSet, MaxHealth, OldMaxHealth);
+}
+
+void UShadowAttributeSet::OnRep_MovementSpeed(const FGameplayAttributeData& OldMovementSpeed) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UShadowAttributeSet, MovementSpeed, OldMovementSpeed);
 }
