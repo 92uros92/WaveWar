@@ -24,12 +24,29 @@ public:
 
 	AShadowEnemy();
 
+	/** Currently don´t need that functions. */
+	/*
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
+	*/
+
+	/*
+	*	Combat Interface
+	*/
+	virtual int32 GetPlayerLevel() override;
+	/*
+	*	END Combat Interface
+	*/
 
 protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enemy Level")
+	int32 Level = 1;
+
+	////****	FUNCTIONS	****////
 
 	virtual void BeginPlay() override;
 
 	virtual void InitAbilityActorInfo() override;
+
 };

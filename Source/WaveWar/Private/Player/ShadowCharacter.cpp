@@ -177,6 +177,15 @@ void AShadowCharacter::OnRep_PlayerState()
 	InitAbilityActorInfo();
 }
 
+int32 AShadowCharacter::GetPlayerLevel()
+{
+	AShadowPlayerState* ShadowPlayerState = GetPlayerState<AShadowPlayerState>();
+	check(ShadowPlayerState);
+
+	/** Return Player level (it is on PlayerState). */
+	return ShadowPlayerState->GetPlayerLevel();
+}
+
 void AShadowCharacter::InitAbilityActorInfo()
 {
 	if (AShadowPlayerState* ShadowPlayerState = GetPlayerState<AShadowPlayerState>())

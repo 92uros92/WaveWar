@@ -61,6 +61,14 @@ public:
 
 	virtual void OnRep_PlayerState() override;
 
+	/*
+	*	Combat Interface
+	*/
+	virtual int32 GetPlayerLevel() override;
+	/*
+	*	END Combat Interface
+	*/
+
 protected:
 
 	UPROPERTY(EditAnywhere, Category = Projectile)

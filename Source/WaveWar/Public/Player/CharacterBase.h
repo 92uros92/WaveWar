@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "AbilitySystemInterface.h"
+#include "Interaction/CombatInterface.h"
 #include "CharacterBase.generated.h"
 
 
@@ -16,7 +17,7 @@ class UGameplayEffect;
 
 
 UCLASS(ABSTRACT)
-class WAVEWAR_API ACharacterBase : public ACharacter, public IAbilitySystemInterface
+class WAVEWAR_API ACharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
 {
 	GENERATED_BODY()
 

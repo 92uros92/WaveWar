@@ -20,15 +20,21 @@ AShadowEnemy::AShadowEnemy()
 	AttributeSet = CreateDefaultSubobject<UShadowAttributeSet>("AttributeSet");
 }
 
-void AShadowEnemy::HighlightActor()
+int32 AShadowEnemy::GetPlayerLevel()
 {
-	bHighlighted = true;
+	/** Return Enemy level */
+	return Level;
 }
 
-void AShadowEnemy::UnHighlightActor()
-{
-	bHighlighted = false;
-}
+//void AShadowEnemy::HighlightActor()
+//{
+//	bHighlighted = true;
+//}
+//
+//void AShadowEnemy::UnHighlightActor()
+//{
+//	bHighlighted = false;
+//}
 
 void AShadowEnemy::BeginPlay()
 {

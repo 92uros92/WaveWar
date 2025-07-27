@@ -5,6 +5,8 @@
 #include "GAS/ShadowAbilitySystemComponent.h"
 #include "GAS/ShadowAttributeSet.h"
 
+#include "Net/UnrealNetwork.h"
+
 
 
 
@@ -20,7 +22,19 @@ AShadowPlayerState::AShadowPlayerState()
 	NetUpdateFrequency = 100.0f;
 }
 
+void AShadowPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AShadowPlayerState, Level);
+}
+
 UAbilitySystemComponent* AShadowPlayerState::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
+}
+
+void AShadowPlayerState::OnRep_Level(int32 OldLevel)
+{
+	
 }
