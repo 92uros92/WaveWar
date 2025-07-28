@@ -3,6 +3,7 @@
 
 #include "GAS/MMC_MaxHealth.h"
 #include "GAS/ShadowAttributeSet.h"
+#include "Interaction/CombatInterface.h"
 
 
 
@@ -30,4 +31,9 @@ float UMMC_MaxHealth::CalculateBaseMagnitude_Implementation(const FGameplayEffec
 	float Life = 0.0f;
 	GetCapturedAttributeMagnitude(LifeDefinition, Spec, EvaluateParameters, Life);
 	Life = FMath::Max(Life, 0.0f);
+
+	ICombatInterface* CombatInterface = Cast<ICombatInterface>(Spec.GetContext().GetSourceObject());
+	const int32 PlayerLevel = CombatInterface->GetPlayerLevel();
+
+	return 80.0f + 2.5f * Life + 10.0f * PlayerLevel;
 }

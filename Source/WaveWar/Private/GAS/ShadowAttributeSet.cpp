@@ -12,7 +12,7 @@
 
 UShadowAttributeSet::UShadowAttributeSet()
 {
-	InitHealth(70.0f);
+	
 }
 
 void UShadowAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
