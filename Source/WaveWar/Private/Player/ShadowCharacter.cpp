@@ -173,8 +173,11 @@ void AShadowCharacter::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
 
-	// Initialize ability for the Client
+	/** Initialize ability for the Client */ 
 	InitAbilityActorInfo();
+
+	/** Call function from CharacterBase class */
+	AddCharacterAbilities();
 }
 
 int32 AShadowCharacter::GetPlayerLevel()

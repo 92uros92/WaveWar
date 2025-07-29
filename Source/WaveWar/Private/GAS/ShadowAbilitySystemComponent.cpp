@@ -13,6 +13,16 @@ void UShadowAbilitySystemComponent::SetAbilityActorInfo()
 	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UShadowAbilitySystemComponent::ApplyEffect);
 }
 
+void UShadowAbilitySystemComponent::GiveStarupAbilities(TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities)
+{
+	/** Loop through GameplayAbility to grant an Ability */
+	for (TSubclassOf<UGameplayAbility> AbilityClass : StartupAbilities)
+	{
+		const FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
+		GiveAbility(AbilitySpec);
+	}
+}
+
 void UShadowAbilitySystemComponent::ApplyEffect(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayEffectHandle)
 {
 	FGameplayTagContainer GameplayTagContainer;

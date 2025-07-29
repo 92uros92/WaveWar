@@ -2,6 +2,7 @@
 
 
 #include "Player/CharacterBase.h"
+#include "GAS/ShadowAbilitySystemComponent.h"
 
 #include "AbilitySystemComponent.h"
 
@@ -53,6 +54,17 @@ void ACharacterBase::InitializeDefaultAttributes()
 	ApplyEffectToSelf(DefaultPrimaryAttributes, 1.0f);
 	ApplyEffectToSelf(DefaultSecondaryAttributes, 1.0f);
 	ApplyEffectToSelf(DefaultLifeAttributes, 1.0f);
+}
+
+void ACharacterBase::AddCharacterAbilities()
+{
+	UShadowAbilitySystemComponent* ShadowASC = CastChecked<UShadowAbilitySystemComponent>(AbilitySystemComponent);
+
+	if (!HasAuthority())
+		return;
+
+	/** Call function from ShadowAbilitySystemComponent class */
+	ShadowASC->GiveStarupAbilities(StartupAbilities);
 }
 
 
