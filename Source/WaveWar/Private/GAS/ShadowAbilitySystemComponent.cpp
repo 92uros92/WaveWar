@@ -2,6 +2,7 @@
 
 
 #include "GAS/ShadowAbilitySystemComponent.h"
+#include "GAS/WW_GameplayTags.h"
 
 
 
@@ -11,6 +12,9 @@ void UShadowAbilitySystemComponent::SetAbilityActorInfo()
 {
 	/** Bind to ApplyEffect function */
 	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UShadowAbilitySystemComponent::ApplyEffect);
+
+	/** Get the GameplayTags from WWGameplayTags Singleton */
+	const FWWGameplayTags& GameplayTags = FWWGameplayTags::Get();
 }
 
 void UShadowAbilitySystemComponent::GiveStarupAbilities(TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities)
