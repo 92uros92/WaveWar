@@ -14,7 +14,7 @@ void UShadowAbilitySystemComponent::SetAbilityActorInfo()
 	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UShadowAbilitySystemComponent::ApplyEffect);
 
 	/** Get the GameplayTags from WWGameplayTags Singleton */
-	const FWWGameplayTags& GameplayTags = FWWGameplayTags::Get();
+	//const FWWGameplayTags& GameplayTags = FWWGameplayTags::Get();
 }
 
 void UShadowAbilitySystemComponent::GiveStarupAbilities(TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities)
