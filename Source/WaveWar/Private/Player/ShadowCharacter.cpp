@@ -92,7 +92,7 @@ void AShadowCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShadowCharacter::Look);
 
 		//Shooting
-		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Triggered, this, &AShadowCharacter::GunShoot);
+		//EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Triggered, this, &AShadowCharacter::GunShoot);
 	}
 }
 
@@ -132,30 +132,30 @@ void AShadowCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
-void AShadowCharacter::GunShoot()
-{
-	/** Montage for shooting */
-	PlayAnimMontage(ShotMontage);
-
-	/** After 0.2 second call GunShoot_TimerManager function */
-	GetWorldTimerManager().SetTimer(ShotTimer, this, &AShadowCharacter::GunShoot_TimerManager, 0.2f);
-
-}
-
-void AShadowCharacter::GunShoot_TimerManager()
-{
-	/** Set location for spawning ammo */
-	FVector GunLocation = GetMesh()->GetSocketLocation("Muzzle_01");
-
-	FTransform Transform = FTransform(GetControlRotation(), GunLocation);
-
-	/** Spawn ammo */
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-	GetWorld()->SpawnActor<AActor>(ProjectileClass, Transform, SpawnParams);
-
-}
+//void AShadowCharacter::GunShoot()
+//{
+//	/** Montage for shooting */
+//	PlayAnimMontage(ShotMontage);
+//
+//	/** After 0.2 second call GunShoot_TimerManager function */
+//	GetWorldTimerManager().SetTimer(ShotTimer, this, &AShadowCharacter::GunShoot_TimerManager, 0.2f);
+//
+//}
+//
+//void AShadowCharacter::GunShoot_TimerManager()
+//{
+//	/** Set location for spawning ammo */
+//	FVector GunLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+//
+//	FTransform Transform = FTransform(GetControlRotation(), GunLocation);
+//
+//	/** Spawn ammo */
+//	FActorSpawnParameters SpawnParams;
+//	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+//
+//	GetWorld()->SpawnActor<AActor>(ProjectileClass, Transform, SpawnParams);
+//
+//}
 
 //////////////////////////////////////////////////////////////////////////
 //	********************      END Input      **************************	//
@@ -167,6 +167,9 @@ void AShadowCharacter::PossessedBy(AController* NewController)
 
 	// Initialize ability for the Server
 	InitAbilityActorInfo();
+
+	/** Call function from CharacterBase class */
+	AddCharacterAbilities();
 }
 
 void AShadowCharacter::OnRep_PlayerState()
@@ -175,9 +178,6 @@ void AShadowCharacter::OnRep_PlayerState()
 
 	/** Initialize ability for the Client */ 
 	InitAbilityActorInfo();
-
-	/** Call function from CharacterBase class */
-	AddCharacterAbilities();
 }
 
 int32 AShadowCharacter::GetPlayerLevel()

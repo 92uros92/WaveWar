@@ -33,4 +33,13 @@ void FWWGameplayTags::InitializeNativeGameplayTags()
 	/*
 	*	END Secondary Tags
 	*/
+
+	/*
+	*	Input Tags
+	*/
+	GameplayTags.InputTag_LMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.LMB"), FString("Input Tag for left mouse button (Shoot)."));
+	GameplayTags.InputTag_RMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.RMB"), FString("Input Tag for right mouse button (Aiming)."));
+	/*
+	*	END Input Tags
+	*/
 }

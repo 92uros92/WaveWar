@@ -89,11 +89,11 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
-	/** Called for shooting input */
-	void GunShoot();
+	///** Called for shooting input */
+	//void GunShoot();
 
-	/** Called for TimerManager of shooting function */
-	void GunShoot_TimerManager();
+	///** Called for TimerManager of shooting function */
+	//void GunShoot_TimerManager();
 
 private:
 

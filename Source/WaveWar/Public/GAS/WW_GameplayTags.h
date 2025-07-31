@@ -43,6 +43,16 @@ public:
 	*	END Secondary Tags
 	*/
 
+	/*
+	*	Input Tags
+	*/
+	FGameplayTag InputTag_LMB;
+
+	FGameplayTag InputTag_RMB;
+	/*
+	*	END Input Tags
+	*/
+
 	////****	FUNCTIONS	****////
 
 	static const FWWGameplayTags Get()
