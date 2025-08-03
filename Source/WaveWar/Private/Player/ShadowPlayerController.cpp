@@ -3,76 +3,137 @@
 
 #include "Player/ShadowPlayerController.h"
 #include "Interaction/EnemyInterface.h"
+#include "Player/CharacterBase.h"
 
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/Controller.h"
+#include "Kismet/GameplayStatics.h"
+#include "AbilitySystemComponent.h"
+
+#include "Components/InputComponent.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
 
 
 
 
 AShadowPlayerController::AShadowPlayerController()
 {
-
-}
-
-void AShadowPlayerController::PlayerTick(float DeltaTime)
-{
-	Super::PlayerTick(DeltaTime);
-
-	//CursorTrace();
+	bReplicates = true;
 }
 
 void AShadowPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//bShowMouseCursor = true;
-	//DefaultMouseCursor = EMouseCursor::Crosshairs;
-
-	//FInputModeGameAndUI InputModeData;
-	//InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-	//InputModeData.SetHideCursorDuringCapture(false);
-	//SetInputMode(InputModeData);
+	//Add Input Mapping Context
+	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
+	{
+		Subsystem->AddMappingContext(DefaultMappingContext, 0);
+	}
 }
 
-//void AShadowPlayerController::CursorTrace()
+//////////////////////////////////////////////////////////////////////////
+//	********************      Input      ****************************	//
+//////////////////////////////////////////////////////////////////////////
+
+void AShadowPlayerController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+
+	// Set up action bindings
+	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent)) {
+
+		//Jumping
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AShadowPlayerController::ShadowJump);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &AShadowPlayerController::ShadowStopJumping);
+
+		//Moving
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AShadowPlayerController::Move);
+
+		//Looking
+		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShadowPlayerController::Look);
+
+		//Shooting
+		//EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Triggered, this, &AShadowCharacter::GunShoot);
+	}
+}
+
+void AShadowPlayerController::Move(const FInputActionValue& Value)
+{
+	// input is a Vector2D
+	FVector2D MovementVector = Value.Get<FVector2D>();
+
+	// find out which way is forward
+	const FRotator Rotation = GetControlRotation();
+	const FRotator YawRotation(0.0f, Rotation.Yaw, 0.0f);
+
+	// get forward vector
+	const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+
+	// get right vector 
+	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
+	if (APawn* ControlledPawn = GetPawn<APawn>())
+	{
+		// add movement 
+		ControlledPawn->AddMovementInput(ForwardDirection, MovementVector.Y);
+		ControlledPawn->AddMovementInput(RightDirection, MovementVector.X);
+	}
+}
+
+void AShadowPlayerController::Look(const FInputActionValue& Value)
+{
+	// input is a Vector2D
+	FVector2D LookAxisVector = Value.Get<FVector2D>();
+
+	if (APawn* ControlledPawn = GetPawn<APawn>())
+	{
+		// add yaw and pitch input to controller
+		ControlledPawn->AddControllerYawInput(LookAxisVector.X);
+		ControlledPawn->AddControllerPitchInput(LookAxisVector.Y);
+	}
+}
+
+void AShadowPlayerController::ShadowJump()
+{
+	GetCharacter()->Jump();
+}
+
+void AShadowPlayerController::ShadowStopJumping()
+{
+	GetCharacter()->StopJumping();
+}
+
+//////////////////////////////////////////////////////////////////////////
+//	*******************      END Input      ***************************	//
+//////////////////////////////////////////////////////////////////////////
+
+//void AShadowCharacter::GunShoot()
 //{
-//	FHitResult CursorHit;
-//	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
-//	
+//	/** Montage for shooting */
+//	PlayAnimMontage(ShotMontage);
 //
-//	if (!CursorHit.bBlockingHit)
-//		return;
+//	/** After 0.2 second call GunShoot_TimerManager function */
+//	GetWorldTimerManager().SetTimer(ShotTimer, this, &AShadowCharacter::GunShoot_TimerManager, 0.2f);
 //
-//	LastActor = ThisActor;
-//	ThisActor = CursorHit.GetActor();
-//
-//	if (LastActor == nullptr)
-//	{
-//		if (ThisActor != nullptr)
-//		{
-//			ThisActor->HighlightActor();
-//		}
-//		else
-//		{
-//			// Both actors are null, do nothing
-//		}
-//	}
-//	else   // LastActor is valid
-//	{
-//		if (ThisActor == nullptr)
-//		{
-//			LastActor->UnHighlightActor();
-//		}
-//		else   // both actors are valid
-//		{
-//			if (LastActor != ThisActor)
-//			{
-//				LastActor->UnHighlightActor();
-//				ThisActor->HighlightActor();
-//			}
-//			else
-//			{
-//				// they are same actor, do nothing
-//			}
-//		}
-//	}
 //}
+//
+//void AShadowCharacter::GunShoot_TimerManager()
+//{
+//	/** Set location for spawning ammo */
+//	FVector GunLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+//
+//	FTransform Transform = FTransform(GetControlRotation(), GunLocation);
+//
+//	/** Spawn ammo */
+//	FActorSpawnParameters SpawnParams;
+//	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+//
+//	GetWorld()->SpawnActor<AActor>(ProjectileClass, Transform, SpawnParams);
+//
+//}
+
+//////////////////////////////////////////////////////////////////////////
+//	********************      END Input      **************************	//
+//////////////////////////////////////////////////////////////////////////
