@@ -34,6 +34,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Weapon")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
+	UPROPERTY(EditAnywhere, Category = "Weapon")
+	FName WeaponSocketName;
+
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
@@ -60,6 +63,8 @@ protected:
 	void InitializeDefaultAttributes();
 
 	void AddCharacterAbilities();
+
+	virtual FVector GetSocketLocation() override;
 
 private:
 
