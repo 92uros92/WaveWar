@@ -12,6 +12,7 @@
 AGunProjectile::AGunProjectile()
 {
 	PrimaryActorTick.bCanEverTick = false;
+	bReplicates = true;
 
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("CapsuleComponent"));
 	BoxComponent->SetCollisionProfileName("Projectile");

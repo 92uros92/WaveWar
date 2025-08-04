@@ -9,6 +9,9 @@
 
 
 
+class AGunProjectile;
+
+
 UCLASS()
 class WAVEWAR_API UProjectileActivate_GA : public UWW_GameplayAbility
 {
@@ -17,6 +20,11 @@ class WAVEWAR_API UProjectileActivate_GA : public UWW_GameplayAbility
 public:
 
 protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<AGunProjectile> GunProjectileClass;
+
+	////****	FUNCTIONS	****////
 
 	/** Actually activate ability, do not call this directly */
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData);

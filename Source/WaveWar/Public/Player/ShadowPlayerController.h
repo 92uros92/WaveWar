@@ -4,7 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Input/WW_InputConfig.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
 #include "ShadowPlayerController.generated.h"
+
+
 
 
 
@@ -12,8 +17,8 @@
 class IEnemyInterface;
 struct FInputActionValue;
 struct FInputActionInstance;
-class UWW_InputConfig;
 struct FGameplayTag;
+class UShadowAbilitySystemComponent;
 
 
 UCLASS()
@@ -43,10 +48,16 @@ class WAVEWAR_API AShadowPlayerController : public APlayerController
 
 public:
 
+	////****	FUNCTIONS	****////
+
 	AShadowPlayerController();
 
 	/** APawn interface **/
 	virtual void SetupInputComponent() override;
+
+	/** Template to bind AbilityInputTagPressed, AbilityInputTagReleased and AbilityInputTagHeld functions */
+	template<class UserClass, typename PressedFuncType, typename ReleasedFuncType, typename HeldFuncType>
+	void BindAbilityActions(const UWW_InputConfig* InputConfig, UserClass* Object, PressedFuncType PressedFunc, ReleasedFuncType ReleasedFunc, HeldFuncType HeldFunc);
 
 protected:
 
@@ -58,6 +69,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UWW_InputConfig> InputConfig;
+
+	UPROPERTY()
+	TObjectPtr<UShadowAbilitySystemComponent> ShadowASC;
 
 	////****	FUNCTIONS	****////
 
@@ -71,9 +85,43 @@ private:
 	void ShadowJump();
 	void ShadowStopJumping();
 
-	/** Callbacks for pressed, released and held  */
-	void AbilityInputTagPressed(const FInputActionValue& Value, FGameplayTag InputTag);
+	/** Callbacks for pressed, released and held functions */
+	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
-	void AbilityInputTagHeld(const FInputActionInstance& Instance, FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
+
+	/** Get AbilitySystemComponent */
+	UShadowAbilitySystemComponent* GetShadowASC();
 
 };
+
+template<class UserClass, typename PressedFuncType, typename ReleasedFuncType, typename HeldFuncType>
+inline void AShadowPlayerController::BindAbilityActions(const UWW_InputConfig* InputConfig, UserClass* Object, PressedFuncType PressedFunc, ReleasedFuncType ReleasedFunc, HeldFuncType HeldFunc)
+{
+	check(InputConfig);
+	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
+
+	if (EnhancedInputComponent)
+	{
+		/** Loop through all Action in FWWInputAction, in UWW_InputConfig class */
+		for (const FWWInputAction& Action : InputConfig->AbilityInputActions)
+		{
+			/** BindAction for pressed, released and held functions */
+			if (Action.InputAction && Action.InputTag.IsValid())
+			{
+				if (PressedFunc)
+				{
+					EnhancedInputComponent->BindAction(Action.InputAction, ETriggerEvent::Started, Object, PressedFunc, Action.InputTag);
+				}
+				if (ReleasedFunc)
+				{
+					EnhancedInputComponent->BindAction(Action.InputAction, ETriggerEvent::Completed, Object, ReleasedFunc, Action.InputTag);
+				}
+				if (HeldFunc)
+				{
+					EnhancedInputComponent->BindAction(Action.InputAction, ETriggerEvent::Triggered, Object, HeldFunc, Action.InputTag);
+				}
+			}
+		}
+	}
+}

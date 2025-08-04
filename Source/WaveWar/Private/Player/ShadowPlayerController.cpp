@@ -4,16 +4,15 @@
 #include "Player/ShadowPlayerController.h"
 #include "Interaction/EnemyInterface.h"
 #include "Player/CharacterBase.h"
+#include "GAS/ShadowAbilitySystemComponent.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "Kismet/GameplayStatics.h"
 #include "AbilitySystemComponent.h"
 #include "GameplayTagContainer.h"
-
 #include "Components/InputComponent.h"
-#include "EnhancedInputComponent.h"
-#include "EnhancedInputSubsystems.h"
+#include "AbilitySystemBlueprintLibrary.h"
 
 
 
@@ -42,21 +41,24 @@ void AShadowPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
-	// Set up action bindings
+	/** Set up action bindings */
 	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent)) {
 
-		//Jumping
+		/** Jumping */
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AShadowPlayerController::ShadowJump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &AShadowPlayerController::ShadowStopJumping);
 
-		//Moving
+		/** Moving */
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AShadowPlayerController::Move);
 
-		//Looking
+		/** Looking */
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShadowPlayerController::Look);
 
-		//Shooting
+		/** Shooting */
 		//EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Triggered, this, &AShadowCharacter::GunShoot);
+
+		/** Bind three callback functions (AbilityInputTagPressed, AbilityInputTagReleased and AbilityInputTagHeld) to InputAction */
+		BindAbilityActions(InputConfig, this, &AShadowPlayerController::AbilityInputTagPressed, &AShadowPlayerController::AbilityInputTagReleased, &AShadowPlayerController::AbilityInputTagHeld);
 	}
 }
 
@@ -106,19 +108,37 @@ void AShadowPlayerController::ShadowStopJumping()
 	GetCharacter()->StopJumping();
 }
 
-void AShadowPlayerController::AbilityInputTagPressed(const FInputActionValue& Value, FGameplayTag InputTag)
+void AShadowPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
-
+	//GEngine->AddOnScreenDebugMessage(1, 3.0f, FColor::Blue, *InputTag.ToString());
 }
 
 void AShadowPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
+	if (GetShadowASC() == nullptr)
+		return;
 
+	/** Call AbilityInputTagReleased function from UShadowAbilitySystemComponent class */
+	GetShadowASC()->AbilityInputTagReleased(InputTag);
 }
 
-void AShadowPlayerController::AbilityInputTagHeld(const FInputActionInstance& Instance, FGameplayTag InputTag)
+void AShadowPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
+	if (GetShadowASC() == nullptr)
+		return;
 
+	/** Call AbilityInputTagHeld function from UShadowAbilitySystemComponent class */
+	GetShadowASC()->AbilityInputTagHeld(InputTag);
+}
+
+UShadowAbilitySystemComponent* AShadowPlayerController::GetShadowASC()
+{
+	if (ShadowASC == nullptr)
+	{
+		ShadowASC = Cast<UShadowAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>()));
+	}
+
+	return ShadowASC;
 }
 
 //////////////////////////////////////////////////////////////////////////

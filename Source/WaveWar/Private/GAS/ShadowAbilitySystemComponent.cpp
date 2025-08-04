@@ -3,6 +3,7 @@
 
 #include "GAS/ShadowAbilitySystemComponent.h"
 #include "GAS/WW_GameplayTags.h"
+#include "GAS/WW_GameplayAbility.h"
 
 
 
@@ -22,9 +23,48 @@ void UShadowAbilitySystemComponent::GiveStarupAbilities(TArray<TSubclassOf<UGame
 	/** Loop through GameplayAbility to grant an Ability */
 	for (TSubclassOf<UGameplayAbility> AbilityClass : StartupAbilities)
 	{
-		const FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
-		GiveAbility(AbilitySpec);
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
+
+		if (const UWW_GameplayAbility* WWAbility = Cast<UWW_GameplayAbility>(AbilitySpec.Ability))
+		{
+			AbilitySpec.DynamicAbilityTags.AddTag(WWAbility->StarupInputTag);
+			GiveAbility(AbilitySpec);
+		}
 	}
+}
+
+void UShadowAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputTag)
+{
+	if (!InputTag.IsValid())
+		return;
+
+	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))
+		{
+			AbilitySpecInputPressed(AbilitySpec);
+
+			if (!AbilitySpec.IsActive())
+			{
+				TryActivateAbility(AbilitySpec.Handle);
+			}
+		}
+	}
+}
+
+void UShadowAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& InputTag)
+{
+	if (!InputTag.IsValid())
+		return;
+
+	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))
+		{
+			AbilitySpecInputReleased(AbilitySpec);
+		}
+	}
+
 }
 
 void UShadowAbilitySystemComponent::ApplyEffect(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayEffectHandle)

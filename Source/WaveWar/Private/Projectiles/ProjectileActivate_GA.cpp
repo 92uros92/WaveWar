@@ -7,5 +7,5 @@ void UProjectileActivate_GA::ActivateAbility(const FGameplayAbilitySpecHandle Ha
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 
-	UE_LOG(LogTemp, Warning, TEXT("ProjectileActivate_GA"));
+	//const bool bIsServer = HasAuthority(&ActivationInfo);
 }
