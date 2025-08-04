@@ -11,6 +11,9 @@
 
 class IEnemyInterface;
 struct FInputActionValue;
+struct FInputActionInstance;
+class UWW_InputConfig;
+struct FGameplayTag;
 
 
 UCLASS()
@@ -53,6 +56,11 @@ protected:
 
 private:
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UWW_InputConfig> InputConfig;
+
+	////****	FUNCTIONS	****////
+
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
 
@@ -62,5 +70,10 @@ private:
 	/** Called for jump and stop jumping input */
 	void ShadowJump();
 	void ShadowStopJumping();
+
+	/** Callbacks for pressed, released and held  */
+	void AbilityInputTagPressed(const FInputActionValue& Value, FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag InputTag);
+	void AbilityInputTagHeld(const FInputActionInstance& Instance, FGameplayTag InputTag);
 
 };

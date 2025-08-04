@@ -9,6 +9,7 @@
 #include "GameFramework/Controller.h"
 #include "Kismet/GameplayStatics.h"
 #include "AbilitySystemComponent.h"
+#include "GameplayTagContainer.h"
 
 #include "Components/InputComponent.h"
 #include "EnhancedInputComponent.h"
@@ -103,6 +104,21 @@ void AShadowPlayerController::ShadowJump()
 void AShadowPlayerController::ShadowStopJumping()
 {
 	GetCharacter()->StopJumping();
+}
+
+void AShadowPlayerController::AbilityInputTagPressed(const FInputActionValue& Value, FGameplayTag InputTag)
+{
+
+}
+
+void AShadowPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
+{
+
+}
+
+void AShadowPlayerController::AbilityInputTagHeld(const FInputActionInstance& Instance, FGameplayTag InputTag)
+{
+
 }
 
 //////////////////////////////////////////////////////////////////////////
