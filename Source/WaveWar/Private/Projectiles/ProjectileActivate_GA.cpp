@@ -13,7 +13,11 @@ void UProjectileActivate_GA::ActivateAbility(const FGameplayAbilitySpecHandle Ha
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 
-	const bool bIsServer = HasAuthority(&ActivationInfo);
+}
+
+void UProjectileActivate_GA::SpawnGunShoot()
+{
+	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer)
 		return;
 
@@ -33,5 +37,4 @@ void UProjectileActivate_GA::ActivateAbility(const FGameplayAbilitySpecHandle Ha
 
 		Projectile->FinishSpawning(Transform);
 	}
-
 }
