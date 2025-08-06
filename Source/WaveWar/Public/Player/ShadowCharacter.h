@@ -26,7 +26,19 @@ class WAVEWAR_API AShadowCharacter : public ACharacterBase
 
 public:
 
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "AimAnimation")
+	float AO_Yaw;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "AimAnimation")
+	float AO_Pitch;
+
+	FRotator StartingAimRotation;
+
+	////****	FUNCTIONS	****////
+
 	AShadowCharacter();
+
+	virtual void Tick(float DeltaTime) override;
 
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return SpringArm; }
@@ -53,6 +65,9 @@ protected:
 	////****	FUNCTIONS	****////
 
 	virtual void BeginPlay() override;
+
+	/** Called for aim offset */
+	void AimOffset(float DeltaTime);
 
 	///** Called for shooting input */
 	//void GunShoot();

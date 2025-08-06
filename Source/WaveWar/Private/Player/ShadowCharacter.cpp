@@ -15,16 +15,16 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerStart.h"
 #include "AbilitySystemComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
-#include "Components/InputComponent.h"
-#include "EnhancedInputComponent.h"
-#include "EnhancedInputSubsystems.h"
 
 
 
 
 AShadowCharacter::AShadowCharacter()
 {
+	PrimaryActorTick.bCanEverTick = true;
+
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -63,6 +63,13 @@ void AShadowCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+}
+
+void AShadowCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	AimOffset(DeltaTime);
 }
 
 void AShadowCharacter::PossessedBy(AController* NewController)
@@ -117,4 +124,32 @@ void AShadowCharacter::InitAbilityActorInfo()
 
 	/** Because AbilitySystemComponent is valid, InitializeDefaultAttributes() function from CharacterBase can be called */
 	InitializeDefaultAttributes();
+}
+
+/** Rotating upper body character 90 degrees at pitch and yaw axis as we are looking. Call in Tick function so we can update DeltaAimRotation. */
+void AShadowCharacter::AimOffset(float DeltaTime)
+{
+	FVector Velocity = GetVelocity();
+	Velocity.Z = 0.0f;
+
+	float Speed = Velocity.Size();
+
+	bool bIsInAir = GetCharacterMovement()->IsFalling();
+
+	/** Standing still and NOT jumping */
+	if (Speed == 0.0f && !bIsInAir)
+	{
+		FRotator CurrentAimRotation = FRotator(0.0f, GetBaseAimRotation().Yaw, 0.0f);
+		FRotator DeltaAimRotation = UKismetMathLibrary::NormalizedDeltaRotator(CurrentAimRotation, StartingAimRotation);
+		AO_Yaw = DeltaAimRotation.Yaw;
+		bUseControllerRotationYaw = false;
+	}
+	if (Speed > 0.0f || bIsInAir) /** if we are moving or jumping then we don´t move upper body at yaw axis --> save start aiming position in StartingAimRotation */
+	{
+		StartingAimRotation = FRotator(0.0f, GetBaseAimRotation().Yaw, 0.0f);
+		AO_Yaw = 0.0f;
+		bUseControllerRotationYaw = true;
+	}
+
+	AO_Pitch = GetBaseAimRotation().Pitch;
 }

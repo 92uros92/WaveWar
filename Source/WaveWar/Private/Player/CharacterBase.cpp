@@ -19,15 +19,15 @@ ACharacterBase::ACharacterBase()
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
-UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const
-{
-	return AbilitySystemComponent;
-}
-
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
 }
 
 void ACharacterBase::InitAbilityActorInfo()
@@ -72,5 +72,3 @@ FVector ACharacterBase::GetSocketLocation()
 	/** Return socket location of weapon */
 	return GetMesh()->GetSocketLocation(WeaponSocketName);
 }
-
-
