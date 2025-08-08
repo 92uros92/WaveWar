@@ -5,6 +5,8 @@
 #include "Projectiles/GunProjectile.h"
 #include "Interaction/CombatInterface.h"
 
+#include "GameFramework/Controller.h"
+
 
 
 
@@ -26,9 +28,15 @@ void UProjectileActivate_GA::SpawnGunShoot()
 	{
 		const FVector SocketLocation = CombatInterface->GetSocketLocation();
 
+		FVector CameraLocation = CombatInterface->GetCameraLocation();
+		FVector ViewLocation = CameraLocation + (CameraLocation.X * 5000.0f);
+		FRotator ProjectilRotation = FRotationMatrix::MakeFromX(ViewLocation - SocketLocation).Rotator();
+			//(AimLocation - SocketLocation).Rotation();
+
 		/** Set location for spawning ammo */
 		FTransform Transform;
 		Transform.SetLocation(SocketLocation);
+		Transform.SetRotation(ProjectilRotation.Quaternion());
 
 		/** Spawn ammo */
 		AGunProjectile* Projectile = GetWorld()->SpawnActorDeferred<AGunProjectile>(

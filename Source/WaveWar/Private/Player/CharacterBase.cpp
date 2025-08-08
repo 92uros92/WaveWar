@@ -72,3 +72,4 @@ FVector ACharacterBase::GetSocketLocation()
 	/** Return socket location of weapon */
 	return GetMesh()->GetSocketLocation(WeaponSocketName);
 }
+

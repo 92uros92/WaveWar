@@ -16,3 +16,9 @@ FVector ICombatInterface::GetSocketLocation()
 {
 	return FVector();
 }
+
+/** Override in ShadowCharacter */
+FVector ICombatInterface::GetCameraLocation()
+{
+	return FVector();
+}

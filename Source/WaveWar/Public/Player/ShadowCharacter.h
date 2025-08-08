@@ -69,6 +69,8 @@ protected:
 	/** Called for aim offset */
 	void AimOffset(float DeltaTime);
 
+	virtual FVector GetCameraLocation() override;
+
 	///** Called for shooting input */
 	//void GunShoot();
 

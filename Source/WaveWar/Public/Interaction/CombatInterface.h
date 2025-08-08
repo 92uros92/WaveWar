@@ -6,6 +6,8 @@
 #include "UObject/Interface.h"
 #include "CombatInterface.generated.h"
 
+
+
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
 class UCombatInterface : public UInterface
@@ -26,4 +28,6 @@ public:
 	virtual int32 GetPlayerLevel();
 
 	virtual FVector GetSocketLocation();
+
+	virtual FVector GetCameraLocation();
 };

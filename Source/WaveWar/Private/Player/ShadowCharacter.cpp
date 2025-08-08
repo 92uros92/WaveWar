@@ -153,3 +153,9 @@ void AShadowCharacter::AimOffset(float DeltaTime)
 
 	AO_Pitch = GetBaseAimRotation().Pitch;
 }
+
+FVector AShadowCharacter::GetCameraLocation()
+{
+	/** Return camera location of Character */
+	return FollowCamera->GetComponentLocation();
+}
