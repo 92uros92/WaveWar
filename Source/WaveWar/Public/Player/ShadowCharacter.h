@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Player/CharacterBase.h"
+#include "Types/TurningInPlace.h"
 #include "ShadowCharacter.generated.h"
 
 
@@ -30,9 +31,15 @@ public:
 	float AO_Yaw;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "AimAnimation")
+	float NewAO_Yaw;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "AimAnimation")
 	float AO_Pitch;
 
 	FRotator StartingAimRotation;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "TurningInPlace")
+	ETurningInPlace TurningInPlace;
 
 	////****	FUNCTIONS	****////
 
@@ -69,6 +76,9 @@ protected:
 	/** Called for aim offset */
 	void AimOffset(float DeltaTime);
 
+	/** Called for turn character in place */
+	void TurnInPlace(float DeltaTime);
+
 	virtual FVector GetCameraLocation() override;
 
 	///** Called for shooting input */
@@ -78,6 +88,8 @@ protected:
 	//void GunShoot_TimerManager();
 
 private:
+
+	////****	FUNCTIONS	****////
 
 	virtual void InitAbilityActorInfo() override;
 };

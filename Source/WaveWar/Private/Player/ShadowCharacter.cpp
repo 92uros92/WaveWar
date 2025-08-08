@@ -54,9 +54,8 @@ AShadowCharacter::AShadowCharacter()
 	FollowCamera->SetupAttachment(SpringArm, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
-	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
-	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
-
+	/** By default character is not turning */
+	TurningInPlace = ETurningInPlace::ETIP_NotTurning;
 }
 
 void AShadowCharacter::BeginPlay()
@@ -142,16 +141,56 @@ void AShadowCharacter::AimOffset(float DeltaTime)
 		FRotator CurrentAimRotation = FRotator(0.0f, GetBaseAimRotation().Yaw, 0.0f);
 		FRotator DeltaAimRotation = UKismetMathLibrary::NormalizedDeltaRotator(CurrentAimRotation, StartingAimRotation);
 		AO_Yaw = DeltaAimRotation.Yaw;
-		bUseControllerRotationYaw = false;
+		if (TurningInPlace == ETurningInPlace::ETIP_NotTurning)
+		{
+			NewAO_Yaw = AO_Yaw;
+		}
+
+		bUseControllerRotationYaw = true;
+
+		/** Call TurnInPlace() here because when character not moving, only then can turn in place. */
+		TurnInPlace(DeltaTime);
 	}
 	if (Speed > 0.0f || bIsInAir) /** if we are moving or jumping then we don´t move upper body at yaw axis --> save start aiming position in StartingAimRotation */
 	{
 		StartingAimRotation = FRotator(0.0f, GetBaseAimRotation().Yaw, 0.0f);
 		AO_Yaw = 0.0f;
 		bUseControllerRotationYaw = true;
+
+		/** Not turning because character is moving or jumping */
+		TurningInPlace = ETurningInPlace::ETIP_NotTurning;
 	}
 
 	AO_Pitch = GetBaseAimRotation().Pitch;
+	if (AO_Pitch > 90.0f && !IsLocallyControlled())
+	{
+		/** Because server doesn´t get right value --> map pitch from [270, 360] to [-90, 0] */
+		FVector2D InRange(270.0f, 360.0f);
+		FVector2D OutRange(-90.0f, 0);
+		AO_Pitch = FMath::GetMappedRangeValueClamped(InRange, OutRange, AO_Pitch);
+	}
+}
+
+void AShadowCharacter::TurnInPlace(float DeltaTime)
+{
+	if (AO_Yaw > 90.0f)
+	{
+		TurningInPlace = ETurningInPlace::ETIP_Right;
+	}
+	else if (AO_Yaw < -90.0f)
+	{
+		TurningInPlace = ETurningInPlace::ETIP_Left;
+	}
+	if (TurningInPlace != ETurningInPlace::ETIP_NotTurning)
+	{
+		NewAO_Yaw = FMath::FInterpTo(NewAO_Yaw, 0.0f, DeltaTime, 10.0f);
+		AO_Yaw = NewAO_Yaw;
+		if (FMath::Abs(AO_Yaw) < 15.0f)
+		{
+			TurningInPlace = ETurningInPlace::ETIP_NotTurning;
+			StartingAimRotation = FRotator(0.0f, GetBaseAimRotation().Yaw, 0.0f);
+		}
+	}
 }
 
 FVector AShadowCharacter::GetCameraLocation()

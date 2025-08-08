@@ -29,7 +29,7 @@ void UProjectileActivate_GA::SpawnGunShoot()
 		const FVector SocketLocation = CombatInterface->GetSocketLocation();
 
 		FVector CameraLocation = CombatInterface->GetCameraLocation();
-		FVector ViewLocation = CameraLocation + (CameraLocation.X * 5000.0f);
+		FVector ViewLocation = CameraLocation + (CameraLocation.Y * 5000.0f);
 		FRotator ProjectilRotation = FRotationMatrix::MakeFromX(ViewLocation - SocketLocation).Rotator();
 			//(AimLocation - SocketLocation).Rotation();
 
