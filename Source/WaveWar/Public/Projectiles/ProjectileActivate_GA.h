@@ -30,5 +30,5 @@ protected:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData);
 
 	UFUNCTION(BlueprintCallable)
-	void SpawnGunShoot();
+	void SpawnGunShoot(const FVector& HitTarget);
 };

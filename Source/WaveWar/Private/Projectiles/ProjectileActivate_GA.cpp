@@ -17,7 +17,7 @@ void UProjectileActivate_GA::ActivateAbility(const FGameplayAbilitySpecHandle Ha
 
 }
 
-void UProjectileActivate_GA::SpawnGunShoot()
+void UProjectileActivate_GA::SpawnGunShoot(const FVector& HitTarget)
 {
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer)
@@ -28,10 +28,10 @@ void UProjectileActivate_GA::SpawnGunShoot()
 	{
 		const FVector SocketLocation = CombatInterface->GetSocketLocation();
 
+		/** Get Camera location --> get View location --> From socket to hit location */
 		FVector CameraLocation = CombatInterface->GetCameraLocation();
-		FVector ViewLocation = CameraLocation + (CameraLocation.Y * 5000.0f);
+		FVector ViewLocation = CameraLocation + (HitTarget * 5000.0f);
 		FRotator ProjectilRotation = FRotationMatrix::MakeFromX(ViewLocation - SocketLocation).Rotator();
-			//(AimLocation - SocketLocation).Rotation();
 
 		/** Set location for spawning ammo */
 		FTransform Transform;
@@ -46,3 +46,8 @@ void UProjectileActivate_GA::SpawnGunShoot()
 		Projectile->FinishSpawning(Transform);
 	}
 }
+
+/** TODO:
+*		- Make Crosshair trace
+*		- Use HitTarget
+*/
