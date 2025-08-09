@@ -69,6 +69,7 @@ void AShadowCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	AimOffset(DeltaTime);
+
 }
 
 void AShadowCharacter::PossessedBy(AController* NewController)

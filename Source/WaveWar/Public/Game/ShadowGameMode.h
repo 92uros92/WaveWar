@@ -8,9 +8,23 @@
 
 
 
+
 UCLASS()
 class WAVEWAR_API AShadowGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
+
+	virtual void Tick(float DeltaSecond) override;
+
+protected:
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	FVector HitTarget;
+
+	////****	FUNCTIONS	****////
+
+	void TraceUnderCrosshair(FHitResult& HitResult);
+
 };

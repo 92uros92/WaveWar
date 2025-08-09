@@ -19,4 +19,5 @@ public:
 	/** Only for Starup InputTag (applies if ability is startup ability) */
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	FGameplayTag StarupInputTag;
+
 };

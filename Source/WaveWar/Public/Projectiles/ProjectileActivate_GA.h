@@ -19,6 +19,7 @@ class WAVEWAR_API UProjectileActivate_GA : public UWW_GameplayAbility
 	
 public:
 
+
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -31,4 +32,5 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void SpawnGunShoot(const FVector& HitTarget);
+
 };

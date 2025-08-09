@@ -6,6 +6,9 @@
 #include "Interaction/CombatInterface.h"
 
 #include "GameFramework/Controller.h"
+#include "Kismet/GameplayStatics.h"
+
+#include "DrawDebugHelpers.h"
 
 
 
@@ -27,11 +30,12 @@ void UProjectileActivate_GA::SpawnGunShoot(const FVector& HitTarget)
 	if (CombatInterface)
 	{
 		const FVector SocketLocation = CombatInterface->GetSocketLocation();
+		FVector FindTarget = HitTarget - SocketLocation;
 
 		/** Get Camera location --> get View location --> From socket to hit location */
-		FVector CameraLocation = CombatInterface->GetCameraLocation();
-		FVector ViewLocation = CameraLocation + (HitTarget * 5000.0f);
-		FRotator ProjectilRotation = FRotationMatrix::MakeFromX(ViewLocation - SocketLocation).Rotator();
+		//FVector CameraLocation = CombatInterface->GetCameraLocation();
+		//FVector ViewLocation = CameraLocation + (HitTarget * 5000.0f);
+		FRotator ProjectilRotation = FindTarget.Rotation();
 
 		/** Set location for spawning ammo */
 		FTransform Transform;
