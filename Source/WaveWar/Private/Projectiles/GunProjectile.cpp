@@ -6,6 +6,7 @@
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 
@@ -35,5 +36,30 @@ void AGunProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AGunProjectile::OnOverlap);
+}
+
+void AGunProjectile::Destroyed()
+{
+	if (!bIsHit && !HasAuthority())
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, ShootSound, GetActorLocation(), FRotator::ZeroRotator);
+	}
+
+	Super::Destroyed();
+}
+
+void AGunProjectile::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	UGameplayStatics::PlaySoundAtLocation(this, ShootSound, GetActorLocation(), FRotator::ZeroRotator);
+
+	if (HasAuthority())
+	{
+		Destroy();
+	}
+	else
+	{
+		bIsHit = true;
+	}
 }
 

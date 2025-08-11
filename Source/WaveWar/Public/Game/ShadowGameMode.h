@@ -20,11 +20,8 @@ public:
 
 protected:
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere)
-	FVector HitTarget;
 
 	////****	FUNCTIONS	****////
 
-	void TraceUnderCrosshair(FHitResult& HitResult);
 
 };

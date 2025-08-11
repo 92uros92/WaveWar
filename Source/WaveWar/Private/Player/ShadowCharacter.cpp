@@ -70,6 +70,8 @@ void AShadowCharacter::Tick(float DeltaTime)
 
 	AimOffset(DeltaTime);
 
+	FHitResult HitResult;
+	TraceUnderCrosshair(HitResult);
 }
 
 void AShadowCharacter::PossessedBy(AController* NewController)
@@ -152,7 +154,7 @@ void AShadowCharacter::AimOffset(float DeltaTime)
 		/** Call TurnInPlace() here because when character not moving, only then can turn in place. */
 		TurnInPlace(DeltaTime);
 	}
-	if (Speed > 0.0f || bIsInAir) /** if we are moving or jumping then we don´t move upper body at yaw axis --> save start aiming position in StartingAimRotation */
+	if (Speed > 0.0f || bIsInAir) // If we are moving or jumping then we don´t move upper body at yaw axis --> save start aiming position in StartingAimRotation 
 	{
 		StartingAimRotation = FRotator(0.0f, GetBaseAimRotation().Yaw, 0.0f);
 		AO_Yaw = 0.0f;
@@ -172,24 +174,65 @@ void AShadowCharacter::AimOffset(float DeltaTime)
 	}
 }
 
+/** Enum in TurnInPlace.h, set in ABP_Shadow */
 void AShadowCharacter::TurnInPlace(float DeltaTime)
 {
 	if (AO_Yaw > 90.0f)
 	{
-		TurningInPlace = ETurningInPlace::ETIP_Right;
+		TurningInPlace = ETurningInPlace::ETIP_Right; // If character turn over 90°, turn right
 	}
 	else if (AO_Yaw < -90.0f)
 	{
-		TurningInPlace = ETurningInPlace::ETIP_Left;
+		TurningInPlace = ETurningInPlace::ETIP_Left; // If character turn under -90°, turn left
 	}
 	if (TurningInPlace != ETurningInPlace::ETIP_NotTurning)
 	{
-		NewAO_Yaw = FMath::FInterpTo(NewAO_Yaw, 0.0f, DeltaTime, 10.0f);
-		AO_Yaw = NewAO_Yaw;
+		NewAO_Yaw = FMath::FInterpTo(NewAO_Yaw, 0.0f, DeltaTime, 10.0f); // Set new yaw
+		AO_Yaw = NewAO_Yaw; 
 		if (FMath::Abs(AO_Yaw) < 15.0f)
 		{
+			/** If character is not turning --> set StartingAimRotation */
 			TurningInPlace = ETurningInPlace::ETIP_NotTurning;
 			StartingAimRotation = FRotator(0.0f, GetBaseAimRotation().Yaw, 0.0f);
+		}
+	}
+}
+
+void AShadowCharacter::TraceUnderCrosshair(FHitResult& HitResult)
+{
+	FVector2D ViewSize;
+	if (GEngine && GEngine->GameViewport)
+	{
+		/** Get size of the vieport */
+		GEngine->GameViewport->GetViewportSize(ViewSize);
+	}
+
+	/** Make Crosshair location in the midle of the screen */
+	FVector2D CrosshairLocation(ViewSize.X / 2, ViewSize.Y / 2);
+
+	FVector CrosshairWorldPosition;
+	FVector CrosshairWorldDirection;
+	bool bScreenToWorld = UGameplayStatics::DeprojectScreenToWorld(UGameplayStatics::GetPlayerController(this, 0), CrosshairLocation, CrosshairWorldPosition, CrosshairWorldDirection);
+
+	if (bScreenToWorld)
+	{
+		/** For LineTrace: Start position is on center of screen, End is 80.000 unit outworld from start position */
+		FVector Start = CrosshairWorldPosition;
+		FVector End = Start + (CrosshairWorldDirection * 80000.0f);
+
+		/** It will trace strait out and it will hit first blocking hit */
+		GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility);
+
+		/** If not get hit then HitResult = End */
+		if (!HitResult.bBlockingHit)
+		{
+			HitResult.ImpactPoint = End;
+			HitTarget = End;
+		}
+		else
+		{
+			HitTarget = HitResult.ImpactPoint;
+			DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 12.0f, 12, FColor::Red);
 		}
 	}
 }
