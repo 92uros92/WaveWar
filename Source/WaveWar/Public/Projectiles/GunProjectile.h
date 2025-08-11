@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameplayEffectTypes.h"
 #include "GunProjectile.generated.h"
 
 
@@ -19,6 +20,11 @@ class WAVEWAR_API AGunProjectile : public AActor
 	GENERATED_BODY()
 	
 public:	
+
+	UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = true))
+	FGameplayEffectSpecHandle DamageEffectSpecHandle;
+
+	////****	FUNCTIONS	****////
 
 	AGunProjectile();
 
@@ -39,9 +45,13 @@ protected:
 
 	virtual void Destroyed() override;
 
+	UFUNCTION()
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 private:
+
+	UPROPERTY(EditAnywhere)
+	float LifeSpam;
 
 	bool bIsHit = false;
 

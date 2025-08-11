@@ -7,6 +7,8 @@
 
 #include "GameFramework/Controller.h"
 #include "Kismet/GameplayStatics.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 
 #include "DrawDebugHelpers.h"
 
@@ -46,6 +48,11 @@ void UProjectileActivate_GA::SpawnGunShoot(const FVector& HitTarget)
 		AGunProjectile* Projectile = GetWorld()->SpawnActorDeferred<AGunProjectile>(
 			GunProjectileClass, Transform, GetOwningActorFromActorInfo(), Cast<APawn>(GetOwningActorFromActorInfo()), ESpawnActorCollisionHandlingMethod::AlwaysSpawn
 		);
+
+		/** Set damage gameplay effect on projectile. */
+		UAbilitySystemComponent* DamageSource = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
+		FGameplayEffectSpecHandle SpecHandle = DamageSource->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), DamageSource->MakeEffectContext());
+		Projectile->DamageEffectSpecHandle = SpecHandle;
 
 		Projectile->FinishSpawning(Transform);
 	}

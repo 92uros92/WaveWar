@@ -4,10 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Player/CharacterBase.h"
+#include "UI/ScreenWidgetController.h"
 #include "Interaction/EnemyInterface.h"
 #include "ShadowEnemy.generated.h"
 
 
+
+
+class UWidgetComponent;
 
 
 UCLASS()
@@ -19,6 +23,12 @@ public:
 
 	UPROPERTY(BlueprintReadOnly)
 	bool bHighlighted = false;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnAttributeChangedSignature OnHealthChanged;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnAttributeChangedSignature OnMaxHealthChanged;
 
 	////****	FUNCTIONS	****////
 
@@ -42,6 +52,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enemy Level")
 	int32 Level = 1;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<UWidgetComponent> EnemyHealthBar;
 
 	////****	FUNCTIONS	****////
 

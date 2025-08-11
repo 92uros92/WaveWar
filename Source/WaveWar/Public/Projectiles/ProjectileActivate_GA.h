@@ -10,6 +10,7 @@
 
 
 class AGunProjectile;
+class UGameplayEffect;
 
 
 UCLASS()
@@ -24,6 +25,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<AGunProjectile> GunProjectileClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<UGameplayEffect> DamageEffectClass;
 
 	////****	FUNCTIONS	****////
 
