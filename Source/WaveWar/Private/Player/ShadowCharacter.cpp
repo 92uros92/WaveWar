@@ -6,6 +6,7 @@
 #include "Player/ShadowPlayerController.h"
 #include "UI/WW_HUD.h"
 #include "GAS/ShadowAbilitySystemComponent.h"
+#include "../WaveWar.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -25,7 +26,11 @@ AShadowCharacter::AShadowCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	// Set size for collision capsule
+	GetCapsuleComponent()->SetGenerateOverlapEvents(true);
+	GetMesh()->SetGenerateOverlapEvents(false);
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
 	// Don't rotate when the controller rotates. Let that just affect the camera.
@@ -218,7 +223,7 @@ void AShadowCharacter::TraceUnderCrosshair(FHitResult& HitResult)
 	{
 		/** For LineTrace: Start position is on center of screen, End is 80.000 unit outworld from start position */
 		FVector Start = CrosshairWorldPosition;
-		FVector End = Start + (CrosshairWorldDirection * 80000.0f);
+		FVector End = Start + (CrosshairWorldDirection * 8000.0f);
 
 		/** It will trace strait out and it will hit first blocking hit */
 		GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility);

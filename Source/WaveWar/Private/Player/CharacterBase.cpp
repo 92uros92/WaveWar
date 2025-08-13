@@ -3,7 +3,6 @@
 
 #include "Player/CharacterBase.h"
 #include "GAS/ShadowAbilitySystemComponent.h"
-#include "../WaveWar.h"
 
 #include "AbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -15,12 +14,6 @@
 ACharacterBase::ACharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
-
-	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
-	GetMesh()->SetGenerateOverlapEvents(true);
-	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
-	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
-	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
 
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponSocket"));
