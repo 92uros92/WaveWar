@@ -131,6 +131,10 @@ void AShadowPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	GetShadowASC()->AbilityInputTagHeld(InputTag);
 }
 
+//////////////////////////////////////////////////////////////////////////
+//	*******************      END Input      ***************************	//
+//////////////////////////////////////////////////////////////////////////
+
 UShadowAbilitySystemComponent* AShadowPlayerController::GetShadowASC()
 {
 	if (ShadowASC == nullptr)
@@ -141,9 +145,7 @@ UShadowAbilitySystemComponent* AShadowPlayerController::GetShadowASC()
 	return ShadowASC;
 }
 
-//////////////////////////////////////////////////////////////////////////
-//	*******************      END Input      ***************************	//
-//////////////////////////////////////////////////////////////////////////
+
 
 //void AShadowCharacter::GunShoot()
 //{

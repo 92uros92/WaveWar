@@ -4,12 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "Data/CharacterClassData.h"
 #include "ShadowGameMode.generated.h"
 
 
 
 
 class UCharacterClassData;
+class UAbilitySystemComponent;
 
 
 UCLASS()
@@ -25,6 +27,10 @@ public:
 	////****	FUNCTIONS	****////
 
 	virtual void Tick(float DeltaSecond) override;
+
+	/** Initialize default attributes for enemy, base on CharacterClass and Level */
+	UFUNCTION(BlueprintCallable)
+	static void InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC);
 
 protected:
 

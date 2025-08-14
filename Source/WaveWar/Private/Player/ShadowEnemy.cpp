@@ -6,6 +6,7 @@
 #include "GAS/ShadowAttributeSet.h"
 #include "UI/WW_UserWidget.h"
 #include "../WaveWar.h"
+#include "Game/ShadowGameMode.h"
 
 #include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
@@ -91,4 +92,10 @@ void AShadowEnemy::InitAbilityActorInfo()
 	Cast<UShadowAbilitySystemComponent>(AbilitySystemComponent)->SetAbilityActorInfo(); // Call SetAbilityActorInfo() from ShadowAbilitySystemComponent() class
 
 	InitializeDefaultAttributes();
+}
+
+void AShadowEnemy::InitializeDefaultAttributes()
+{
+	/** Call InitializeDefaultAttributes() from ShadowGameMode() class. */
+	AShadowGameMode::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
 }
