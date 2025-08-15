@@ -47,6 +47,7 @@ void FWWGameplayTags::InitializeNativeGameplayTags()
 	*	Damage Tags
 	*/
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"), FString("Damage Tag for causing damage."));
+	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"), FString("Pawn get Tag after to hit."));
 	/*
 	*	END Damage Tags
 	*/

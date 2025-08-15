@@ -8,16 +8,17 @@
 
 
 
-// This class does not need to be modified.
-UINTERFACE(MinimalAPI)
+
+UINTERFACE(MinimalAPI, BlueprintType)	
 class UCombatInterface : public UInterface
 {
 	GENERATED_BODY()
 };
 
-/**
- * 
- */
+
+class UAnimMontage;
+
+
 class WAVEWAR_API ICombatInterface
 {
 	GENERATED_BODY()
@@ -25,9 +26,17 @@ class WAVEWAR_API ICombatInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 
+
+
+	////****	FUNCTIONS	****////
+
 	virtual int32 GetPlayerLevel();
 
 	virtual FVector GetSocketLocation();
 
 	virtual FVector GetCameraLocation();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UAnimMontage* GetHitReactMontage();
+
 };

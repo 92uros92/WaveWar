@@ -31,6 +31,12 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangedSignature OnMaxHealthChanged;
 
+	UPROPERTY(BlueprintReadOnly)
+	float EnemyWalkSpeed;
+
+	UPROPERTY(BlueprintReadOnly)
+	bool bHitReacting = false;
+
 	////****	FUNCTIONS	****////
 
 	AShadowEnemy();
@@ -48,6 +54,8 @@ public:
 	/*
 	*	END Combat Interface
 	*/
+
+	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 
 protected:
 

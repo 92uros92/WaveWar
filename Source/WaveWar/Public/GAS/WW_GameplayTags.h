@@ -57,6 +57,8 @@ public:
 	*	Damage Tags
 	*/
 	FGameplayTag Damage;
+
+	FGameplayTag Effects_HitReact;
 	/*
 	*	END Damage Tags
 	*/
