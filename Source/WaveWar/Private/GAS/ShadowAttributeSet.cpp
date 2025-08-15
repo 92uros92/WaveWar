@@ -2,9 +2,13 @@
 
 
 #include "GAS/ShadowAttributeSet.h"
+#include "GAS/WW_GameplayTags.h"
+#include "GAS/ShadowAbilitySystemComponent.h"
 
 #include "Net/UnrealNetwork.h"
 #include "GameplayEffectExtension.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 
 
 
@@ -52,20 +56,35 @@ void UShadowAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 {
 	Super::PostGameplayEffectExecute(Data);
 
+	//FEffectProperties Properties;
+	//SetEffectProperties()
+
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth()));
 	}
 	if (Data.EvaluatedData.Attribute == GetCalculateDamageAttribute())
 	{
+		/** Calculate damage */
 		const float LocalCalculateDamage = GetCalculateDamage();
 		SetCalculateDamage(0.0f);
 		if (LocalCalculateDamage > 0.0f)
 		{
+			/** If enemy is hit set new health for enemy */
 			const float NewHealth = GetHealth() - LocalCalculateDamage;
 			SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
 
 			const bool bIsFatal = NewHealth <= 0.0f;
+
+			if (!bIsFatal)
+			{
+				/** Try activate ability if is enemy with that tag. */
+				FGameplayTagContainer TagContainer;
+				TagContainer.AddTag(FWWGameplayTags::Get().Effects_HitReact);
+				AActor* EnemyActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
+				UAbilitySystemComponent* EnemyASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(EnemyActor);
+				EnemyASC->TryActivateAbilitiesByTag(TagContainer);
+			}
 		}
 	}
 

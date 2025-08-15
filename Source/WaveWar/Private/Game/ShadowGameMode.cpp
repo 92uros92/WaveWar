@@ -48,3 +48,20 @@ void AShadowGameMode::InitializeDefaultAttributes(const UObject* WorldContextObj
 	ASC->ApplyGameplayEffectSpecToSelf(*LifeAttributesSpecHandle.Data.Get());
 }
 
+void AShadowGameMode::GiveStarupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
+{
+	AShadowGameMode* ShadowGM = Cast<AShadowGameMode>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (ShadowGM == nullptr)
+		return;
+
+	/** Get data from UCharacterClassData() class. */
+	UCharacterClassData* CharacterClassData = ShadowGM->CharacterClassData;
+
+	for (TSubclassOf<UGameplayAbility> AbilityClass : CharacterClassData->Abilities)
+	{
+		/** Loop through Abilities array from UCharacterClassData and grants an ability. */
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
+		ASC->GiveAbility(AbilitySpec);
+	}
+}
+

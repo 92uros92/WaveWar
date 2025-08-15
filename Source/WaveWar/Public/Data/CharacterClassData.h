@@ -9,6 +9,7 @@
 
 
 class UGameplayEffect;
+class UGameplayAbility;
 
 
 /** Enum to dermine Character class (in DA_CharacterClass) */
@@ -51,6 +52,9 @@ public:
 	/** Select GameplayEffect for LifeAttributes (in DA_CharacterClass) */
 	UPROPERTY(EditDefaultsOnly, Category = "Attributes Class")
 	TSubclassOf<UGameplayEffect> LifeAttributes;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Attributes Class")
+	TArray<TSubclassOf<UGameplayAbility>> Abilities;
 
 	////****	FUNCTIONS	****////
 

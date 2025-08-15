@@ -32,6 +32,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	static void InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC);
 
+	/** Initialize startup abilities for enemy */
+	UFUNCTION(BlueprintCallable)
+	static void GiveStarupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC);
+
 protected:
 
 
