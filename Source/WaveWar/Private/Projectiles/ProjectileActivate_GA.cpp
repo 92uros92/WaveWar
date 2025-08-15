@@ -4,6 +4,7 @@
 #include "Projectiles/ProjectileActivate_GA.h"
 #include "Projectiles/GunProjectile.h"
 #include "Interaction/CombatInterface.h"
+#include "GAS/WW_GameplayTags.h"
 
 #include "GameFramework/Controller.h"
 #include "Kismet/GameplayStatics.h"
@@ -54,11 +55,13 @@ void UProjectileActivate_GA::SpawnGunShoot(const FVector& HitTarget)
 		FGameplayEffectSpecHandle SpecHandle = DamageSource->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), DamageSource->MakeEffectContext());
 		Projectile->DamageEffectSpecHandle = SpecHandle;
 
+		/** Get GameplayTag from WW_GameplayTags --> assign magnitude to tag (set in GE_Damage) --> get ScaledDamage from WW_GameplayAbility */
+		FWWGameplayTags GameplayTags = FWWGameplayTags::Get();
+		const float ScaledDamage = Damage.GetValueAtLevel(GetAbilityLevel());
+		//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("Gun Damage: %f"), ScaledDamage));
+		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Damage, ScaledDamage);
+
 		Projectile->FinishSpawning(Transform);
 	}
 }
 
-/** TODO:
-*		- Make Crosshair trace
-*		- Use HitTarget
-*/

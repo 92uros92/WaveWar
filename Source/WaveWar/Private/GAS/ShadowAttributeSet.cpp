@@ -56,6 +56,18 @@ void UShadowAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth()));
 	}
+	if (Data.EvaluatedData.Attribute == GetCalculateDamageAttribute())
+	{
+		const float LocalCalculateDamage = GetCalculateDamage();
+		SetCalculateDamage(0.0f);
+		if (LocalCalculateDamage > 0.0f)
+		{
+			const float NewHealth = GetHealth() - LocalCalculateDamage;
+			SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
+
+			const bool bIsFatal = NewHealth <= 0.0f;
+		}
+	}
 
 }
 

@@ -53,6 +53,14 @@ public:
 	*	END Input Tags
 	*/
 
+	/*
+	*	Damage Tags
+	*/
+	FGameplayTag Damage;
+	/*
+	*	END Damage Tags
+	*/
+
 	////****	FUNCTIONS	****////
 
 	static const FWWGameplayTags Get()

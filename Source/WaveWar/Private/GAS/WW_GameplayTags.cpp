@@ -42,4 +42,12 @@ void FWWGameplayTags::InitializeNativeGameplayTags()
 	/*
 	*	END Input Tags
 	*/
+
+	/*
+	*	Damage Tags
+	*/
+	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"), FString("Damage Tag for causing damage."));
+	/*
+	*	END Damage Tags
+	*/
 }

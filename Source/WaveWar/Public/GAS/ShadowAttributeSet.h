@@ -81,6 +81,15 @@ public:
 	*	END Life Attributes
 	*/
 
+	/*
+	*	Damage Attributes (Meta Attributes) --> NOT replicated
+	*/
+	UPROPERTY(BlueprintReadOnly, Category = "Damage Attributes")
+	FGameplayAttributeData CalculateDamage;
+	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, CalculateDamage);
+	/*
+	*	END Damage Attributes (Meta Attributes)
+	*/
 
 	////****	FUNCTIONS	****////
 
