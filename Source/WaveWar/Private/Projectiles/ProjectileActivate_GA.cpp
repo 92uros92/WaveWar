@@ -57,7 +57,7 @@ void UProjectileActivate_GA::SpawnGunShoot(const FVector& HitTarget)
 
 		/** Get GameplayTag from WW_GameplayTags --> assign magnitude to tag (set in GE_Damage) --> get ScaledDamage from WW_GameplayAbility */
 		FWWGameplayTags GameplayTags = FWWGameplayTags::Get();
-		const float ScaledDamage = Damage.GetValueAtLevel(GetAbilityLevel());
+		const float ScaledDamage = Damage.GetValueAtLevel(20); // Change bact (20) to GetAbilityLevel()
 		//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("Gun Damage: %f"), ScaledDamage));
 		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Damage, ScaledDamage);
 

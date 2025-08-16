@@ -25,12 +25,20 @@ class WAVEWAR_API ACharacterBase : public ACharacter, public IAbilitySystemInter
 
 public:
 
+	////****	FUNCTIONS	****////
+
 	ACharacterBase();
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+
+	virtual void Die() override;
+
+	/** That function will run on server and client (NetMulticast) */
+	UFUNCTION(NetMulticast, Reliable)
+	virtual void MulticastDeath();
 
 protected:
 

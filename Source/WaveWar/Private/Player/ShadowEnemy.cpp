@@ -37,6 +37,9 @@ AShadowEnemy::AShadowEnemy()
 
 	/** Set Enemy walk speed */
 	EnemyWalkSpeed = 250.0f;
+
+	/** Set Enemy life span */
+	LifeSpan = 5.0f;
 }
 
 void AShadowEnemy::BeginPlay()
@@ -89,6 +92,15 @@ int32 AShadowEnemy::GetPlayerLevel()
 {
 	/** Return Enemy level */
 	return Level;
+}
+
+void AShadowEnemy::Die()
+{
+	SetLifeSpan(LifeSpan);
+
+	EnemyHealthBar->SetHiddenInGame(true);
+
+	Super::Die();
 }
 
 void AShadowEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)

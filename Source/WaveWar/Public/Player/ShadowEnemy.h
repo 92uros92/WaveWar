@@ -37,6 +37,9 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	bool bHitReacting = false;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float LifeSpan;
+
 	////****	FUNCTIONS	****////
 
 	AShadowEnemy();
@@ -51,6 +54,8 @@ public:
 	*	Combat Interface
 	*/
 	virtual int32 GetPlayerLevel() override;
+
+	virtual void Die() override;
 	/*
 	*	END Combat Interface
 	*/

@@ -4,6 +4,7 @@
 #include "GAS/ShadowAttributeSet.h"
 #include "GAS/WW_GameplayTags.h"
 #include "GAS/ShadowAbilitySystemComponent.h"
+#include "Interaction/CombatInterface.h"
 
 #include "Net/UnrealNetwork.h"
 #include "GameplayEffectExtension.h"
@@ -76,9 +77,19 @@ void UShadowAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 
 			const bool bIsFatal = NewHealth <= 0.0f;
 
-			if (!bIsFatal)
+			if (bIsFatal)
 			{
-				/** Try activate ability if is enemy with that tag. */
+				/** If enemy is dead --> Call Die() function from ICombatInterface */
+				AActor* TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
+				ICombatInterface* CombatInterface = Cast<ICombatInterface>(TargetActor);
+				if (CombatInterface)
+				{
+					CombatInterface->Die();
+				}
+			}
+			else
+			{
+				/** Try activate ability (HitReact) if is enemy with that tag and is NOT dead. */
 				FGameplayTagContainer TagContainer;
 				TagContainer.AddTag(FWWGameplayTags::Get().Effects_HitReact);
 				AActor* EnemyActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
