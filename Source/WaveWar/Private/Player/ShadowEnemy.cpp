@@ -8,10 +8,14 @@
 #include "../WaveWar.h"
 #include "Game/ShadowGameMode.h"
 #include "GAS/WW_GameplayTags.h"
+#include "AI/WW_AIController.h"
 
 #include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "BehaviorTree/BehaviorTree.h"
+
 
 
 
@@ -40,6 +44,19 @@ AShadowEnemy::AShadowEnemy()
 
 	/** Set Enemy life span */
 	LifeSpan = 5.0f;
+}
+
+void AShadowEnemy::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (!HasAuthority())
+		return;
+
+	/** Initialize BehaviorTree and runs it */
+	WWAIController = Cast<AWW_AIController>(NewController);
+	WWAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
+	WWAIController->RunBehaviorTree(BehaviorTree);
 }
 
 void AShadowEnemy::BeginPlay()

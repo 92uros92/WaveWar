@@ -13,6 +13,8 @@
 
 
 class UWidgetComponent;
+class UBehaviorTree;
+class AWW_AIController;
 
 
 UCLASS()
@@ -44,6 +46,8 @@ public:
 
 	AShadowEnemy();
 
+	virtual void PossessedBy(AController* NewController) override;
+
 	/** Currently don´t need that functions. */
 	/*
 	virtual void HighlightActor() override;
@@ -72,6 +76,12 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> EnemyHealthBar;
+
+	UPROPERTY(EditAnywhere, category = "AI")
+	TObjectPtr<UBehaviorTree> BehaviorTree;
+
+	UPROPERTY()
+	TObjectPtr<AWW_AIController> WWAIController;
 
 	////****	FUNCTIONS	****////
 
