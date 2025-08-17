@@ -19,6 +19,7 @@ struct FInputActionValue;
 struct FInputActionInstance;
 struct FGameplayTag;
 class UShadowAbilitySystemComponent;
+class UFloatingDamageTextComp;
 
 
 UCLASS()
@@ -59,6 +60,9 @@ public:
 	template<class UserClass, typename PressedFuncType, typename ReleasedFuncType, typename HeldFuncType>
 	void BindAbilityActions(const UWW_InputConfig* InputConfig, UserClass* Object, PressedFuncType PressedFunc, ReleasedFuncType ReleasedFunc, HeldFuncType HeldFunc);
 
+	UFUNCTION(Client, Reliable)
+	void ShowFloatDamageNumber(float Damage, ACharacter* TargetCharacter);
+
 protected:
 
 	////****	FUNCTIONS	****////
@@ -72,6 +76,10 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UShadowAbilitySystemComponent> ShadowASC;
+
+	/** Variable to spawn UFloatingDamageTextComp class */
+	UPROPERTY(EditDefaultsOnly, Category = "Damage Widget")
+	TSubclassOf<UFloatingDamageTextComp> FloatingDamageTextCompClass;
 
 	////****	FUNCTIONS	****////
 

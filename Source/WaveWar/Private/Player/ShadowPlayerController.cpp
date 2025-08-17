@@ -5,6 +5,7 @@
 #include "Interaction/EnemyInterface.h"
 #include "Player/CharacterBase.h"
 #include "GAS/ShadowAbilitySystemComponent.h"
+#include "UI/FloatingDamageTextComp.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
@@ -13,6 +14,7 @@
 #include "GameplayTagContainer.h"
 #include "Components/InputComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "GameFramework/Character.h"
 
 
 
@@ -143,6 +145,21 @@ UShadowAbilitySystemComponent* AShadowPlayerController::GetShadowASC()
 	}
 
 	return ShadowASC;
+}
+
+void AShadowPlayerController::ShowFloatDamageNumber_Implementation(float Damage, ACharacter* TargetCharacter)
+{
+	if (IsValid(TargetCharacter) && FloatingDamageTextCompClass)
+	{
+		/** Create new component --> Manually register component because is not register in construct. */
+		UFloatingDamageTextComp* DamageTextComp = NewObject<UFloatingDamageTextComp>(TargetCharacter, FloatingDamageTextCompClass);
+		DamageTextComp->RegisterComponent();
+		/** Attach to enemy when get hit and then detach from it. */
+		DamageTextComp->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		DamageTextComp->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		/** Call function from UFloatingDamageTextComp. */
+		DamageTextComp->SetFloatingDamageText(Damage);
+	}
 }
 
 

@@ -5,11 +5,14 @@
 #include "GAS/WW_GameplayTags.h"
 #include "GAS/ShadowAbilitySystemComponent.h"
 #include "Interaction/CombatInterface.h"
+#include "Player/ShadowPlayerController.h"
 
 #include "Net/UnrealNetwork.h"
 #include "GameplayEffectExtension.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/Character.h"
 
 
 
@@ -57,44 +60,75 @@ void UShadowAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 {
 	Super::PostGameplayEffectExecute(Data);
 
-	//FEffectProperties Properties;
-	//SetEffectProperties()
+	/** Get SourceASC (ASC who cause the effect). */
+	const FGameplayEffectContextHandle EffectContextHandle = Data.EffectSpec.GetContext();
+	const UAbilitySystemComponent* SourceASC = EffectContextHandle.GetOriginalInstigatorAbilitySystemComponent();
+	if (IsValid(SourceASC) && SourceASC->AbilityActorInfo.IsValid() && SourceASC->AbilityActorInfo->AvatarActor.IsValid())
+	{
+		/** Get SourceActor (the one who cause the effect). */
+		AActor* SourceActor = SourceASC->AbilityActorInfo->AvatarActor.Get();
 
-	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
-	{
-		SetHealth(FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth()));
-	}
-	if (Data.EvaluatedData.Attribute == GetCalculateDamageAttribute())
-	{
-		/** Calculate damage */
-		const float LocalCalculateDamage = GetCalculateDamage();
-		SetCalculateDamage(0.0f);
-		if (LocalCalculateDamage > 0.0f)
+		if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
 		{
-			/** If enemy is hit set new health for enemy */
-			const float NewHealth = GetHealth() - LocalCalculateDamage;
-			SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
+			/** Get EnemyActor and EnemyCharacter (target of the effect) and EnemyASC (ASC who is target of the effect). */
+			AActor* EnemyActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
+			ACharacter* EnemyCharacter = Cast<ACharacter>(EnemyActor);
+			UAbilitySystemComponent* EnemyASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(EnemyActor);
 
-			const bool bIsFatal = NewHealth <= 0.0f;
-
-			if (bIsFatal)
+			if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 			{
-				/** If enemy is dead --> Call Die() function from ICombatInterface */
-				AActor* TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
-				ICombatInterface* CombatInterface = Cast<ICombatInterface>(TargetActor);
-				if (CombatInterface)
-				{
-					CombatInterface->Die();
-				}
+				SetHealth(FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth()));
 			}
-			else
+			if (Data.EvaluatedData.Attribute == GetCalculateDamageAttribute())
 			{
-				/** Try activate ability (HitReact) if is enemy with that tag and is NOT dead. */
-				FGameplayTagContainer TagContainer;
-				TagContainer.AddTag(FWWGameplayTags::Get().Effects_HitReact);
-				AActor* EnemyActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
-				UAbilitySystemComponent* EnemyASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(EnemyActor);
-				EnemyASC->TryActivateAbilitiesByTag(TagContainer);
+				/** Calculate damage */
+				const float LocalCalculateDamage = GetCalculateDamage();
+				SetCalculateDamage(0.0f);
+				if (LocalCalculateDamage > 0.0f)
+				{
+					/** If enemy is hit set new health for enemy */
+					const float NewHealth = GetHealth() - LocalCalculateDamage;
+					SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
+
+					const bool bIsFatal = NewHealth <= 0.0f;
+
+					if (bIsFatal)
+					{
+						/** If enemy is dead --> Call Die() function from ICombatInterface */
+						AActor* TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
+						ICombatInterface* CombatInterface = Cast<ICombatInterface>(TargetActor);
+						if (CombatInterface)
+						{
+							CombatInterface->Die();
+						}
+					}
+					else
+					{
+						if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
+						{
+							/** Try activate ability (HitReact) if is enemy with that tag and is NOT dead. */
+							FGameplayTagContainer TagContainer;
+							TagContainer.AddTag(FWWGameplayTags::Get().Effects_HitReact);
+							EnemyASC->TryActivateAbilitiesByTag(TagContainer);
+						}
+					}
+
+					/** Get SourceCharacter (the one who cause the effect). */
+					const AController* SourceController = SourceASC->AbilityActorInfo->PlayerController.Get();
+					ACharacter* SourceCharacter = Cast<ACharacter>(SourceController->GetPawn());
+					if (SourceCharacter)
+					{
+						if (SourceCharacter != EnemyCharacter)
+						{
+							AShadowPlayerController* ShadowPC = Cast<AShadowPlayerController>(UGameplayStatics::GetPlayerController(SourceActor, 0));
+							if (ShadowPC)
+							{
+								/** If SourceCharacter is not equal EnemyCharacter then call ShowFloatDamageNumber() function from AShadowPlayerController. */
+								ShadowPC->ShowFloatDamageNumber(LocalCalculateDamage, EnemyCharacter);
+							}
+						}
+					}
+				}
 			}
 		}
 	}
