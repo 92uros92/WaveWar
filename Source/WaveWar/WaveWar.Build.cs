@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Uroš Pörš All Rights Reserved
 
 using UnrealBuildTool;
 

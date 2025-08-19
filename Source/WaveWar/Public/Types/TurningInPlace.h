@@ -1,3 +1,5 @@
+// Uroš Pörš All Rights Reserved
+
 #pragma once
 
 UENUM(BlueprintType)
