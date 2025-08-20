@@ -62,6 +62,10 @@ void AShadowEnemy::PossessedBy(AController* NewController)
 	WWAIController = Cast<AWW_AIController>(NewController);
 	WWAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
 	WWAIController->RunBehaviorTree(BehaviorTree);
+	/** Set HitReacting (in BT_EnemyBehaviorTree) as false */
+	WWAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsHitReacting"), false);
+	WWAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsRangeAttack"), CharacterClass != ECharacterClass::Fighter);
+
 }
 
 void AShadowEnemy::BeginPlay()
@@ -129,6 +133,9 @@ void AShadowEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewC
 {
 	bHitReacting = NewCount > 0;
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.0f : EnemyWalkSpeed;
+
+	/** Set HitReacting whenever bHitReacting is changed. */
+	WWAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsHitReacting"), bHitReacting);
 }
 
 //void AShadowEnemy::HighlightActor()
