@@ -30,6 +30,11 @@ AShadowEnemy::AShadowEnemy()
 	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
 	GetMesh()->SetGenerateOverlapEvents(true);
 
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;
+
 	AbilitySystemComponent = CreateDefaultSubobject<UShadowAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);

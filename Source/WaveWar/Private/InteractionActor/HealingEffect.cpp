@@ -26,6 +26,11 @@ void AHealingEffect::BeginPlay()
 /** Call in the Blueprint */
 void AHealingEffect::ApplyEffectToActor(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
+	const bool bIsEnemy = TargetActor->ActorHasTag(FName("Enemy"));
+
+	if (bIsEnemy && !bApplyEffectToEnemy)
+		return;
+
 	UAbilitySystemComponent* TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 
 	if (TargetAbilitySystemComponent == nullptr)
@@ -39,5 +44,9 @@ void AHealingEffect::ApplyEffectToActor(AActor* TargetActor, TSubclassOf<UGamepl
 	FGameplayEffectSpecHandle EffectSpecHandle = TargetAbilitySystemComponent->MakeOutgoingSpec(GameplayEffectClass, 1.0f, EffectContextHandle);
 	TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 
+	if (bDestroyEffectOnOverlap)
+	{
+		Destroy();
+	}
 }
 

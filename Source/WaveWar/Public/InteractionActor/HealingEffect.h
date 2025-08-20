@@ -25,6 +25,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effect")
 	TSubclassOf<UGameplayEffect> HealGameplayEffectClass;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effect")
+	bool bApplyEffectToEnemy = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effect")
+	bool bDestroyEffectOnOverlap = false;
+
 	////****	FUNCTIONS	****////
 
 	virtual void BeginPlay() override;
