@@ -14,12 +14,6 @@ int32 ICombatInterface::GetPlayerLevel()
 	return 0;
 }
 
-/** Override in CharacterBase */
-FVector ICombatInterface::GetSocketLocation()
-{
-	return FVector();
-}
-
 /** Override in ShadowCharacter */
 FVector ICombatInterface::GetCameraLocation()
 {

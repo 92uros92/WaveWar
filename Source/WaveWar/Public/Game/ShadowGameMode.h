@@ -36,6 +36,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	static void GiveStarupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC, ECharacterClass CharacterClass);
 
+	UFUNCTION(BlueprintCallable)
+	static void GetLivePlayersInRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverlappingActors, const TArray<AActor*>& ActorToIgnore, float Radius, const FVector& SphereLocation);
+
 protected:
 
 

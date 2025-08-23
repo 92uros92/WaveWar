@@ -32,7 +32,8 @@ public:
 
 	virtual int32 GetPlayerLevel();
 
-	virtual FVector GetSocketLocation();
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	FVector GetSocketLocation();
 
 	virtual FVector GetCameraLocation();
 
@@ -41,4 +42,9 @@ public:
 
 	virtual void Die() = 0;
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	bool IsPlayerDead() const;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	AActor* GetAvatar();
 };

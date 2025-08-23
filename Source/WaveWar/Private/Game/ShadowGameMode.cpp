@@ -83,3 +83,28 @@ void AShadowGameMode::GiveStarupAbilities(const UObject* WorldContextObject, UAb
 	}
 }
 
+void AShadowGameMode::GetLivePlayersInRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverlappingActors, const TArray<AActor*>& ActorToIgnore, float Radius, const FVector& SphereLocation)
+{
+	FCollisionQueryParams SphereParams;
+	SphereParams.AddIgnoredActors(ActorToIgnore);
+
+	// query scene to see what we hit
+	TArray<FOverlapResult> Overlaps;
+	if (UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+	{
+		World->OverlapMultiByObjectType(Overlaps, SphereLocation, FQuat::Identity, FCollisionObjectQueryParams(FCollisionObjectQueryParams::InitType::AllDynamicObjects), FCollisionShape::MakeSphere(Radius), SphereParams);
+		for (FOverlapResult& Overlap : Overlaps)
+		{
+			bool CombatInterface = Overlap.GetActor()->Implements<UCombatInterface>();
+			if (CombatInterface)
+			{
+				bool IsActorAlive = !ICombatInterface::Execute_IsPlayerDead(Overlap.GetActor());
+				if (IsActorAlive)
+				{
+					OutOverlappingActors.AddUnique(ICombatInterface::Execute_GetAvatar(Overlap.GetActor()));
+				}
+			}
+		}
+	}
+}
+

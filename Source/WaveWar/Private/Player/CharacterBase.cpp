@@ -18,6 +18,8 @@ ACharacterBase::ACharacterBase()
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	bIsDead = false;
 }
 
 void ACharacterBase::BeginPlay()
@@ -43,6 +45,7 @@ void ACharacterBase::Die()
 	MulticastDeath();
 }
 
+/** It will be set in server and clien */
 void ACharacterBase::MulticastDeath_Implementation()
 {
 	Weapon->SetSimulatePhysics(true);
@@ -55,6 +58,8 @@ void ACharacterBase::MulticastDeath_Implementation()
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	bIsDead = true;
 }
 
 void ACharacterBase::InitAbilityActorInfo()
@@ -94,9 +99,19 @@ void ACharacterBase::AddCharacterAbilities()
 	ShadowASC->GiveStarupAbilities(StartupAbilities);
 }
 
-FVector ACharacterBase::GetSocketLocation()
+FVector ACharacterBase::GetSocketLocation_Implementation()
 {
 	/** Return socket location of weapon */
 	return GetMesh()->GetSocketLocation(WeaponSocketName);
+}
+
+bool ACharacterBase::IsPlayerDead_Implementation() const
+{
+	return bIsDead;
+}
+
+AActor* ACharacterBase::GetAvatar_Implementation()
+{
+	return this;
 }
 
