@@ -27,8 +27,11 @@ struct FCharacterClassInfo
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditDefaultsOnly, Category = "Attributes Class")
+	UPROPERTY(EditDefaultsOnly, Category = "Character Class Info")
 	TSubclassOf<UGameplayEffect> PrimaryAttributes;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Class Info")
+	TArray<TSubclassOf<UGameplayAbility>> StartAbilities;
 };
 
 

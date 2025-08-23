@@ -63,6 +63,14 @@ public:
 	*	END Damage Tags
 	*/
 
+	/*
+	*	Attack Tags
+	*/
+	FGameplayTag Abilities_Attack;
+	/*
+	*	END Attack Tags
+	*/
+
 	////****	FUNCTIONS	****////
 
 	static const FWWGameplayTags Get()

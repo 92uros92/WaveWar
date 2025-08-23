@@ -78,7 +78,7 @@ void AShadowEnemy::BeginPlay()
 	InitAbilityActorInfo();
 
 	/** After initialize abilities, GiveStarupAbilities() function from AShadowGameMode can call */
-	AShadowGameMode::GiveStarupAbilities(this, AbilitySystemComponent);
+	AShadowGameMode::GiveStarupAbilities(this, AbilitySystemComponent, CharacterClass);
 
 	/** Set EnemyHealtBar widget */
 	UWW_UserWidget* WWUserWidget = Cast<UWW_UserWidget>(EnemyHealthBar->GetUserWidgetObject());

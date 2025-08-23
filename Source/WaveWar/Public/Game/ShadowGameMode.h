@@ -34,7 +34,7 @@ public:
 
 	/** Initialize startup abilities for enemy */
 	UFUNCTION(BlueprintCallable)
-	static void GiveStarupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC);
+	static void GiveStarupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC, ECharacterClass CharacterClass);
 
 protected:
 

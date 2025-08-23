@@ -51,4 +51,12 @@ void FWWGameplayTags::InitializeNativeGameplayTags()
 	/*
 	*	END Damage Tags
 	*/
+
+	/*
+	*	Attack Tags
+	*/
+	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Attack"), FString("Attack Tag."));
+	/*
+	*	END Attack Tags
+	*/
 }

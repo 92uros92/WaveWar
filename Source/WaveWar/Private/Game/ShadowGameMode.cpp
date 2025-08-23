@@ -3,6 +3,7 @@
 
 #include "Game/ShadowGameMode.h"
 #include "GAS/ShadowAbilitySystemComponent.h"
+#include "Interaction/CombatInterface.h"
 
 #include "Kismet/GameplayStatics.h"
 
@@ -48,7 +49,7 @@ void AShadowGameMode::InitializeDefaultAttributes(const UObject* WorldContextObj
 	ASC->ApplyGameplayEffectSpecToSelf(*LifeAttributesSpecHandle.Data.Get());
 }
 
-void AShadowGameMode::GiveStarupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
+void AShadowGameMode::GiveStarupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC, ECharacterClass CharacterClass)
 {
 	AShadowGameMode* ShadowGM = Cast<AShadowGameMode>(UGameplayStatics::GetGameMode(WorldContextObject));
 	if (ShadowGM == nullptr)
@@ -57,11 +58,28 @@ void AShadowGameMode::GiveStarupAbilities(const UObject* WorldContextObject, UAb
 	/** Get data from UCharacterClassData() class. */
 	UCharacterClassData* CharacterClassData = ShadowGM->CharacterClassData;
 
+	if (CharacterClassData == nullptr)
+		return;
+
 	for (TSubclassOf<UGameplayAbility> AbilityClass : CharacterClassData->Abilities)
 	{
 		/** Loop through Abilities array from UCharacterClassData and grants an ability. */
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
 		ASC->GiveAbility(AbilitySpec);
+	}
+
+	const FCharacterClassInfo& ClassInfo = CharacterClassData->GetCharacterClassInfo(CharacterClass);
+
+	for (TSubclassOf<UGameplayAbility> AbilityClass : ClassInfo.StartAbilities)
+	{
+		ICombatInterface* CombatInterface = Cast<ICombatInterface>(ASC->GetAvatarActor());
+
+		if (CombatInterface)
+		{
+			/** Loop through Abilities array from UCharacterClassData and grants an strtup ability. */
+			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, CombatInterface->GetPlayerLevel());
+			ASC->GiveAbility(AbilitySpec);
+		}
 	}
 }
 
