@@ -3,6 +3,7 @@
 
 #include "Player/CharacterBase.h"
 #include "GAS/ShadowAbilitySystemComponent.h"
+#include "GAS/WW_GameplayTags.h"
 
 #include "AbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -99,10 +100,24 @@ void ACharacterBase::AddCharacterAbilities()
 	ShadowASC->GiveStarupAbilities(StartupAbilities);
 }
 
-FVector ACharacterBase::GetSocketLocation_Implementation()
+FVector ACharacterBase::GetSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
-	/** Return socket location of weapon */
-	return GetMesh()->GetSocketLocation(WeaponSocketName);
+	/** Return socket location based on MontageTag */
+	const FWWGameplayTags& GameplayTags = FWWGameplayTags::Get();
+	if (MontageTag.MatchesTagExact(GameplayTags.Attack_Montage_Weapon) && IsValid(Weapon))
+	{
+		return Weapon->GetSocketLocation(WeaponSocketName);
+	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Attack_Montage_RightHand))
+	{
+		return GetMesh()->GetSocketLocation(RightHandName);
+	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Attack_Montage_LeftHand))
+	{
+		return GetMesh()->GetSocketLocation(LeftHandName);
+	}
+
+	return FVector();
 }
 
 bool ACharacterBase::IsPlayerDead_Implementation() const
@@ -113,5 +128,10 @@ bool ACharacterBase::IsPlayerDead_Implementation() const
 AActor* ACharacterBase::GetAvatar_Implementation()
 {
 	return this;
+}
+
+TArray<FMontageForAttack> ACharacterBase::GetAttackMontages_Implementation()
+{
+	return AttackMontages;
 }
 

@@ -4,9 +4,23 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "GameplayTagContainer.h"
 #include "CombatInterface.generated.h"
 
 
+
+
+USTRUCT(BlueprintType)
+struct FMontageForAttack
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UAnimMontage* Montage = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FGameplayTag MontageTag;
+};
 
 
 UINTERFACE(MinimalAPI, BlueprintType)	
@@ -33,7 +47,7 @@ public:
 	virtual int32 GetPlayerLevel();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	FVector GetSocketLocation();
+	FVector GetSocketLocation(const FGameplayTag& MontageTag);
 
 	virtual FVector GetCameraLocation();
 
@@ -47,4 +61,8 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	AActor* GetAvatar();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	TArray<FMontageForAttack> GetAttackMontages();
+
 };

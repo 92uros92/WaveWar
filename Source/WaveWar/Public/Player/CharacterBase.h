@@ -25,6 +25,9 @@ class WAVEWAR_API ACharacterBase : public ACharacter, public IAbilitySystemInter
 
 public:
 
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TArray<FMontageForAttack> AttackMontages;
+
 	////****	FUNCTIONS	****////
 
 	ACharacterBase();
@@ -40,19 +43,27 @@ public:
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastDeath();
 
-	virtual FVector GetSocketLocation_Implementation() override;
+	virtual FVector GetSocketLocation_Implementation(const FGameplayTag& MontageTag) override;
 
 	virtual bool IsPlayerDead_Implementation() const override;
 
 	virtual AActor* GetAvatar_Implementation() override;
+
+	virtual TArray<FMontageForAttack> GetAttackMontages_Implementation() override;
 
 protected:
 
 	UPROPERTY(EditAnywhere, Category = "Weapon")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
-	UPROPERTY(EditAnywhere, Category = "Weapon")
+	UPROPERTY(EditAnywhere, Category = "Socket")
 	FName WeaponSocketName;
+
+	UPROPERTY(EditAnywhere, Category = "Socket")
+	FName RightHandName;
+
+	UPROPERTY(EditAnywhere, Category = "Socket")
+	FName LeftHandName;
 
 	bool bIsDead;
 

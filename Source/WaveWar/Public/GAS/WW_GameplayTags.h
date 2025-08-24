@@ -66,7 +66,13 @@ public:
 	/*
 	*	Attack Tags
 	*/
-	FGameplayTag Abilities_Attack;
+	FGameplayTag Attack_AbilitiesAttack;
+
+	FGameplayTag Attack_Montage_Weapon;
+
+	FGameplayTag Attack_Montage_RightHand;
+
+	FGameplayTag Attack_Montage_LeftHand;
 	/*
 	*	END Attack Tags
 	*/

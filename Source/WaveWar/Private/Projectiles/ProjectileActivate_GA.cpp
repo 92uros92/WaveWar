@@ -29,7 +29,7 @@ void UProjectileActivate_GA::SpawnGunShoot(const FVector& HitTarget)
 	if (!bIsServer)
 		return;
 
-	const FVector SocketLocation = ICombatInterface::Execute_GetSocketLocation(GetAvatarActorFromActorInfo());
+	const FVector SocketLocation = ICombatInterface::Execute_GetSocketLocation(GetAvatarActorFromActorInfo(), FWWGameplayTags::Get().Attack_Montage_Weapon);
 	FVector FindTarget = HitTarget - SocketLocation;
 
 	/** Get Camera location --> get View location --> From socket to hit location */

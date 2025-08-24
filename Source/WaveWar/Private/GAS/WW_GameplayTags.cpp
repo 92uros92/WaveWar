@@ -55,7 +55,10 @@ void FWWGameplayTags::InitializeNativeGameplayTags()
 	/*
 	*	Attack Tags
 	*/
-	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Attack"), FString("Attack Tag."));
+	GameplayTags.Attack_AbilitiesAttack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attack.AbilitiesAttack"), FString("Attack Tag."));
+	GameplayTags.Attack_Montage_Weapon = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attack.Montage.Weapon"), FString("Attack Tag for Weapon."));
+	GameplayTags.Attack_Montage_RightHand = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attack.Montage.RightHand"), FString("Attack Tag for attack with right hand."));
+	GameplayTags.Attack_Montage_LeftHand = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attack.Montage.LeftHand"), FString("Attack Tag for attack with left hand."));
 	/*
 	*	END Attack Tags
 	*/

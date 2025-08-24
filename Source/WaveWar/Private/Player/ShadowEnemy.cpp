@@ -135,7 +135,10 @@ void AShadowEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewC
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.0f : EnemyWalkSpeed;
 
 	/** Set HitReacting whenever bHitReacting is changed. */
-	WWAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsHitReacting"), bHitReacting);
+	if (WWAIController && WWAIController->GetBlackboardComponent())
+	{
+		WWAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsHitReacting"), bHitReacting);
+	}
 }
 
 //void AShadowEnemy::HighlightActor()
