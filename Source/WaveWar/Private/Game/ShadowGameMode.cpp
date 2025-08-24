@@ -76,7 +76,7 @@ void AShadowGameMode::GiveStarupAbilities(const UObject* WorldContextObject, UAb
 
 		if (CombatInterface)
 		{
-			/** Loop through Abilities array from UCharacterClassData and grants an strtup ability. */
+			/** Loop through Abilities array from UCharacterClassData and grants an startup ability. */
 			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, CombatInterface->GetPlayerLevel());
 			ASC->GiveAbility(AbilitySpec);
 		}

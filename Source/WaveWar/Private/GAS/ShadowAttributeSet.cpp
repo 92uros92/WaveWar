@@ -115,16 +115,19 @@ void UShadowAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 
 					/** Get SourceCharacter (the one who cause the effect). */
 					const AController* SourceController = SourceASC->AbilityActorInfo->PlayerController.Get();
-					ACharacter* SourceCharacter = Cast<ACharacter>(SourceController->GetPawn());
-					if (SourceCharacter)
+					if (SourceController)
 					{
-						if (SourceCharacter != EnemyCharacter)
+						ACharacter* SourceCharacter = Cast<ACharacter>(SourceController->GetPawn());
+						if (SourceCharacter)
 						{
-							AShadowPlayerController* ShadowPC = Cast<AShadowPlayerController>(UGameplayStatics::GetPlayerController(SourceActor, 0));
-							if (ShadowPC)
+							if (SourceCharacter != EnemyCharacter)
 							{
-								/** If SourceCharacter is not equal EnemyCharacter then call ShowFloatDamageNumber() function from AShadowPlayerController. */
-								ShadowPC->ShowFloatDamageNumber(LocalCalculateDamage, EnemyCharacter);
+								AShadowPlayerController* ShadowPC = Cast<AShadowPlayerController>(UGameplayStatics::GetPlayerController(SourceActor, 0));
+								if (ShadowPC)
+								{
+									/** If SourceCharacter is not equal EnemyCharacter then call ShowFloatDamageNumber() function from AShadowPlayerController. */
+									ShadowPC->ShowFloatDamageNumber(LocalCalculateDamage, EnemyCharacter);
+								}
 							}
 						}
 					}
