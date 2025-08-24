@@ -49,6 +49,14 @@ https://github.com/user-attachments/assets/bcd4870a-a05d-4e82-adc8-ba50b3807c90
 
 
 </details>
+<details>
+<summary>Enemy attack and causing damage</summary>
+
+
+https://github.com/user-attachments/assets/7689eb29-81ea-44bd-856e-a19cd768f1b2
+
+
+</details>
 
 ## UI
 <details>
