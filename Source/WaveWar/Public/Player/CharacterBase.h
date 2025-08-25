@@ -65,6 +65,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Socket")
 	FName LeftHandName;
 
+	UPROPERTY(EditAnywhere, Category = "Socket")
+	FName GunSocketName;
+
 	bool bIsDead;
 
 	UPROPERTY()

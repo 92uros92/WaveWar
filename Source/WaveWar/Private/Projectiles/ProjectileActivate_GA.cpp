@@ -29,12 +29,9 @@ void UProjectileActivate_GA::SpawnGunShoot(const FVector& HitTarget)
 	if (!bIsServer)
 		return;
 
-	const FVector SocketLocation = ICombatInterface::Execute_GetSocketLocation(GetAvatarActorFromActorInfo(), FWWGameplayTags::Get().Attack_Montage_Weapon);
+	const FVector SocketLocation = ICombatInterface::Execute_GetSocketLocation(GetAvatarActorFromActorInfo(), FWWGameplayTags::Get().Attack_Montage_GunShoot);
 	FVector FindTarget = HitTarget - SocketLocation;
 
-	/** Get Camera location --> get View location --> From socket to hit location */
-	//FVector CameraLocation = CombatInterface->GetCameraLocation();
-	//FVector ViewLocation = CameraLocation + (HitTarget * 5000.0f);
 	FRotator ProjectilRotation = FindTarget.Rotation();
 
 	/** Set location for spawning ammo */

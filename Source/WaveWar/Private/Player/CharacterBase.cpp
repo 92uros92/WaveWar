@@ -116,6 +116,10 @@ FVector ACharacterBase::GetSocketLocation_Implementation(const FGameplayTag& Mon
 	{
 		return GetMesh()->GetSocketLocation(LeftHandName);
 	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Attack_Montage_GunShoot))
+	{
+		return GetMesh()->GetSocketLocation(GunSocketName);
+	}
 
 	return FVector();
 }

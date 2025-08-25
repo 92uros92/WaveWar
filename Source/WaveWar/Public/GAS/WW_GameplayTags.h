@@ -73,6 +73,8 @@ public:
 	FGameplayTag Attack_Montage_RightHand;
 
 	FGameplayTag Attack_Montage_LeftHand;
+
+	FGameplayTag Attack_Montage_GunShoot;
 	/*
 	*	END Attack Tags
 	*/
