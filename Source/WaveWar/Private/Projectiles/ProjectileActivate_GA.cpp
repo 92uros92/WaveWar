@@ -29,7 +29,7 @@ void UProjectileActivate_GA::SpawnGunShoot(const FVector& HitTarget)
 	if (!bIsServer)
 		return;
 
-	const FVector SocketLocation = ICombatInterface::Execute_GetSocketLocation(GetAvatarActorFromActorInfo(), FWWGameplayTags::Get().Attack_Montage_GunShoot);
+	const FVector SocketLocation = ICombatInterface::Execute_GetSocketLocation(GetAvatarActorFromActorInfo(), MontageTagClass);
 	FVector FindTarget = HitTarget - SocketLocation;
 
 	FRotator ProjectilRotation = FindTarget.Rotation();

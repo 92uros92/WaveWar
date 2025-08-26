@@ -29,6 +29,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<UGameplayEffect> DamageEffectClass;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayTag MontageTagClass;
+
 	////****	FUNCTIONS	****////
 
 	/** Actually activate ability, do not call this directly */
