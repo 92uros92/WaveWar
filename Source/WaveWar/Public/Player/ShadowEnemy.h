@@ -42,17 +42,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	float LifeSpan;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Combat")
+	TObjectPtr<AActor> TurnToActor;
+
 	////****	FUNCTIONS	****////
 
 	AShadowEnemy();
 
 	virtual void PossessedBy(AController* NewController) override;
-
-	/** Currently don´t need that functions. */
-	/*
-	virtual void HighlightActor() override;
-	virtual void UnHighlightActor() override;
-	*/
 
 	/*
 	*	Combat Interface
@@ -60,6 +57,10 @@ public:
 	virtual int32 GetPlayerLevel() override;
 
 	virtual void Die() override;
+
+	virtual void SetTurnToActor_Implementation(AActor* InTurnToActor) override;
+
+	virtual AActor* GetTurnToActor_Implementation() override;
 	/*
 	*	END Combat Interface
 	*/

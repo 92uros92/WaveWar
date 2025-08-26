@@ -65,4 +65,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	TArray<FMontageForAttack> GetAttackMontages();
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void UpdateTurnToTarget(const FVector& Target);
+
 };

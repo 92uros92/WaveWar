@@ -129,6 +129,16 @@ void AShadowEnemy::Die()
 	Super::Die();
 }
 
+void AShadowEnemy::SetTurnToActor_Implementation(AActor* InTurnToActor)
+{
+	TurnToActor = InTurnToActor;
+}
+
+AActor* AShadowEnemy::GetTurnToActor_Implementation()
+{
+	return TurnToActor;
+}
+
 void AShadowEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 {
 	bHitReacting = NewCount > 0;
@@ -140,16 +150,6 @@ void AShadowEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewC
 		WWAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsHitReacting"), bHitReacting);
 	}
 }
-
-//void AShadowEnemy::HighlightActor()
-//{
-//	bHighlighted = true;
-//}
-//
-//void AShadowEnemy::UnHighlightActor()
-//{
-//	bHighlighted = false;
-//}
 
 void AShadowEnemy::InitAbilityActorInfo()
 {
