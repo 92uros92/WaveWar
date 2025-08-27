@@ -3,6 +3,7 @@
 
 #include "Projectiles/GunProjectile.h"
 #include "../WaveWar.h"
+#include "GAS/WW_BlueprintFunctionLibrary.h"
 
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -63,8 +64,16 @@ void AGunProjectile::Destroyed()
 
 void AGunProjectile::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	
-	UE_LOG(LogTemp, Warning, TEXT("Destroy projectile!!"));
+	//UE_LOG(LogTemp, Warning, TEXT("Destroy projectile!!"));
+
+	if (DamageEffectSpecHandle.Data.IsValid() && DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser() == OtherActor)
+	{
+		return;
+	}
+	if (!UWW_BlueprintFunctionLibrary::IsNotSameTeam(DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser(), OtherActor))
+	{
+		return;
+	}
 	if (HasAuthority())
 	{
 		if (UAbilitySystemComponent* DamageTarget = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
