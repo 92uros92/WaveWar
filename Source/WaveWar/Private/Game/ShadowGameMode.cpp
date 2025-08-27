@@ -92,9 +92,11 @@ void AShadowGameMode::GetLivePlayersInRadius(const UObject* WorldContextObject, 
 	TArray<FOverlapResult> Overlaps;
 	if (UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
 	{
+		/** Find live character and save in array Overlaps */
 		World->OverlapMultiByObjectType(Overlaps, SphereLocation, FQuat::Identity, FCollisionObjectQueryParams(FCollisionObjectQueryParams::InitType::AllDynamicObjects), FCollisionShape::MakeSphere(Radius), SphereParams);
 		for (FOverlapResult& Overlap : Overlaps)
 		{
+			/** Loop through Overlap array to get live overlapping Actors and add to OutOverlappingActors */
 			bool CombatInterface = Overlap.GetActor()->Implements<UCombatInterface>();
 			if (CombatInterface)
 			{
