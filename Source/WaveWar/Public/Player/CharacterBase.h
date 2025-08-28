@@ -53,7 +53,7 @@ public:
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = "Weapon")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
 	UPROPERTY(EditAnywhere, Category = "Socket")
