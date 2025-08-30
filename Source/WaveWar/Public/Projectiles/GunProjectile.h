@@ -12,6 +12,8 @@
 class UBoxComponent;
 class UProjectileMovementComponent;
 class UStaticMeshComponent;
+class UParticleSystem;
+class UParticleSystemComponent;
 
 
 UCLASS()
@@ -55,6 +57,11 @@ private:
 
 	bool bIsHit = false;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Sound")
 	TObjectPtr<USoundBase> ShootSound;
+
+	UPROPERTY(EditAnywhere, Category = "Particles")
+	UParticleSystem* BulletTrail;
+
+	UParticleSystemComponent* TrailComp;
 };

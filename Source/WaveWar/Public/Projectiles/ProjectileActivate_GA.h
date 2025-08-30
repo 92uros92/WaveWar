@@ -32,12 +32,17 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FGameplayTag MontageTagClass;
 
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	FVector_NetQuantize HitTarget;
+
 	////****	FUNCTIONS	****////
 
 	/** Actually activate ability, do not call this directly */
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData);
 
 	UFUNCTION(BlueprintCallable)
-	void SpawnGunShoot(const FVector& HitTarget);
+	void SpawnGunShoot(const FVector_NetQuantize& TraceHitTarget);
+
+	void TraceUnderCrosshair(FHitResult& HitResult);
 
 };

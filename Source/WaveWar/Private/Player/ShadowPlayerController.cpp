@@ -56,9 +56,6 @@ void AShadowPlayerController::SetupInputComponent()
 		/** Looking */
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShadowPlayerController::Look);
 
-		/** Shooting */
-		//EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Triggered, this, &AShadowCharacter::GunShoot);
-
 		/** Bind three callback functions (AbilityInputTagPressed, AbilityInputTagReleased and AbilityInputTagHeld) to InputAction */
 		BindAbilityActions(InputConfig, this, &AShadowPlayerController::AbilityInputTagPressed, &AShadowPlayerController::AbilityInputTagReleased, &AShadowPlayerController::AbilityInputTagHeld);
 	}
@@ -161,30 +158,3 @@ void AShadowPlayerController::ShowFloatDamageNumber_Implementation(float Damage,
 		DamageTextComp->SetFloatingDamageText(Damage);
 	}
 }
-
-
-
-//void AShadowCharacter::GunShoot()
-//{
-//	/** Montage for shooting */
-//	PlayAnimMontage(ShotMontage);
-//
-//	/** After 0.2 second call GunShoot_TimerManager function */
-//	GetWorldTimerManager().SetTimer(ShotTimer, this, &AShadowCharacter::GunShoot_TimerManager, 0.2f);
-//
-//}
-//
-//void AShadowCharacter::GunShoot_TimerManager()
-//{
-//	/** Set location for spawning ammo */
-//	FVector GunLocation = GetMesh()->GetSocketLocation("Muzzle_01");
-//
-//	FTransform Transform = FTransform(GetControlRotation(), GunLocation);
-//
-//	/** Spawn ammo */
-//	FActorSpawnParameters SpawnParams;
-//	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-//
-//	GetWorld()->SpawnActor<AActor>(ProjectileClass, Transform, SpawnParams);
-//
-//}

@@ -69,9 +69,6 @@ protected:
 
 	FTimerHandle ShotTimer;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere)
-	FVector HitTarget;
-
 	////****	FUNCTIONS	****////
 
 	virtual void BeginPlay() override;
@@ -84,7 +81,6 @@ protected:
 
 	virtual FVector GetCameraLocation() override;
 
-	void TraceUnderCrosshair(FHitResult& HitResult);
 
 	///** Called for shooting input */
 	//void GunShoot();

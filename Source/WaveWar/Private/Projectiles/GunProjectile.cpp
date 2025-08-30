@@ -11,6 +11,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "Particles/ParticleSystemComponent.h"
+#include "Particles/ParticleSystem.h"
 
 
 
@@ -30,8 +32,8 @@ AGunProjectile::AGunProjectile()
 	MeshComponent->SetupAttachment(BoxComponent);
 
 	MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComponent"));
-	MovementComponent->InitialSpeed = 1000.0f;
-	MovementComponent->MaxSpeed = 1000.0f;
+	MovementComponent->InitialSpeed = 2000.0f;
+	MovementComponent->MaxSpeed = 2000.0f;
 	MovementComponent->ProjectileGravityScale = 0.0f;
 	MovementComponent->bRotationFollowsVelocity = true;
 	MovementComponent->bInitialVelocityInLocalSpace = true;
@@ -50,6 +52,11 @@ void AGunProjectile::BeginPlay()
 	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AGunProjectile::OnOverlap);
 
 	UGameplayStatics::PlaySoundAtLocation(this, ShootSound, GetActorLocation(), FRotator::ZeroRotator);
+
+	if (BulletTrail)
+	{
+		TrailComp = UGameplayStatics::SpawnEmitterAttached(BulletTrail, BoxComponent, FName(), GetActorLocation(), GetActorRotation(), EAttachLocation::KeepWorldPosition);
+	}
 }
 
 void AGunProjectile::Destroyed()

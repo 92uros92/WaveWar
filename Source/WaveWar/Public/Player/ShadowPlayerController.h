@@ -43,10 +43,6 @@ class WAVEWAR_API AShadowPlayerController : public APlayerController
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
-	///** Shoot Input Action */
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	//class UInputAction* ShootAction;
-
 public:
 
 	////****	FUNCTIONS	****////

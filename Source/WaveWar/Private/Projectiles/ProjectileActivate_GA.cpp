@@ -23,14 +23,17 @@ void UProjectileActivate_GA::ActivateAbility(const FGameplayAbilitySpecHandle Ha
 
 }
 
-void UProjectileActivate_GA::SpawnGunShoot(const FVector& HitTarget)
+void UProjectileActivate_GA::SpawnGunShoot(const FVector_NetQuantize& TraceHitTarget)
 {
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer)
 		return;
 
+	FHitResult HitResult;
+	TraceUnderCrosshair(HitResult);
+
 	const FVector SocketLocation = ICombatInterface::Execute_GetSocketLocation(GetAvatarActorFromActorInfo(), MontageTagClass);
-	FVector FindTarget = HitTarget - SocketLocation;
+	FVector FindTarget = TraceHitTarget - SocketLocation;
 
 	FRotator ProjectilRotation = FindTarget.Rotation();
 
@@ -58,3 +61,41 @@ void UProjectileActivate_GA::SpawnGunShoot(const FVector& HitTarget)
 	Projectile->FinishSpawning(Transform);
 }
 
+void UProjectileActivate_GA::TraceUnderCrosshair(FHitResult& HitResult)
+{
+	FVector2D ViewSize;
+	if (GEngine && GEngine->GameViewport)
+	{
+		/** Get size of the vieport */
+		GEngine->GameViewport->GetViewportSize(ViewSize);
+	}
+
+	/** Make Crosshair location in the midle of the screen */
+	FVector2D CrosshairLocation(ViewSize.X / 2, ViewSize.Y / 2);
+
+	FVector CrosshairWorldPosition;
+	FVector CrosshairWorldDirection;
+	bool bScreenToWorld = UGameplayStatics::DeprojectScreenToWorld(UGameplayStatics::GetPlayerController(this, 0), CrosshairLocation, CrosshairWorldPosition, CrosshairWorldDirection);
+
+	if (bScreenToWorld)
+	{
+		/** For LineTrace: Start position is on center of screen, End is 8.000 unit outworld from start position */
+		FVector Start = CrosshairWorldPosition;
+		FVector End = Start + (CrosshairWorldDirection * 8000.0f);
+
+		/** It will trace strait out and it will hit first blocking hit */
+		GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility);
+
+		/** If not get hit then HitResult = End */
+		if (!HitResult.bBlockingHit)
+		{
+			HitResult.ImpactPoint = End;
+			HitTarget = End;
+		}
+		else
+		{
+			HitTarget = HitResult.ImpactPoint;
+			DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 12.0f, 12, FColor::Red);
+		}
+	}
+}
