@@ -126,6 +126,11 @@ void AShadowEnemy::Die()
 
 	EnemyHealthBar->SetHiddenInGame(true);
 
+	if (WWAIController)
+	{
+		WWAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsDead"), true);
+	}
+
 	Super::Die();
 }
 

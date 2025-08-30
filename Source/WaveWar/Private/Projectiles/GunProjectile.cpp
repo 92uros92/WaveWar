@@ -66,7 +66,7 @@ void AGunProjectile::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Destroy projectile!!"));
 
-	if (DamageEffectSpecHandle.Data.IsValid() && DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser() == OtherActor)
+	if (!DamageEffectSpecHandle.Data.IsValid() || DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser() == OtherActor)
 	{
 		return;
 	}
