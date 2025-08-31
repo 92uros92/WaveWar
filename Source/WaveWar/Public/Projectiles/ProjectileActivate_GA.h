@@ -45,4 +45,6 @@ protected:
 
 	void TraceUnderCrosshair(FHitResult& HitResult);
 
+	void SendGunShoot();
+
 };

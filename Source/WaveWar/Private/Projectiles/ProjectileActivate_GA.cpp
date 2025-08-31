@@ -63,6 +63,12 @@ void UProjectileActivate_GA::SpawnGunShoot(const FVector_NetQuantize& TraceHitTa
 
 void UProjectileActivate_GA::TraceUnderCrosshair(FHitResult& HitResult)
 {
+	bool bIsLocally = GetCurrentActorInfo()->IsLocallyControlled();
+	if (bIsLocally)
+	{
+		SendGunShoot();
+	}
+
 	FVector2D ViewSize;
 	if (GEngine && GEngine->GameViewport)
 	{
@@ -98,4 +104,9 @@ void UProjectileActivate_GA::TraceUnderCrosshair(FHitResult& HitResult)
 			DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 12.0f, 12, FColor::Red);
 		}
 	}
+}
+
+void UProjectileActivate_GA::SendGunShoot()
+{
+
 }
