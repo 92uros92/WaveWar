@@ -4,6 +4,8 @@
 #include "UI/ScreenWidgetController.h"
 #include "GAS/ShadowAttributeSet.h"
 #include "GAS/ShadowAbilitySystemComponent.h"
+#include "Player/ShadowPlayerState.h"
+#include "Data/LevelUpInfo.h"
 
 #include "GameplayEffectTypes.h"
 
@@ -22,6 +24,9 @@ void UScreenWidgetController::BroadcastInitialValues()
 
 void UScreenWidgetController::InitBindingAttributes()
 {
+	AShadowPlayerState* ShadowPlayerState = CastChecked<AShadowPlayerState>(PlayerState);
+	ShadowPlayerState->OnXPChangedDelegate.AddUObject(this, &UScreenWidgetController::OnXPChanged);
+
 	const UShadowAttributeSet* ShadowAttributeSet = CastChecked<UShadowAttributeSet>(AttributeSet);
 
 	/** Call lambda whenever attributes changed */
@@ -61,6 +66,34 @@ void UScreenWidgetController::InitBindingAttributes()
 			}
 		}
 	);
+}
+
+void UScreenWidgetController::OnXPChanged(int32 NewXP)
+{
+	AShadowPlayerState* ShadowPlayerState = CastChecked<AShadowPlayerState>(PlayerState);
+
+	ULevelUpInfo* LevelUpInfo = ShadowPlayerState->LevelUpInfo;
+	checkf(LevelUpInfo, TEXT("LevelUpInfo Undefined. Fill out BP_ShadowPlayerState."));
+
+	/** Get Level and MaxLevel from ULevelUpInfo */
+	int32 Level = LevelUpInfo->FindLevelForXP(NewXP);
+	int32 MaxLevel = LevelUpInfo->LevelUpInformation.Num();
+
+	if (Level <= MaxLevel && Level > 0)
+	{
+		/** Get level up requirement and previous level up requirement */
+		int32 LevelUpRequirement = LevelUpInfo->LevelUpInformation[Level].LevelUpRequirement;
+		int32 PreviousLevelUpRequirement = LevelUpInfo->LevelUpInformation[Level - 1].LevelUpRequirement;
+
+		/** Get requirement XP this for level (DeltaLevelRequirement) and remind XP for this level */
+		int32 DeltaLevelRequirement = LevelUpRequirement - PreviousLevelUpRequirement;
+		int32 XPForThisLevel = NewXP - PreviousLevelUpRequirement;
+
+		/** Get the percent for this level */
+		float XPPercent = static_cast<float>(XPForThisLevel) / static_cast<float>(DeltaLevelRequirement);
+
+		OnXPPercentChanged.Broadcast(XPPercent);
+	}
 }
 
 /** One way to do: "GetMaxHealthAttribute()).AddUObject" and then call that function. The secon one is with lambda as in InitBindingAttributes() function */

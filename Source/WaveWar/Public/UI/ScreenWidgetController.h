@@ -54,6 +54,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Messages")
 	FMessageWidgetRowSignature MessageWidgetRow;
 
+	UPROPERTY(BlueprintAssignable, Category = "LevelUp")
+	FOnAttributeChangedSignature OnXPPercentChanged;
+
 	////****	FUNCTIONS	****////
 
 	virtual void BroadcastInitialValues() override;
@@ -71,6 +74,8 @@ protected:
 
 	template<typename T>
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
+
+	void OnXPChanged(int32 NewXP);
 };
 
 template<typename T>
