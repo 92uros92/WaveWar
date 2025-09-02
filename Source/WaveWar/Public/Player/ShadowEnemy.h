@@ -6,7 +6,6 @@
 #include "Player/CharacterBase.h"
 #include "UI/ScreenWidgetController.h"
 #include "Interaction/EnemyInterface.h"
-#include "Data/CharacterClassData.h"
 #include "ShadowEnemy.generated.h"
 
 
@@ -71,9 +70,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enemy Class Info")
 	int32 Level = 1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enemy Class Info")
-	ECharacterClass CharacterClass = ECharacterClass::Shooter;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> EnemyHealthBar;

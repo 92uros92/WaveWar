@@ -7,6 +7,7 @@
 #include "InputActionValue.h"
 #include "AbilitySystemInterface.h"
 #include "Interaction/CombatInterface.h"
+#include "Data/CharacterClassData.h"
 #include "CharacterBase.generated.h"
 
 
@@ -52,6 +53,8 @@ public:
 
 	virtual TArray<FMontageForAttack> GetAttackMontages_Implementation() override;
 
+	virtual ECharacterClass GetCharacterClass_Implementation() override;
+
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon")
@@ -85,6 +88,9 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "SecondaryAttributes")
 	TSubclassOf<UGameplayEffect> DefaultLifeAttributes;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enemy Class Info")
+	ECharacterClass CharacterClass = ECharacterClass::Shooter;
 
 	////****	FUNCTIONS	****////
 

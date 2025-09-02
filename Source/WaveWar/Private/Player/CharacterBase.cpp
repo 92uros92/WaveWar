@@ -139,3 +139,8 @@ TArray<FMontageForAttack> ACharacterBase::GetAttackMontages_Implementation()
 	return AttackMontages;
 }
 
+ECharacterClass ACharacterBase::GetCharacterClass_Implementation()
+{
+	return CharacterClass;
+}
+

@@ -61,6 +61,9 @@ AShadowCharacter::AShadowCharacter()
 
 	/** By default character is not turning */
 	TurningInPlace = ETurningInPlace::ETIP_NotTurning;
+
+	/** CharacterClass for Shadow */
+	CharacterClass = ECharacterClass::Shooter;
 }
 
 void AShadowCharacter::BeginPlay()

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "ScalableFloat.h"
 #include "CharacterClassData.generated.h"
 
 
@@ -32,6 +33,9 @@ struct FCharacterClassInfo
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Info")
 	TArray<TSubclassOf<UGameplayAbility>> StartAbilities;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Class Info")
+	FScalableFloat XPReward = FScalableFloat();
 };
 
 
