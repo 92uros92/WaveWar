@@ -35,6 +35,14 @@ void FWWGameplayTags::InitializeNativeGameplayTags()
 	*/
 
 	/*
+	*	Meta Tags
+	*/
+	GameplayTags.Attribute_Meta_XP = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Meta.XP"), FString("Added calculate XP."));
+	/*
+	*	END Meta Tags
+	*/
+
+	/*
 	*	Input Tags
 	*/
 	GameplayTags.InputTag_LMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.LMB"), FString("Input Tag for left mouse button (Shoot)."));

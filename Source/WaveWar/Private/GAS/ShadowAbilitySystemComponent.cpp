@@ -33,6 +33,17 @@ void UShadowAbilitySystemComponent::GiveStarupAbilities(TArray<TSubclassOf<UGame
 	}
 }
 
+void UShadowAbilitySystemComponent::GiveStarupPassiveAbilities(TArray<TSubclassOf<UGameplayAbility>>& StartupPassiveAbilities)
+{
+	/** Loop through GameplayAbility to grant an Ability */
+	for (TSubclassOf<UGameplayAbility> AbilityClass : StartupPassiveAbilities)
+	{
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
+
+		GiveAbilityAndActivateOnce(AbilitySpec);
+	}
+}
+
 void UShadowAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputTag)
 {
 	if (!InputTag.IsValid())

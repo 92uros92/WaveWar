@@ -23,6 +23,7 @@ public:
 	void SetAbilityActorInfo();
 
 	void GiveStarupAbilities(TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
+	void GiveStarupPassiveAbilities(TArray<TSubclassOf<UGameplayAbility>>& StartupPassiveAbilities);
 
 	void AbilityInputTagHeld(const FGameplayTag& InputTag);
 	void AbilityInputTagReleased(const FGameplayTag& InputTag);

@@ -82,13 +82,18 @@ public:
 	*/
 
 	/*
-	*	Damage Attributes (Meta Attributes) --> NOT replicated
+	*	Meta Attributes --> NOT replicated
 	*/
-	UPROPERTY(BlueprintReadOnly, Category = "Damage Attributes")
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes|Damage")
 	FGameplayAttributeData CalculateDamage;
 	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, CalculateDamage);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes|XP")
+	FGameplayAttributeData CalculateXP;
+	ATTRIBUTE_ACCESSORS(UShadowAttributeSet, CalculateXP);
+
 	/*
-	*	END Damage Attributes (Meta Attributes)
+	*	END Meta Attributes
 	*/
 
 	////****	FUNCTIONS	****////
@@ -136,4 +141,8 @@ public:
 	UFUNCTION()
 	void OnRep_MovementSpeed(const FGameplayAttributeData& OldMovementSpeed) const;
 	/** END Secondary Attributes "OnRep" function */
+
+private:
+
+	void SendXPEvent(const FGameplayEffectModCallbackData& Data);
 };

@@ -44,6 +44,14 @@ public:
 	*/
 
 	/*
+	*	Meta Tags
+	*/
+	FGameplayTag Attribute_Meta_XP;
+	/*
+	*	END Meta Tags
+	*/
+
+	/*
 	*	Input Tags
 	*/
 	FGameplayTag InputTag_LMB;

@@ -98,6 +98,7 @@ void ACharacterBase::AddCharacterAbilities()
 
 	/** Call function from ShadowAbilitySystemComponent class */
 	ShadowASC->GiveStarupAbilities(StartupAbilities);
+	ShadowASC->GiveStarupPassiveAbilities(StartupPassiveAbilities);
 }
 
 FVector ACharacterBase::GetSocketLocation_Implementation(const FGameplayTag& MontageTag)

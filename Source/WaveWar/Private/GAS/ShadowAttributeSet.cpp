@@ -6,6 +6,7 @@
 #include "GAS/ShadowAbilitySystemComponent.h"
 #include "Interaction/CombatInterface.h"
 #include "Player/ShadowPlayerController.h"
+#include "GAS/WW_BlueprintFunctionLibrary.h"
 
 #include "Net/UnrealNetwork.h"
 #include "GameplayEffectExtension.h"
@@ -101,6 +102,7 @@ void UShadowAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 						{
 							CombatInterface->Die();
 						}
+						SendXPEvent(Data);
 					}
 					else
 					{
@@ -133,9 +135,41 @@ void UShadowAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 					}
 				}
 			}
+			if (Data.EvaluatedData.Attribute == GetCalculateXPAttribute())
+			{
+				const float LocalCalculateXP = GetCalculateXP();
+				SetCalculateXP(0.0f);
+				UE_LOG(LogTemp, Warning, TEXT("XP: %f"), LocalCalculateXP);
+			}
 		}
 	}
 
+}
+
+void UShadowAttributeSet::SendXPEvent(const FGameplayEffectModCallbackData& Data)
+{
+	AActor* TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
+	ACharacter* TargetCharacter = Cast<ACharacter>(TargetActor);
+
+	const FGameplayEffectContextHandle EffectContextHandle = Data.EffectSpec.GetContext();
+	const UAbilitySystemComponent* SourceASC = EffectContextHandle.GetOriginalInstigatorAbilitySystemComponent();
+	const AController* SourceController = SourceASC->AbilityActorInfo->PlayerController.Get();
+	ACharacter* SourceCharacter = Cast<ACharacter>(SourceController->GetPawn());
+
+	ICombatInterface* CombatInterface = Cast<ICombatInterface>(TargetCharacter);
+
+	if (CombatInterface)
+	{
+		int32 TargetLevel = CombatInterface->GetPlayerLevel();
+		ECharacterClass TargetClass = ICombatInterface::Execute_GetCharacterClass(TargetCharacter);
+		int32 XPReward = UWW_BlueprintFunctionLibrary::GetXPReward(TargetCharacter, TargetClass, TargetLevel);
+
+		const FWWGameplayTags& GameplayTags = FWWGameplayTags::Get();
+		FGameplayEventData Payload;
+		Payload.EventTag = GameplayTags.Attribute_Meta_XP;
+		Payload.EventMagnitude = XPReward;
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(SourceCharacter, GameplayTags.Attribute_Meta_XP, Payload);
+	}
 }
 
 void UShadowAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
@@ -187,3 +221,4 @@ void UShadowAttributeSet::OnRep_MovementSpeed(const FGameplayAttributeData& OldM
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UShadowAttributeSet, MovementSpeed, OldMovementSpeed);
 }
+
