@@ -7,6 +7,7 @@
 #include "Interaction/CombatInterface.h"
 #include "Player/ShadowPlayerController.h"
 #include "GAS/WW_BlueprintFunctionLibrary.h"
+#include "Interaction/ShadowInterface.h"
 
 #include "Net/UnrealNetwork.h"
 #include "GameplayEffectExtension.h"
@@ -139,7 +140,18 @@ void UShadowAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 			{
 				const float LocalCalculateXP = GetCalculateXP();
 				SetCalculateXP(0.0f);
-				UE_LOG(LogTemp, Warning, TEXT("XP: %f"), LocalCalculateXP);
+				//UE_LOG(LogTemp, Warning, TEXT("XP: %f"), LocalCalculateXP);
+
+				const AController* SourceController = SourceASC->AbilityActorInfo->PlayerController.Get();
+				if (SourceController)
+				{
+					ACharacter* SourceCharacter = Cast<ACharacter>(SourceController->GetPawn());
+					if (SourceCharacter->Implements<UShadowInterface>())
+					{
+						/** Adding XP */
+						IShadowInterface::Execute_AddToXP(SourceCharacter, LocalCalculateXP);
+					}
+				}
 			}
 		}
 	}

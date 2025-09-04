@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Player/CharacterBase.h"
 #include "Types/TurningInPlace.h"
+#include "Interaction/ShadowInterface.h"
 #include "ShadowCharacter.generated.h"
 
 
@@ -13,7 +14,7 @@ class UAnimMontage;
 
 
 UCLASS(config = Game)
-class WAVEWAR_API AShadowCharacter : public ACharacterBase
+class WAVEWAR_API AShadowCharacter : public ACharacterBase, public IShadowInterface
 {
 	GENERATED_BODY()
 	
@@ -58,6 +59,11 @@ public:
 
 	/** Combat Interface */
 	virtual int32 GetPlayerLevel() override;
+	/** END Combat Interface */
+
+	/** Shadow Interface */
+	virtual void AddToXP_Implementation(int32 InXP) override;
+	/** END Shadow Interface */
 
 protected:
 

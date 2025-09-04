@@ -96,7 +96,7 @@ void UScreenWidgetController::OnXPChanged(int32 NewXP)
 	}
 }
 
-/** One way to do: "GetMaxHealthAttribute()).AddUObject" and then call that function. The secon one is with lambda as in InitBindingAttributes() function */
+/** One way to do: "GetMaxHealthAttribute()).AddUObject" and then call that function. The second one is with lambda as in InitBindingAttributes() function */
 //void UScreenWidgetController::HealthChanged(const FOnAttributeChangeData& Data) const
 //{
 //	OnHealthChanged.Broadcast(Data.NewValue);

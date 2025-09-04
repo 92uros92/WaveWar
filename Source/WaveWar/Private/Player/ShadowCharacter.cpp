@@ -108,6 +108,14 @@ int32 AShadowCharacter::GetPlayerLevel()
 	return ShadowPlayerState->GetPlayerLevel();
 }
 
+void AShadowCharacter::AddToXP_Implementation(int32 InXP)
+{
+	AShadowPlayerState* ShadowPlayerState = GetPlayerState<AShadowPlayerState>();
+	check(ShadowPlayerState);
+
+	ShadowPlayerState->AddToXP(InXP);
+}
+
 void AShadowCharacter::InitAbilityActorInfo()
 {
 	if (AShadowPlayerState* ShadowPlayerState = GetPlayerState<AShadowPlayerState>())
