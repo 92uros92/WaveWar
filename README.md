@@ -1,6 +1,9 @@
 # WaveWar
 
 ###### Developed with Unreal Engine 5
+  - ###### Utilizing C++ and Blueprints.
+  - ###### Using Unreal Engine's built-in Gameplay Ability System (GAS).
+
 ###### Goal of the game: Survive the onslaught of opponents in each wave!
 ## **** Game is in development state! ****
 
@@ -72,6 +75,14 @@ https://github.com/user-attachments/assets/33076489-aa43-4d8b-be85-8840f781e62e
 
 
 https://github.com/user-attachments/assets/664e0cb8-2c1b-44b2-a3c6-fe84350df2b3
+
+
+</details>
+<details>
+<summary>Calculating XP</summary>
+
+
+https://github.com/user-attachments/assets/19dd4f92-2f43-45b9-b4e1-b98275f60a90
 
 
 </details>
