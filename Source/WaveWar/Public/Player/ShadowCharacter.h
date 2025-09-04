@@ -63,6 +63,8 @@ public:
 
 	/** Shadow Interface */
 	virtual void AddToXP_Implementation(int32 InXP) override;
+
+	virtual void LevelUp_Implementation() override;
 	/** END Shadow Interface */
 
 protected:
