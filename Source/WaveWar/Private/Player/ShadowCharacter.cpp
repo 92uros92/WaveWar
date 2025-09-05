@@ -7,6 +7,7 @@
 #include "UI/WW_HUD.h"
 #include "GAS/ShadowAbilitySystemComponent.h"
 #include "../WaveWar.h"
+#include "Data/LevelUpInfo.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -99,7 +100,7 @@ void AShadowCharacter::OnRep_PlayerState()
 	InitAbilityActorInfo();
 }
 
-int32 AShadowCharacter::GetPlayerLevel()
+int32 AShadowCharacter::GetPlayerLevel_Implementation()
 {
 	AShadowPlayerState* ShadowPlayerState = GetPlayerState<AShadowPlayerState>();
 	check(ShadowPlayerState);
@@ -119,6 +120,31 @@ void AShadowCharacter::AddToXP_Implementation(int32 InXP)
 void AShadowCharacter::LevelUp_Implementation()
 {
 
+}
+
+int32 AShadowCharacter::GetXP_Implementation()
+{
+	AShadowPlayerState* ShadowPlayerState = GetPlayerState<AShadowPlayerState>();
+	check(ShadowPlayerState);
+
+	/** Return Player XP */
+	return ShadowPlayerState->GetXP();
+}
+
+int32 AShadowCharacter::FindLevelForXP_Implementation(int32 InXP)
+{
+	AShadowPlayerState* ShadowPlayerState = GetPlayerState<AShadowPlayerState>();
+	check(ShadowPlayerState);
+
+	return ShadowPlayerState->LevelUpInfo->FindLevelForXP(InXP);
+}
+
+void AShadowCharacter::AddToPlayerLevel_Implementation(int32 InLevelToAdd)
+{
+	AShadowPlayerState* ShadowPlayerState = GetPlayerState<AShadowPlayerState>();
+	check(ShadowPlayerState);
+
+	ShadowPlayerState->AddToLevel(InLevelToAdd);
 }
 
 void AShadowCharacter::InitAbilityActorInfo()

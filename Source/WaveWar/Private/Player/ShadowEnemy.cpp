@@ -114,7 +114,7 @@ void AShadowEnemy::BeginPlay()
 	}
 }
 
-int32 AShadowEnemy::GetPlayerLevel()
+int32 AShadowEnemy::GetPlayerLevel_Implementation()
 {
 	/** Return Enemy level */
 	return Level;

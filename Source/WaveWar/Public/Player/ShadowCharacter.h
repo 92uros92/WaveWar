@@ -58,13 +58,19 @@ public:
 	virtual void OnRep_PlayerState() override;
 
 	/** Combat Interface */
-	virtual int32 GetPlayerLevel() override;
+	virtual int32 GetPlayerLevel_Implementation() override;
 	/** END Combat Interface */
 
 	/** Shadow Interface */
 	virtual void AddToXP_Implementation(int32 InXP) override;
 
 	virtual void LevelUp_Implementation() override;
+
+	virtual int32 GetXP_Implementation() override;
+
+	virtual int32 FindLevelForXP_Implementation(int32 InXP) override;
+
+	virtual void AddToPlayerLevel_Implementation(int32 InLevelToAdd) override;
 	/** END Shadow Interface */
 
 protected:

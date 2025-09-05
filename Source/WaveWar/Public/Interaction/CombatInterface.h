@@ -45,7 +45,8 @@ public:
 
 	////****	FUNCTIONS	****////
 
-	virtual int32 GetPlayerLevel();
+	UFUNCTION(BlueprintNativeEvent)
+	int32 GetPlayerLevel();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	FVector GetSocketLocation(const FGameplayTag& MontageTag);

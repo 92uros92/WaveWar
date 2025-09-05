@@ -146,8 +146,22 @@ void UShadowAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 				if (SourceController)
 				{
 					ACharacter* SourceCharacter = Cast<ACharacter>(SourceController->GetPawn());
-					if (SourceCharacter->Implements<UShadowInterface>())
+					if (SourceCharacter->Implements<UShadowInterface>() && SourceCharacter->Implements<UCombatInterface>())
 					{
+						const int32 CurrentLevel = ICombatInterface::Execute_GetPlayerLevel(SourceCharacter);
+						const int32 CurrentXP = IShadowInterface::Execute_GetXP(SourceCharacter);
+
+						const int32 NewLevel = IShadowInterface::Execute_FindLevelForXP(SourceCharacter, CurrentXP + LocalCalculateXP);
+						const int32 NumberOfLevelUps = NewLevel - CurrentLevel;
+						if (NumberOfLevelUps > 0)
+						{
+							// TODO: Add point for upgrade Player
+
+							IShadowInterface::Execute_AddToPlayerLevel(SourceCharacter, NumberOfLevelUps);
+
+							IShadowInterface::Execute_LevelUp(SourceCharacter);
+						}
+
 						/** Adding XP */
 						IShadowInterface::Execute_AddToXP(SourceCharacter, LocalCalculateXP);
 					}
