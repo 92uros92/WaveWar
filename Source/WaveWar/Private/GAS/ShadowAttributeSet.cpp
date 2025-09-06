@@ -182,11 +182,9 @@ void UShadowAttributeSet::SendXPEvent(const FGameplayEffectModCallbackData& Data
 	const AController* SourceController = SourceASC->AbilityActorInfo->PlayerController.Get();
 	ACharacter* SourceCharacter = Cast<ACharacter>(SourceController->GetPawn());
 
-	ICombatInterface* CombatInterface = Cast<ICombatInterface>(TargetCharacter);
-
-	if (CombatInterface)
+	if (TargetCharacter->Implements<UCombatInterface>())
 	{
-		int32 TargetLevel = CombatInterface->GetPlayerLevel();
+		int32 TargetLevel = ICombatInterface::Execute_GetPlayerLevel(TargetCharacter);
 		ECharacterClass TargetClass = ICombatInterface::Execute_GetCharacterClass(TargetCharacter);
 		int32 XPReward = UWW_BlueprintFunctionLibrary::GetXPReward(TargetCharacter, TargetClass, TargetLevel);
 

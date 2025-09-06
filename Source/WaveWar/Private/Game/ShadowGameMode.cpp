@@ -72,12 +72,10 @@ void AShadowGameMode::GiveStarupAbilities(const UObject* WorldContextObject, UAb
 
 	for (TSubclassOf<UGameplayAbility> AbilityClass : ClassInfo.StartAbilities)
 	{
-		ICombatInterface* CombatInterface = Cast<ICombatInterface>(ASC->GetAvatarActor());
-
-		if (CombatInterface)
+		if (ASC->GetAvatarActor()->Implements<UCombatInterface>())
 		{
 			/** Loop through Abilities array from UCharacterClassData and grants an startup ability. */
-			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, CombatInterface->GetPlayerLevel());
+			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, ICombatInterface::Execute_GetPlayerLevel(ASC->GetAvatarActor()));
 			ASC->GiveAbility(AbilitySpec);
 		}
 	}

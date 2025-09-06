@@ -27,6 +27,13 @@ void UScreenWidgetController::InitBindingAttributes()
 	AShadowPlayerState* ShadowPlayerState = CastChecked<AShadowPlayerState>(PlayerState);
 	ShadowPlayerState->OnXPChangedDelegate.AddUObject(this, &UScreenWidgetController::OnXPChanged);
 
+	ShadowPlayerState->OnLevelChangedDelegate.AddLambda(
+		[this](int32 NewLevel)
+		{
+			OnPlayerLevelChanged.Broadcast(NewLevel);
+		}
+	);
+
 	const UShadowAttributeSet* ShadowAttributeSet = CastChecked<UShadowAttributeSet>(AttributeSet);
 
 	/** Call lambda whenever attributes changed */
