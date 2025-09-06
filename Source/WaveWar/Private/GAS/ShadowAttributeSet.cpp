@@ -180,19 +180,22 @@ void UShadowAttributeSet::SendXPEvent(const FGameplayEffectModCallbackData& Data
 	const FGameplayEffectContextHandle EffectContextHandle = Data.EffectSpec.GetContext();
 	const UAbilitySystemComponent* SourceASC = EffectContextHandle.GetOriginalInstigatorAbilitySystemComponent();
 	const AController* SourceController = SourceASC->AbilityActorInfo->PlayerController.Get();
-	ACharacter* SourceCharacter = Cast<ACharacter>(SourceController->GetPawn());
-
-	if (TargetCharacter->Implements<UCombatInterface>())
+	if (SourceController)
 	{
-		int32 TargetLevel = ICombatInterface::Execute_GetPlayerLevel(TargetCharacter);
-		ECharacterClass TargetClass = ICombatInterface::Execute_GetCharacterClass(TargetCharacter);
-		int32 XPReward = UWW_BlueprintFunctionLibrary::GetXPReward(TargetCharacter, TargetClass, TargetLevel);
+		ACharacter* SourceCharacter = Cast<ACharacter>(SourceController->GetPawn());
 
-		const FWWGameplayTags& GameplayTags = FWWGameplayTags::Get();
-		FGameplayEventData Payload;
-		Payload.EventTag = GameplayTags.Attribute_Meta_XP;
-		Payload.EventMagnitude = XPReward;
-		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(SourceCharacter, GameplayTags.Attribute_Meta_XP, Payload);
+		if (TargetCharacter->Implements<UCombatInterface>() && SourceCharacter)
+		{
+			int32 TargetLevel = ICombatInterface::Execute_GetPlayerLevel(TargetCharacter);
+			ECharacterClass TargetClass = ICombatInterface::Execute_GetCharacterClass(TargetCharacter);
+			int32 XPReward = UWW_BlueprintFunctionLibrary::GetXPReward(TargetCharacter, TargetClass, TargetLevel);
+
+			const FWWGameplayTags& GameplayTags = FWWGameplayTags::Get();
+			FGameplayEventData Payload;
+			Payload.EventTag = GameplayTags.Attribute_Meta_XP;
+			Payload.EventMagnitude = XPReward;
+			UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(SourceCharacter, GameplayTags.Attribute_Meta_XP, Payload);
+		}
 	}
 }
 

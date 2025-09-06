@@ -18,6 +18,7 @@
 #include "GameFramework/PlayerStart.h"
 #include "AbilitySystemComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Sound/SoundBase.h"
 
 
 
@@ -119,7 +120,16 @@ void AShadowCharacter::AddToXP_Implementation(int32 InXP)
 
 void AShadowCharacter::LevelUp_Implementation()
 {
+	MulticastLevelUpSound();
+}
 
+
+void AShadowCharacter::MulticastLevelUpSound_Implementation()
+{
+	if (IsValid(LevelUpSound))
+	{
+		UGameplayStatics::PlaySound2D(this, LevelUpSound);
+	}
 }
 
 int32 AShadowCharacter::GetXP_Implementation()

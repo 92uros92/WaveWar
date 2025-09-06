@@ -42,6 +42,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "TurningInPlace")
 	ETurningInPlace TurningInPlace;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
+	class USoundBase* LevelUpSound;
+
 	////****	FUNCTIONS	****////
 
 	AShadowCharacter();
@@ -107,4 +110,7 @@ private:
 	////****	FUNCTIONS	****////
 
 	virtual void InitAbilityActorInfo() override;
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MulticastLevelUpSound();
 };
