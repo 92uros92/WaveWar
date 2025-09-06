@@ -86,3 +86,19 @@ https://github.com/user-attachments/assets/19dd4f92-2f43-45b9-b4e1-b98275f60a90
 
 
 </details>
+<details>
+<summary>Level up Character and level up sound</summary>
+
+
+https://github.com/user-attachments/assets/abbf6109-697a-4669-a29c-143cba9e36b4
+
+
+</details>
+<details>
+<summary>Level up message text</summary>
+
+
+https://github.com/user-attachments/assets/26351a2f-88c0-4d43-8bdb-c72718138829
+
+
+</details>
