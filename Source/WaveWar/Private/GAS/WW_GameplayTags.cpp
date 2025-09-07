@@ -71,4 +71,15 @@ void FWWGameplayTags::InitializeNativeGameplayTags()
 	/*
 	*	END Attack Tags
 	*/
+
+	/*
+	*	Widget Tags
+	*/
+	GameplayTags.Menu_WidgetStack_PopUp = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Menu.WidgetStack.PopUp"), FString("PopUp Widgets."));
+	GameplayTags.Menu_WidgetStack_GameMenu = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Menu.WidgetStack.GameMenu"), FString("GameMenu Widget."));
+	GameplayTags.Menu_WidgetStack_GameHUD = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Menu.WidgetStack.GameHUD"), FString("GameHUD Widget."));
+	GameplayTags.Menu_WidgetStack_MainMenu = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Menu.WidgetStack.MainMenu"), FString("MainMenu Widget."));
+	/*
+	*	END Widget Tags
+	*/
 }

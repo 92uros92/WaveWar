@@ -87,6 +87,20 @@ public:
 	*	END Attack Tags
 	*/
 
+	/*
+	*	Widget Tags
+	*/
+	FGameplayTag Menu_WidgetStack_PopUp;
+
+	FGameplayTag Menu_WidgetStack_GameMenu;
+
+	FGameplayTag Menu_WidgetStack_GameHUD;
+
+	FGameplayTag Menu_WidgetStack_MainMenu;
+	/*
+	*	END Widget Tags
+	*/
+
 	////****	FUNCTIONS	****////
 
 	static const FWWGameplayTags Get()
