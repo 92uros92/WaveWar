@@ -88,7 +88,7 @@ public:
 	*/
 
 	/*
-	*	Widget Tags
+	*	Widget Tags --> Stack
 	*/
 	FGameplayTag Menu_WidgetStack_PopUp;
 
@@ -98,7 +98,17 @@ public:
 
 	FGameplayTag Menu_WidgetStack_MainMenu;
 	/*
-	*	END Widget Tags
+	*	END Widget Tags --> Stack
+	*/
+
+	/*
+	*	MainMenu Widget Tags
+	*/
+	FGameplayTag Menu_Widget_PressAnyKey;
+
+	FGameplayTag Menu_Widget_MainMenuScreen;
+	/*
+	*	END MainMenu Widget Tags
 	*/
 
 	////****	FUNCTIONS	****////
