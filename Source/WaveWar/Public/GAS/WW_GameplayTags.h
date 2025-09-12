@@ -107,6 +107,8 @@ public:
 	FGameplayTag Menu_Widget_PressAnyKey;
 
 	FGameplayTag Menu_Widget_MainMenuScreen;
+
+	FGameplayTag Menu_Widget_ConfirmScreen;
 	/*
 	*	END MainMenu Widget Tags
 	*/
