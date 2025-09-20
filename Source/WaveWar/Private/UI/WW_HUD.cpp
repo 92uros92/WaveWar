@@ -32,6 +32,16 @@ void AWW_HUD::InitScreenWidget(APlayerController* PCont, APlayerState* PSta, UAb
 	WidgetController->BroadcastInitialValues();
 
 	Widget->AddToViewport();
+
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		if (PCont)
+		{
+			FInputModeGameOnly InputModeData;
+			PCont->SetInputMode(InputModeData);
+		}
+	}
 }
 
 UScreenWidgetController* AWW_HUD::GetScreenWidgetController(const FWidgetControllerParams& WCParams)

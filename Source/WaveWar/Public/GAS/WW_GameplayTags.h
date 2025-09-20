@@ -109,6 +109,8 @@ public:
 	FGameplayTag Menu_Widget_MainMenuScreen;
 
 	FGameplayTag Menu_Widget_ConfirmScreen;
+
+	FGameplayTag Menu_Widget_GameMenuScreen;
 	/*
 	*	END MainMenu Widget Tags
 	*/
