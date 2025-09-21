@@ -102,6 +102,16 @@ public:
 	*/
 
 	/*
+	*	GameMenuWidget Tags --> Stack
+	*/
+	FGameplayTag GameMenu_Stack_PopUp;
+
+	FGameplayTag GameMenu_Stack_GameMenu;
+	/*
+	*	END GameMenuWidget Tags --> Stack
+	*/
+
+	/*
 	*	MainMenu Widget Tags
 	*/
 	FGameplayTag Menu_Widget_PressAnyKey;

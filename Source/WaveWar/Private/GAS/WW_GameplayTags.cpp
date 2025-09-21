@@ -84,6 +84,15 @@ void FWWGameplayTags::InitializeNativeGameplayTags()
 	*/
 
 	/*
+	*	GameMenuWidget Tags --> Stack
+	*/
+	GameplayTags.GameMenu_Stack_PopUp = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("GameMenu.Stack.PopUp"), FString("PopUp Widgets."));
+	GameplayTags.GameMenu_Stack_GameMenu = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("GameMenu.Stack.GameMenu"), FString("GameMenu Widget."));
+	/*
+	*	END GameMenuWidget Tags --> Stack
+	*/
+
+	/*
 	*	MainMenu Widget Tags
 	*/
 	GameplayTags.Menu_Widget_PressAnyKey = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Menu.Widget.PressAnyKey"), FString("PressAnyKey Widgets."));
