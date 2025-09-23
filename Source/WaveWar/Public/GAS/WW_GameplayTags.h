@@ -120,6 +120,8 @@ public:
 
 	FGameplayTag Menu_Widget_ConfirmScreen;
 
+	FGameplayTag Menu_Widget_GameConfirmScreen;
+
 	FGameplayTag Menu_Widget_GameMenuScreen;
 	/*
 	*	END MainMenu Widget Tags
