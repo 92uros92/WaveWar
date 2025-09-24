@@ -123,6 +123,8 @@ public:
 	FGameplayTag Menu_Widget_GameConfirmScreen;
 
 	FGameplayTag Menu_Widget_GameMenuScreen;
+
+	FGameplayTag Menu_Widget_AttributePointsScreen;
 	/*
 	*	END MainMenu Widget Tags
 	*/

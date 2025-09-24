@@ -100,6 +100,7 @@ void FWWGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Menu_Widget_ConfirmScreen = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Menu.Widget.ConfirmScreen"), FString("ConfirmScreen Widget."));
 	GameplayTags.Menu_Widget_GameConfirmScreen = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Menu.Widget.GameConfirmScreen"), FString("GameConfirmScreen Widget."));
 	GameplayTags.Menu_Widget_GameMenuScreen = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Menu.Widget.GameMenuScreen"), FString("GameMenuScreen Widget."));
+	GameplayTags.Menu_Widget_AttributePointsScreen = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Menu.Widget.AttributePointsScreen"), FString("AttributePointsScreen Widget."));
 	/*
 	*	END MainMenu Widget Tags
 	*/
