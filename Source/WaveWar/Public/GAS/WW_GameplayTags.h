@@ -6,7 +6,9 @@
 #include "GameplayTagContainer.h"
 
 
-/** Singleton for GameplayTags */
+/** 
+ *	Singleton for GameplayTags 
+ */
 
 struct FWWGameplayTags
 {
