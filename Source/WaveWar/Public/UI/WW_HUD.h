@@ -13,6 +13,7 @@ class UScreenWidgetController;
 struct FWidgetControllerParams;
 class UAbilitySystemComponent;
 class UAttributeSet;
+class UAttributeMenuWidgetController;
 
 
 UCLASS()
@@ -22,16 +23,19 @@ class WAVEWAR_API AWW_HUD : public AHUD
 	
 public:
 
-	UPROPERTY()
-	TObjectPtr<UWW_UserWidget> ScreenWidget;
 
 	////****	FUNCTIONS	****////
 
 	UScreenWidgetController* GetScreenWidgetController(const FWidgetControllerParams& WCParams);
 
+	UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const FWidgetControllerParams& WCParams);
+
 	void InitScreenWidget(APlayerController* PCont, APlayerState* PSta, UAbilitySystemComponent* ASysCom, UAttributeSet* AttS);
 
 private:
+
+	UPROPERTY()
+	TObjectPtr<UWW_UserWidget> ScreenWidget;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UWW_UserWidget> ScreenWidgetClass;
@@ -41,4 +45,10 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UScreenWidgetController> ScreenWidgetControllerClass;
+
+	UPROPERTY()
+	TObjectPtr<UAttributeMenuWidgetController> AttributeMenuWidgetController;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UAttributeMenuWidgetController> AttributeMenuWidgetControllerClass;
 };

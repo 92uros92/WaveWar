@@ -5,6 +5,7 @@
 #include "UI/WW_UserWidget.h"
 #include "UI/ScreenWidgetController.h"
 #include "UI/WW_WidgetController.h"
+#include "UI/AttributeMenuWidgetController.h"
 
 
 
@@ -54,10 +55,23 @@ UScreenWidgetController* AWW_HUD::GetScreenWidgetController(const FWidgetControl
 
 		/** Whenever attributes changed then bind new value */
 		ScreenWidgetController->InitBindingAttributes();
-
-		return ScreenWidgetController;
 	}
 
 	return ScreenWidgetController;
+}
+
+UAttributeMenuWidgetController* AWW_HUD::GetAttributeMenuWidgetController(const FWidgetControllerParams& WCParams)
+{
+	if (AttributeMenuWidgetController == nullptr)
+	{
+		/** If AttributeMenuWidgetController is NULL then create one */
+		AttributeMenuWidgetController = NewObject<UAttributeMenuWidgetController>(this, AttributeMenuWidgetControllerClass);
+		AttributeMenuWidgetController->SetWidgetControllerParams(WCParams);
+
+		/** Whenever attributes changed then bind new value */
+		AttributeMenuWidgetController->InitBindingAttributes();
+	}
+
+	return AttributeMenuWidgetController;
 }
 
