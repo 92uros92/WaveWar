@@ -22,7 +22,23 @@
 
 UShadowAttributeSet::UShadowAttributeSet()
 {
-	
+	const FWWGameplayTags& GameplayTags = FWWGameplayTags::Get();
+
+	FAttributeDelegate DamageDelegate;
+	DamageDelegate.BindStatic(GetDamageAttribute);
+	TagsToAttributes.Add(GameplayTags.Attribute_Primary_Damage, DamageDelegate);
+
+	FAttributeDelegate EnduranceDelegate;
+	EnduranceDelegate.BindStatic(GetEnduranceAttribute);
+	TagsToAttributes.Add(GameplayTags.Attribute_Primary_Endurance, EnduranceDelegate);
+
+	FAttributeDelegate AddMaxHPDelegate;
+	AddMaxHPDelegate.BindStatic(GetAddMaxHPAttribute);
+	TagsToAttributes.Add(GameplayTags.Attribute_Primary_AddMaxHP, AddMaxHPDelegate);
+
+	FAttributeDelegate AddMovementSpeedDelegate;
+	AddMovementSpeedDelegate.BindStatic(GetAddMovementSpeedAttribute);
+	TagsToAttributes.Add(GameplayTags.Attribute_Primary_AddMovementSpeed, AddMovementSpeedDelegate);
 }
 
 void UShadowAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

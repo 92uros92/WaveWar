@@ -16,6 +16,9 @@
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
 
+DECLARE_DELEGATE_RetVal(FGameplayAttribute, FAttributeDelegate);
+
+
 UCLASS()
 class WAVEWAR_API UShadowAttributeSet : public UAttributeSet
 {
@@ -95,6 +98,8 @@ public:
 	/*
 	*	END Meta Attributes
 	*/
+
+	TMap<FGameplayTag, FAttributeDelegate> TagsToAttributes;
 
 	////****	FUNCTIONS	****////
 
