@@ -28,6 +28,7 @@ void AShadowPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 
 	DOREPLIFETIME(AShadowPlayerState, Level);
 	DOREPLIFETIME(AShadowPlayerState, XP);
+	DOREPLIFETIME(AShadowPlayerState, AttributePoint);
 }
 
 UAbilitySystemComponent* AShadowPlayerState::GetAbilitySystemComponent() const
@@ -49,6 +50,13 @@ void AShadowPlayerState::AddToLevel(int32 InLevel)
 	OnLevelChangedDelegate.Broadcast(Level);
 }
 
+void AShadowPlayerState::AddToAttributePoint(int32 InAttributePoint)
+{
+	AttributePoint += InAttributePoint;
+
+	OnAttributePointChangeDelegate.Broadcast(AttributePoint);
+}
+
 void AShadowPlayerState::SetXP(int32 InXP)
 {
 	XP = InXP;
@@ -63,6 +71,11 @@ void AShadowPlayerState::SetLevel(int32 InLevel)
 	OnLevelChangedDelegate.Broadcast(Level);
 }
 
+void AShadowPlayerState::SetAttributePoint(int32 InAttributePoint)
+{
+	OnAttributePointChangeDelegate.Broadcast(AttributePoint);
+}
+
 void AShadowPlayerState::OnRep_Level(int32 OldLevel)
 {
 	OnLevelChangedDelegate.Broadcast(Level);
@@ -71,4 +84,9 @@ void AShadowPlayerState::OnRep_Level(int32 OldLevel)
 void AShadowPlayerState::OnRep_XP(int32 OldXP)
 {
 	OnXPChangedDelegate.Broadcast(XP);
+}
+
+void AShadowPlayerState::OnRep_AttributePoint(int32 OldAttributePoint)
+{
+	OnAttributePointChangeDelegate.Broadcast(AttributePoint);
 }

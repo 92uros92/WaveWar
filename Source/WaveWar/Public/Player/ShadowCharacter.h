@@ -74,6 +74,10 @@ public:
 	virtual int32 FindLevelForXP_Implementation(int32 InXP) override;
 
 	virtual void AddToPlayerLevel_Implementation(int32 InLevelToAdd) override;
+
+	virtual void AddToAttributePoints_Implementation(int32 InAttributePoints) override;
+
+	virtual int32 GetAttributePoints_Implementation(int32 Level) override;
 	/** END Shadow Interface */
 
 protected:

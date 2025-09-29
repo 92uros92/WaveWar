@@ -8,6 +8,9 @@
 
 
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerStatSignature, int32, NewValue);
+
+
 class UAbilitySystemComponent;
 class UAttributeSet;
 

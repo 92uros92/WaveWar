@@ -171,11 +171,13 @@ void UShadowAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 						const int32 NumberOfLevelUps = NewLevel - CurrentLevel;
 						if (NumberOfLevelUps > 0)
 						{
-							// TODO: Add point for upgrade Player
+							const int32 AttributePointsAdded = IShadowInterface::Execute_GetAttributePoints(SourceCharacter, CurrentLevel);
 
 							IShadowInterface::Execute_AddToPlayerLevel(SourceCharacter, NumberOfLevelUps);
 
 							IShadowInterface::Execute_LevelUp(SourceCharacter);
+
+							IShadowInterface::Execute_AddToAttributePoints(SourceCharacter, AttributePointsAdded);
 						}
 
 						/** Adding XP */

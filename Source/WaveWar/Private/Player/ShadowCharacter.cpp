@@ -157,6 +157,23 @@ void AShadowCharacter::AddToPlayerLevel_Implementation(int32 InLevelToAdd)
 	ShadowPlayerState->AddToLevel(InLevelToAdd);
 }
 
+int32 AShadowCharacter::GetAttributePoints_Implementation(int32 Level)
+{
+	AShadowPlayerState* ShadowPlayerState = GetPlayerState<AShadowPlayerState>();
+	check(ShadowPlayerState);
+
+	return ShadowPlayerState->LevelUpInfo->LevelUpInformation[Level].AttributePointReward;
+}
+
+
+void AShadowCharacter::AddToAttributePoints_Implementation(int32 InAttributePoints)
+{
+	AShadowPlayerState* ShadowPlayerState = GetPlayerState<AShadowPlayerState>();
+	check(ShadowPlayerState);
+	
+	ShadowPlayerState->AddToAttributePoint(InAttributePoints);
+}
+
 void AShadowCharacter::InitAbilityActorInfo()
 {
 	if (AShadowPlayerState* ShadowPlayerState = GetPlayerState<AShadowPlayerState>())

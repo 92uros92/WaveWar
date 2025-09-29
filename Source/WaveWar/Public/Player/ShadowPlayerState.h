@@ -28,6 +28,8 @@ public:
 
 	FOnPlayerStatChanged OnLevelChangedDelegate;
 
+	FOnPlayerStatChanged OnAttributePointChangeDelegate;
+
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<ULevelUpInfo> LevelUpInfo;
 
@@ -54,11 +56,18 @@ public:
 		return XP;
 	}
 
+	FORCEINLINE int32 GetAttributePoint() const
+	{
+		return AttributePoint;
+	}
+
 	void AddToXP(int32 InXP);
 	void AddToLevel(int32 InLevel);
+	void AddToAttributePoint(int32 InAttributePoint);
 
 	void SetXP(int32 InXP);
 	void SetLevel(int32 InLevel);
+	void SetAttributePoint(int32 InAttributePoint);
 
 protected:
 
@@ -79,6 +88,9 @@ private:
 	UPROPERTY(VisibleAnywhere, ReplicatedUsing = OnRep_XP, Category = "Level")
 	int32 XP = 1;
 
+	UPROPERTY(VisibleAnywhere, ReplicatedUsing = OnRep_AttributePoint, Category = "Level")
+	int32 AttributePoint = 0;
+
 	////****	FUNCTIONS	****////
 
 	UFUNCTION()
@@ -86,4 +98,7 @@ private:
 
 	UFUNCTION()
 	void OnRep_XP(int32 OldXP);
+
+	UFUNCTION()
+	void OnRep_AttributePoint(int32 OldAttributePoint);
 };
