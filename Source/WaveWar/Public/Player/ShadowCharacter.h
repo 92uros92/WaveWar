@@ -78,6 +78,8 @@ public:
 	virtual void AddToAttributePoints_Implementation(int32 InAttributePoints) override;
 
 	virtual int32 GetAttributePoints_Implementation(int32 Level) override;
+
+	virtual int32 GetUpdateAttributePoints_Implementation() override;
 	/** END Shadow Interface */
 
 protected:

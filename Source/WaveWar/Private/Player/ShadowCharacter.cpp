@@ -165,6 +165,14 @@ int32 AShadowCharacter::GetAttributePoints_Implementation(int32 Level)
 	return ShadowPlayerState->LevelUpInfo->LevelUpInformation[Level].AttributePointReward;
 }
 
+int32 AShadowCharacter::GetUpdateAttributePoints_Implementation()
+{
+	AShadowPlayerState* ShadowPlayerState = GetPlayerState<AShadowPlayerState>();
+	check(ShadowPlayerState);
+
+	return ShadowPlayerState->GetAttributePoint();
+}
+
 
 void AShadowCharacter::AddToAttributePoints_Implementation(int32 InAttributePoints)
 {

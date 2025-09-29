@@ -20,6 +20,8 @@ public:
 
 	FEffectAssetTags EffectAssetTags;
 
+	////****	FUNCTIONS	****////
+
 	void SetAbilityActorInfo();
 
 	void GiveStarupAbilities(TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
@@ -27,6 +29,8 @@ public:
 
 	void AbilityInputTagHeld(const FGameplayTag& InputTag);
 	void AbilityInputTagReleased(const FGameplayTag& InputTag);
+
+	void UpgradeAttribute(const FGameplayTag& AttributeTag);
 
 protected:
 

@@ -4,6 +4,7 @@
 #include "GAS/ShadowAbilitySystemComponent.h"
 #include "GAS/WW_GameplayTags.h"
 #include "GAS/WW_GameplayAbility.h"
+#include "Interaction/ShadowInterface.h"
 
 
 
@@ -76,6 +77,17 @@ void UShadowAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& 
 		}
 	}
 
+}
+
+void UShadowAbilitySystemComponent::UpgradeAttribute(const FGameplayTag& AttributeTag)
+{
+	if (GetAvatarActor()->Implements<UShadowInterface>())
+	{
+		if ()
+		{
+
+		}
+	}
 }
 
 void UShadowAbilitySystemComponent::ApplyEffect(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayEffectHandle)
