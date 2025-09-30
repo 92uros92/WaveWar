@@ -32,6 +32,9 @@ public:
 
 	void UpgradeAttribute(const FGameplayTag& AttributeTag);
 
+	UFUNCTION(Server, Reliable)
+	void ServerUpgradeAttribute(const FGameplayTag& AttributeTag);
+
 protected:
 
 	void ApplyEffect(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayEffectHandle);

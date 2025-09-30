@@ -6,6 +6,8 @@
 #include "GAS/WW_GameplayAbility.h"
 #include "Interaction/ShadowInterface.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
+
 
 
 
@@ -83,10 +85,26 @@ void UShadowAbilitySystemComponent::UpgradeAttribute(const FGameplayTag& Attribu
 {
 	if (GetAvatarActor()->Implements<UShadowInterface>())
 	{
-		if ()
+		if (IShadowInterface::Execute_GetUpdateAttributePoints(GetAvatarActor()) > 0)
 		{
-
+			ServerUpgradeAttribute(AttributeTag);
 		}
+	}
+}
+
+void UShadowAbilitySystemComponent::ServerUpgradeAttribute_Implementation(const FGameplayTag& AttributeTag)
+{
+	FGameplayEventData Payload;
+	Payload.EventTag = AttributeTag;
+	Payload.EventMagnitude = 1.0f;
+
+	/** Send the event to increase attribute with available attribute points */
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetAvatarActor(), AttributeTag, Payload);
+
+	/** Decrease available attribute points by 1 */
+	if (GetAvatarActor()->Implements<UShadowInterface>())
+	{
+		IShadowInterface::Execute_AddToAttributePoints(GetAvatarActor(), -1);
 	}
 }
 
