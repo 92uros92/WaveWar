@@ -6,6 +6,7 @@
 #include "Interaction/CombatInterface.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "GameFramework/Character.h"
 
 
 
@@ -106,5 +107,10 @@ void AShadowGameMode::GetLivePlayersInRadius(const UObject* WorldContextObject, 
 			}
 		}
 	}
+}
+
+void AShadowGameMode::PlayerDied(ACharacter* DeadCharacter)
+{
+	UGameplayStatics::OpenLevel(DeadCharacter, FName("MainMenu"));
 }
 

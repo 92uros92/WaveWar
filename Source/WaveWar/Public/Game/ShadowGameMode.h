@@ -39,6 +39,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	static void GetLivePlayersInRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverlappingActors, const TArray<AActor*>& ActorToIgnore, float Radius, const FVector& SphereLocation);
 
+	void PlayerDied(ACharacter* DeadCharacter);
+
 protected:
 
 

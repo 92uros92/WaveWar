@@ -8,6 +8,7 @@
 #include "GAS/ShadowAbilitySystemComponent.h"
 #include "../WaveWar.h"
 #include "Data/LevelUpInfo.h"
+#include "Game/ShadowGameMode.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -108,6 +109,26 @@ int32 AShadowCharacter::GetPlayerLevel_Implementation()
 
 	/** Return Player level (it is on PlayerState). */
 	return ShadowPlayerState->GetPlayerLevel();
+}
+
+void AShadowCharacter::Die()
+{
+	Super::Die();
+
+	FTimerDelegate DeathTimerDelegate;
+	DeathTimerDelegate.BindLambda(
+		[this]()
+		{
+			AShadowGameMode* ShadowGameMode = Cast<AShadowGameMode>(UGameplayStatics::GetGameMode(this));
+			if (ShadowGameMode)
+			{
+				ShadowGameMode->PlayerDied(this);
+			}
+		}
+	);
+
+	GetWorldTimerManager().SetTimer(DeathTimer, DeathTimerDelegate, DeathTime, false);
+	FollowCamera->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 }
 
 void AShadowCharacter::AddToXP_Implementation(int32 InXP)

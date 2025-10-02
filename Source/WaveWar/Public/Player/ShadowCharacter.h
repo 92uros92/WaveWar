@@ -62,7 +62,14 @@ public:
 
 	/** Combat Interface */
 	virtual int32 GetPlayerLevel_Implementation() override;
+
+	virtual void Die() override;
 	/** END Combat Interface */
+
+	UPROPERTY(EditDefaultsOnly)
+	float DeathTime = 5.0f;
+
+	FTimerHandle DeathTimer;
 
 	/** Shadow Interface */
 	virtual void AddToXP_Implementation(int32 InXP) override;
