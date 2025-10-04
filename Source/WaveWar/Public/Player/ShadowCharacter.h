@@ -45,6 +45,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
 	class USoundBase* LevelUpSound;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	USoundBase* DeathSound;
+
 	////****	FUNCTIONS	****////
 
 	AShadowCharacter();
@@ -63,7 +66,9 @@ public:
 
 	/** Combat Interface */
 	virtual int32 GetPlayerLevel_Implementation() override;
-	virtual void Die() override;
+
+	UFUNCTION(NetMulticast, Reliable)
+	void Die();
 	virtual void PlayDeathMontage_Implementation() override;
 	/** END Combat Interface */
 

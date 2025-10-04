@@ -9,6 +9,8 @@
 #include "../WaveWar.h"
 #include "Data/LevelUpInfo.h"
 #include "Game/ShadowGameMode.h"
+#include "Interaction/CombatInterface.h"
+#include "AI/WW_AIController.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -20,6 +22,8 @@
 #include "AbilitySystemComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Sound/SoundBase.h"
+#include "BrainComponent.h"
+#include "AIController.h"
 
 
 
@@ -111,12 +115,12 @@ int32 AShadowCharacter::GetPlayerLevel_Implementation()
 	return ShadowPlayerState->GetPlayerLevel();
 }
 
-void AShadowCharacter::Die()
+void AShadowCharacter::Die_Implementation()
 {
-	//Super::Die();
-	bIsDead = true;
+	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
 
-	PlayDeathMontage();
+	bIsDead = true;
+	ICombatInterface::Execute_PlayDeathMontage(this);
 
 	FTimerDelegate DeathTimerDelegate;
 	DeathTimerDelegate.BindLambda(

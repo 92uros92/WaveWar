@@ -72,7 +72,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Socket")
 	FName GunSocketName;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsDead;
 
 	UPROPERTY()
@@ -115,4 +115,8 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Montage")
 	TObjectPtr<UAnimMontage> HitReactMontage;
+
+public:
+
+	FORCEINLINE bool IsDeath() const { return bIsDead; }
 };
