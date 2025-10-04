@@ -72,6 +72,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Socket")
 	FName GunSocketName;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool bIsDead;
 
 	UPROPERTY()

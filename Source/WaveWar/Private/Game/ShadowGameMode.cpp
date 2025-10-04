@@ -111,6 +111,8 @@ void AShadowGameMode::GetLivePlayersInRadius(const UObject* WorldContextObject, 
 
 void AShadowGameMode::PlayerDied(ACharacter* DeadCharacter)
 {
+
+
 	UGameplayStatics::OpenLevel(DeadCharacter, FName("MainMenu"));
 }
 

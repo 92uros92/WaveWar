@@ -113,7 +113,10 @@ int32 AShadowCharacter::GetPlayerLevel_Implementation()
 
 void AShadowCharacter::Die()
 {
-	Super::Die();
+	//Super::Die();
+	bIsDead = true;
+
+	PlayDeathMontage();
 
 	FTimerDelegate DeathTimerDelegate;
 	DeathTimerDelegate.BindLambda(
@@ -129,6 +132,15 @@ void AShadowCharacter::Die()
 
 	GetWorldTimerManager().SetTimer(DeathTimer, DeathTimerDelegate, DeathTime, false);
 	FollowCamera->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+}
+
+void AShadowCharacter::PlayDeathMontage_Implementation()
+{
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance && DeathMontage)
+	{
+		AnimInstance->Montage_Play(DeathMontage);
+	}
 }
 
 void AShadowCharacter::AddToXP_Implementation(int32 InXP)

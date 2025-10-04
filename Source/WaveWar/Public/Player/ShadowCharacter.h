@@ -59,11 +59,12 @@ public:
 	/** Begin AActor Interface **/
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
+	/** END AActor Interface **/
 
 	/** Combat Interface */
 	virtual int32 GetPlayerLevel_Implementation() override;
-
 	virtual void Die() override;
+	virtual void PlayDeathMontage_Implementation() override;
 	/** END Combat Interface */
 
 	UPROPERTY(EditDefaultsOnly)
@@ -97,6 +98,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Projectile)
 	UAnimMontage* ShotMontage;
 
+	UPROPERTY(EditAnywhere, Category = Projectile)
+	UAnimMontage* DeathMontage;
+
 	FTimerHandle ShotTimer;
 
 	////****	FUNCTIONS	****////
@@ -110,13 +114,6 @@ protected:
 	void TurnInPlace(float DeltaTime);
 
 	virtual FVector GetCameraLocation() override;
-
-
-	///** Called for shooting input */
-	//void GunShoot();
-
-	///** Called for TimerManager of shooting function */
-	//void GunShoot_TimerManager();
 
 private:
 
