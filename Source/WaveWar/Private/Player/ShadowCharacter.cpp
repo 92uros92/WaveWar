@@ -117,10 +117,16 @@ int32 AShadowCharacter::GetPlayerLevel_Implementation()
 
 void AShadowCharacter::Die_Implementation()
 {
+	bIsDead = true;
+
 	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
 
-	bIsDead = true;
 	ICombatInterface::Execute_PlayDeathMontage(this);
+
+	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetMovementComponent()->Deactivate();
+	//GetMovementComponent()
 
 	FTimerDelegate DeathTimerDelegate;
 	DeathTimerDelegate.BindLambda(
