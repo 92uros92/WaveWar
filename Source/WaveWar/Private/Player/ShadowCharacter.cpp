@@ -121,12 +121,11 @@ void AShadowCharacter::Die_Implementation()
 
 	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
 
-	ICombatInterface::Execute_PlayDeathMontage(this);
-
-	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	GetMovementComponent()->Deactivate();
-	//GetMovementComponent()
+	GetCharacterMovement()->DisableMovement();
+
+	ICombatInterface::Execute_PlayDeathMontage(this);
 
 	FTimerDelegate DeathTimerDelegate;
 	DeathTimerDelegate.BindLambda(
@@ -149,7 +148,10 @@ void AShadowCharacter::PlayDeathMontage_Implementation()
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 	if (AnimInstance && DeathMontage)
 	{
-		AnimInstance->Montage_Play(DeathMontage);
+		if (!AnimInstance->Montage_IsPlaying(DeathMontage))
+		{
+			AnimInstance->Montage_Play(DeathMontage);
+		}
 	}
 }
 
