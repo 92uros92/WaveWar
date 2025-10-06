@@ -24,6 +24,7 @@
 #include "Sound/SoundBase.h"
 #include "BrainComponent.h"
 #include "AIController.h"
+#include "Blueprint/UserWidget.h"
 
 
 
@@ -121,8 +122,11 @@ void AShadowCharacter::Die_Implementation()
 
 	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
 
+	DetachFromControllerPendingDestroy();
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECR_Ignore);
+	GetCharacterMovement()->StopMovementImmediately();
 	GetCharacterMovement()->DisableMovement();
 
 	ICombatInterface::Execute_PlayDeathMontage(this);
@@ -141,6 +145,8 @@ void AShadowCharacter::Die_Implementation()
 
 	GetWorldTimerManager().SetTimer(DeathTimer, DeathTimerDelegate, DeathTime, false);
 	FollowCamera->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+
+	GameOverWidget();
 }
 
 void AShadowCharacter::PlayDeathMontage_Implementation()
@@ -151,6 +157,20 @@ void AShadowCharacter::PlayDeathMontage_Implementation()
 		if (!AnimInstance->Montage_IsPlaying(DeathMontage))
 		{
 			AnimInstance->Montage_Play(DeathMontage);
+		}
+	}
+}
+
+void AShadowCharacter::GameOverWidget()
+{
+	if (IsValid(GameOverWidgetClass))
+	{
+		UUserWidget* Widget = CreateWidget(GetWorld(), GameOverWidgetClass);
+
+		if (IsValid(Widget))
+		{
+			Widget->AddToViewport();
+			//Widget->SetPositionInViewport(FVector2D(500.0f, 20.0f));
 		}
 	}
 }

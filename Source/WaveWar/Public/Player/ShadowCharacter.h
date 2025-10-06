@@ -11,6 +11,7 @@
 
 
 class UAnimMontage;
+class UUserWidget;
 
 
 UCLASS(config = Game)
@@ -45,8 +46,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
 	class USoundBase* LevelUpSound;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sound")
 	USoundBase* DeathSound;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+	TSubclassOf<UUserWidget> GameOverWidgetClass;
 
 	////****	FUNCTIONS	****////
 
@@ -128,4 +132,6 @@ private:
 
 	UFUNCTION(NetMulticast, Reliable)
 	void MulticastLevelUpSound();
+
+	void GameOverWidget();
 };
