@@ -60,6 +60,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	TSubclassOf<AActor> EnemyClass;
 
+	UPROPERTY(EditDefaultsOnly, Category = "AI")
+	UCurveFloat* EnemySpawnCurve;
+
 	////****	FUNCTIONS	****////
 
 	UFUNCTION()

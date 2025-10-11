@@ -4,10 +4,12 @@
 #include "Game/ShadowGameMode.h"
 #include "GAS/ShadowAbilitySystemComponent.h"
 #include "Interaction/CombatInterface.h"
+#include "Player/ShadowEnemy.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Character.h"
 #include "EnvironmentQuery/EnvQueryManager.h"
+#include "EngineUtils.h"
 
 
 
@@ -40,14 +42,38 @@ void AShadowGameMode::SpawnEnemyInInterval()
 
 void AShadowGameMode::OnQueryInstanceCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus)
 {
-	if (QueryStatus == EEnvQueryStatus::Success)
+	// If QueryStatus don´t succeed then return
+	if (QueryStatus != EEnvQueryStatus::Success)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Spawn Enemy EQS Query failed!"));
 		return;
 	}
 
-	TArray<FVector> Locations = QueryInstance->GetResultsAsLocations();
+	int32 NumOfAliveEnemys = 0;
+	for (TActorIterator<AShadowEnemy> It(GetWorld()); It; ++It)
+	{
+		AShadowEnemy* Enemy = *It;
 
+
+		if (Enemy && !Enemy->Execute_IsPlayerDead(Enemy))
+		{
+			NumOfAliveEnemys++;
+		}
+	}
+
+	float MaxEnemyCount = 10.0f;
+	if (EnemySpawnCurve)
+	{
+		MaxEnemyCount = EnemySpawnCurve->GetFloatValue(GetWorld()->TimeSeconds);
+	}
+
+	if (NumOfAliveEnemys >= MaxEnemyCount)
+	{
+		return;
+	}
+
+	// If the query generated Actors the the array is filled with their locations --> Spawn EnemyClass at that location.
+	TArray<FVector> Locations = QueryInstance->GetResultsAsLocations();
 	if (Locations.IsValidIndex(0))
 	{
 		GetWorld()->SpawnActor<AActor>(EnemyClass, Locations[0], FRotator::ZeroRotator);
