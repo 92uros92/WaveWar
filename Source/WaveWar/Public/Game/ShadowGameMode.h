@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "Data/CharacterClassData.h"
+#include "EnvironmentQuery/EnvQueryTypes.h"
 #include "ShadowGameMode.generated.h"
 
 
@@ -12,6 +13,9 @@
 
 class UCharacterClassData;
 class UAbilitySystemComponent;
+class UEnvQuery;
+class UEnvQueryInstanceBlueprintWrapper;
+class EnvQueryTypes;
 
 
 UCLASS()
@@ -28,6 +32,8 @@ public:
 
 	virtual void Tick(float DeltaSecond) override;
 
+	virtual void StartPlay() override;
+
 	/** Initialize default attributes for enemy, base on CharacterClass and Level */
 	UFUNCTION(BlueprintCallable)
 	static void InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC);
@@ -43,8 +49,22 @@ public:
 
 protected:
 
+	FTimerHandle SpawnEnemyTimer;
+
+	UPROPERTY(EditDefaultsOnly, Category = "AI")
+	UEnvQuery* SpawnEnemyQuery;
+
+	UPROPERTY(EditDefaultsOnly, Category = "AI")
+	float SpawnTimerInterval = 5.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "AI")
+	TSubclassOf<AActor> EnemyClass;
 
 	////****	FUNCTIONS	****////
 
+	UFUNCTION()
+	void SpawnEnemyInInterval();
 
+	UFUNCTION()
+	void OnQueryInstanceCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
 };

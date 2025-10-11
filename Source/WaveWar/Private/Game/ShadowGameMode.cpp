@@ -7,6 +7,7 @@
 
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Character.h"
+#include "EnvironmentQuery/EnvQueryManager.h"
 
 
 
@@ -16,6 +17,41 @@ void AShadowGameMode::Tick(float DeltaSecond)
 {
 	Super::Tick(DeltaSecond);
 
+}
+
+void AShadowGameMode::StartPlay()
+{
+	Super::StartPlay();
+
+	// Timer to spawn in enemy
+	GetWorldTimerManager().SetTimer(SpawnEnemyTimer, this, &AShadowGameMode::SpawnEnemyInInterval, SpawnTimerInterval, true);
+}
+
+void AShadowGameMode::SpawnEnemyInInterval()
+{
+	// Run EQS_ in blueprint
+	UEnvQueryInstanceBlueprintWrapper* QueryInstance = UEnvQueryManager::RunEQSQuery(this, SpawnEnemyQuery, this, EEnvQueryRunMode::RandomBest5Pct, nullptr);
+
+	if (ensure(QueryInstance))
+	{
+		QueryInstance->GetOnQueryFinishedEvent().AddDynamic(this, &AShadowGameMode::OnQueryInstanceCompleted);
+	}
+}
+
+void AShadowGameMode::OnQueryInstanceCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus)
+{
+	if (QueryStatus == EEnvQueryStatus::Success)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Spawn Enemy EQS Query failed!"));
+		return;
+	}
+
+	TArray<FVector> Locations = QueryInstance->GetResultsAsLocations();
+
+	if (Locations.IsValidIndex(0))
+	{
+		GetWorld()->SpawnActor<AActor>(EnemyClass, Locations[0], FRotator::ZeroRotator);
+	}
 }
 
 void AShadowGameMode::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
@@ -115,4 +151,3 @@ void AShadowGameMode::PlayerDied(ACharacter* DeadCharacter)
 
 	UGameplayStatics::OpenLevel(DeadCharacter, FName("MainMenu"));
 }
-
