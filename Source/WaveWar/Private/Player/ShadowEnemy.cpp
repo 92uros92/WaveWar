@@ -131,6 +131,9 @@ void AShadowEnemy::Die()
 		WWAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsDead"), true);
 	}
 
+	// Implement in Blueprint
+	SpawnLoot();
+
 	Super::Die();
 }
 

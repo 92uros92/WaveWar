@@ -16,6 +16,7 @@ class UAbilitySystemComponent;
 class UEnvQuery;
 class UEnvQueryInstanceBlueprintWrapper;
 class EnvQueryTypes;
+class ULootData;
 
 
 UCLASS()
@@ -27,6 +28,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Attributes Class|Character Class")
 	TObjectPtr<UCharacterClassData> CharacterClassData;
+
+	UPROPERTY(EditDefaultsOnly, Category = "LootData")
+	TObjectPtr<ULootData> LootData;
 
 	////****	FUNCTIONS	****////
 

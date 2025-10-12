@@ -88,4 +88,6 @@ protected:
 
 	virtual void InitializeDefaultAttributes() override;
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void SpawnLoot();
 };
