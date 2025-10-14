@@ -5,6 +5,7 @@
 #include "GAS/ShadowAbilitySystemComponent.h"
 #include "Interaction/CombatInterface.h"
 #include "Player/ShadowEnemy.h"
+#include "Actor/EnemySpawnPoint.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Character.h"
@@ -31,7 +32,7 @@ void AShadowGameMode::StartPlay()
 
 void AShadowGameMode::SpawnEnemyInInterval()
 {
-	// Run EQS_ in blueprint
+	// Run EQS_AllPlayerContext in blueprint
 	UEnvQueryInstanceBlueprintWrapper* QueryInstance = UEnvQueryManager::RunEQSQuery(this, SpawnEnemyQuery, this, EEnvQueryRunMode::RandomBest5Pct, nullptr);
 
 	if (ensure(QueryInstance))
@@ -78,6 +79,43 @@ void AShadowGameMode::OnQueryInstanceCompleted(UEnvQueryInstanceBlueprintWrapper
 	{
 		GetWorld()->SpawnActor<AActor>(EnemyClass, Locations[0], FRotator::ZeroRotator);
 	}
+}
+
+void AShadowGameMode::SpawnFromPoint()
+{
+	int32 NumOfAliveEnemys = 0;
+	for (TActorIterator<AShadowEnemy> It(GetWorld()); It; ++It)
+	{
+		AShadowEnemy* Enemy = *It;
+
+
+		if (Enemy && !Enemy->Execute_IsPlayerDead(Enemy))
+		{
+			NumOfAliveEnemys++;
+		}
+	}
+
+	int32 MaxSpawnRangeAttackers = 4;
+
+	if (NumOfAliveEnemys >= MaxSpawnRangeAttackers)
+	{
+		return;
+	}
+
+	for (AEnemySpawnPoint* Point : EnemySpawnPoint)
+	{
+		if (IsValid(Point))
+		{
+			Point->SpawnEnemy();
+		}
+	}
+
+	/*
+	TODO:
+		- klièi SpawnEnemy za Archer drugje
+		- LivePlayer gleda za vse (samo za Archer)
+	
+	*/
 }
 
 void AShadowGameMode::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)

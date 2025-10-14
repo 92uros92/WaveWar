@@ -90,4 +90,8 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void SpawnLoot();
+
+public:
+
+	FORCEINLINE void SetLevel(int32 InLevel) { Level = InLevel; }
 };

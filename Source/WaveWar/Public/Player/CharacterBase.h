@@ -119,4 +119,7 @@ private:
 public:
 
 	FORCEINLINE bool IsDeath() const { return bIsDead; }
+
+	FORCEINLINE void SetCharacterClass(ECharacterClass InClass) { CharacterClass = InClass; }
+
 };

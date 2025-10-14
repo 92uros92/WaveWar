@@ -17,6 +17,8 @@ class UEnvQuery;
 class UEnvQueryInstanceBlueprintWrapper;
 class EnvQueryTypes;
 class ULootData;
+class AEnemySpawnPoint;
+class AShadowEnemy;
 
 
 UCLASS()
@@ -67,6 +69,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	UCurveFloat* EnemySpawnCurve;
 
+	UPROPERTY(EditAnywhere, Category = "AI")
+	TArray<AEnemySpawnPoint*> EnemySpawnPoint;
+
 	////****	FUNCTIONS	****////
 
 	UFUNCTION()
@@ -74,4 +79,7 @@ protected:
 
 	UFUNCTION()
 	void OnQueryInstanceCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
+
+	UFUNCTION()
+	void SpawnFromPoint();
 };
