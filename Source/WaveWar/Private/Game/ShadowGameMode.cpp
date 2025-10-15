@@ -55,7 +55,7 @@ void AShadowGameMode::OnQueryInstanceCompleted(UEnvQueryInstanceBlueprintWrapper
 	{
 		AShadowEnemy* Enemy = *It;
 
-
+		// Count alive enemy in level
 		if (Enemy && !Enemy->Execute_IsPlayerDead(Enemy))
 		{
 			NumOfAliveEnemys++;
@@ -63,6 +63,7 @@ void AShadowGameMode::OnQueryInstanceCompleted(UEnvQueryInstanceBlueprintWrapper
 	}
 
 	float MaxEnemyCount = 10.0f;
+	// If set CurveFloat in editor set MaxEnemyCount as EnemySpawnCurve
 	if (EnemySpawnCurve)
 	{
 		MaxEnemyCount = EnemySpawnCurve->GetFloatValue(GetWorld()->TimeSeconds);
