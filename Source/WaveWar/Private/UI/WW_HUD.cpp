@@ -11,6 +11,16 @@
 
 
 
+void AWW_HUD::Tick(float DeltaSecond)
+{
+	Super::Tick(DeltaSecond);
+
+	// TODO: - With interface (SetScreenTime())
+	// 
+	// 
+	//ScreenWidgetController = Cast<UScreenWidgetController>();
+}
+
 void AWW_HUD::InitScreenWidget(APlayerController* PCont, APlayerState* PSta, UAbilitySystemComponent* ASysCom, UAttributeSet* AttS)
 {
 	/** Don´t forget to set  ScreenWidgetClass and ScreenWidgetControllerClass in BP_WWHUD */

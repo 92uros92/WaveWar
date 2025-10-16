@@ -11,6 +11,7 @@
 
 struct FOnAttributeChangeData;
 class UWW_UserWidget;
+class UTextBlock;
 
 
 /** Struct for showing message to the screen */
@@ -60,11 +61,20 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "LevelUp")
 	FOnPlayerStatSignature OnPlayerLevelChanged;
 
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* MatchCountdownText;
+
+	float MatchTime = 120.0f;
+
+	uint32 CountdownInt = 0;
+
 	////****	FUNCTIONS	****////
 
 	virtual void BroadcastInitialValues() override;
 
 	virtual void InitBindingAttributes() override;
+
+	void SetMatchCountdown(float CountdownTime);
 
 protected:
 
@@ -79,6 +89,8 @@ protected:
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
 
 	void OnXPChanged(int32 NewXP);
+
+	void SetScreenTime();
 
 };
 

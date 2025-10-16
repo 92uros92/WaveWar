@@ -32,6 +32,8 @@ public:
 
 	void InitScreenWidget(APlayerController* PCont, APlayerState* PSta, UAbilitySystemComponent* ASysCom, UAttributeSet* AttS);
 
+	virtual void Tick(float DeltaSecond) override;
+
 private:
 
 	UPROPERTY()
