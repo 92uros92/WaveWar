@@ -57,6 +57,8 @@ protected:
 
 	FTimerHandle SpawnEnemyTimer;
 
+	FTimerHandle SpawnArcherEnemyTimer;
+
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	UEnvQuery* SpawnEnemyQuery;
 
@@ -64,7 +66,7 @@ protected:
 	float SpawnTimerInterval = 5.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
-	TSubclassOf<AActor> EnemyClass;
+	TSubclassOf<AActor> EnemyClassToSpawn;
 
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	UCurveFloat* EnemySpawnCurve;

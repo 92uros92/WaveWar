@@ -88,6 +88,7 @@ protected:
 
 	virtual void InitializeDefaultAttributes() override;
 
+	// Implement in BP_EnemyBase
 	UFUNCTION(BlueprintImplementableEvent)
 	void SpawnLoot();
 

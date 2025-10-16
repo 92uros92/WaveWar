@@ -28,6 +28,9 @@ void AShadowGameMode::StartPlay()
 
 	// Timer to spawn in enemy
 	GetWorldTimerManager().SetTimer(SpawnEnemyTimer, this, &AShadowGameMode::SpawnEnemyInInterval, SpawnTimerInterval, true);
+
+	// Timer to spawn in Archer enemy from EnemySpawnPoint
+	GetWorldTimerManager().SetTimer(SpawnArcherEnemyTimer, this, &AShadowGameMode::SpawnFromPoint, SpawnTimerInterval, true);
 }
 
 void AShadowGameMode::SpawnEnemyInInterval()
@@ -56,7 +59,7 @@ void AShadowGameMode::OnQueryInstanceCompleted(UEnvQueryInstanceBlueprintWrapper
 		AShadowEnemy* Enemy = *It;
 
 		// Count alive enemy in level
-		if (Enemy && !Enemy->Execute_IsPlayerDead(Enemy))
+		if ((Enemy->Execute_GetCharacterClass(Enemy) == ECharacterClass::Fighter) && !Enemy->Execute_IsPlayerDead(Enemy))
 		{
 			NumOfAliveEnemys++;
 		}
@@ -78,7 +81,7 @@ void AShadowGameMode::OnQueryInstanceCompleted(UEnvQueryInstanceBlueprintWrapper
 	TArray<FVector> Locations = QueryInstance->GetResultsAsLocations();
 	if (Locations.IsValidIndex(0))
 	{
-		GetWorld()->SpawnActor<AActor>(EnemyClass, Locations[0], FRotator::ZeroRotator);
+		GetWorld()->SpawnActor<AActor>(EnemyClassToSpawn, Locations[0], FRotator::ZeroRotator);
 	}
 }
 
@@ -90,7 +93,7 @@ void AShadowGameMode::SpawnFromPoint()
 		AShadowEnemy* Enemy = *It;
 
 
-		if (Enemy && !Enemy->Execute_IsPlayerDead(Enemy))
+		if ((Enemy->Execute_GetCharacterClass(Enemy) == ECharacterClass::Archer) && !Enemy->Execute_IsPlayerDead(Enemy))
 		{
 			NumOfAliveEnemys++;
 		}
@@ -114,7 +117,6 @@ void AShadowGameMode::SpawnFromPoint()
 	/*
 	TODO:
 		- klièi SpawnEnemy za Archer drugje
-		- LivePlayer gleda za vse (samo za Archer)
 	
 	*/
 }
