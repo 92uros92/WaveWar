@@ -14,6 +14,7 @@ struct FWidgetControllerParams;
 class UAbilitySystemComponent;
 class UAttributeSet;
 class UAttributeMenuWidgetController;
+class UMatchCountdownWidget;
 
 
 UCLASS()
@@ -41,6 +42,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UWW_UserWidget> ScreenWidgetClass;
+
+	UPROPERTY()
+	TObjectPtr<UMatchCountdownWidget> MatchCountdownWidget;
 
 	UPROPERTY()
 	TObjectPtr<UScreenWidgetController> ScreenWidgetController;

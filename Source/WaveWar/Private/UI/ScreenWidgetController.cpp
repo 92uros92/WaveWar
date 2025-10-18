@@ -8,7 +8,6 @@
 #include "Data/LevelUpInfo.h"
 
 #include "GameplayEffectTypes.h"
-#include "Components/TextBlock.h"
 
 
 
@@ -102,26 +101,6 @@ void UScreenWidgetController::OnXPChanged(int32 NewXP)
 
 		OnXPPercentChanged.Broadcast(XPPercent);
 	}
-}
-
-void UScreenWidgetController::SetMatchCountdown(float CountdownTime)
-{
-	int32 Minutes = FMath::FloorToInt(CountdownTime / 60);
-	int32 Seconds = CountdownTime - Minutes * 60;
-
-	FString CountdownText = FString::Printf(TEXT("%02d:%02d"), Minutes, Seconds);
-	MatchCountdownText->SetText(FText::FromString(CountdownText));
-}
-
-void UScreenWidgetController::SetScreenTime()
-{
-	uint32 SecondsLeft = FMath::CeilToInt(MatchTime - GetWorld()->GetTimeSeconds());
-	if (CountdownInt != SecondsLeft)
-	{
-		SetMatchCountdown(MatchTime - GetWorld()->GetTimeSeconds());
-	}
-
-	CountdownInt = SecondsLeft;
 }
 
 
