@@ -31,7 +31,6 @@ void AWW_HUD::InitScreenWidget(APlayerController* PCont, APlayerState* PSta, UAb
 
 	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), ScreenWidgetClass);
 	ScreenWidget = Cast<UWW_UserWidget>(Widget);
-	MatchCountdownWidget = Cast<UMatchCountdownWidget>(ScreenWidget);
 
 	/** Initialize FWidgetControllerParams */
 	const FWidgetControllerParams WidgetControllerParams(PCont, PSta, ASysCom, AttS);
@@ -41,7 +40,6 @@ void AWW_HUD::InitScreenWidget(APlayerController* PCont, APlayerState* PSta, UAb
 
 	/** Call SetWidgetController() from UWW_UserWidget */
 	ScreenWidget->SetWidgetController(WidgetController);
-	//MatchCountdownWidget->SetWidgetController(WidgetController);
 
 	/** Broadcast to Health and MaxHealth */
 	WidgetController->BroadcastInitialValues();
