@@ -24,6 +24,8 @@ class WAVEWAR_API AWW_HUD : public AHUD
 	
 public:
 
+	//UPROPERTY()
+	//UMatchCountdownWidget* MatchCountdownWidget;
 
 	////****	FUNCTIONS	****////
 
@@ -42,9 +44,6 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UWW_UserWidget> ScreenWidgetClass;
-
-	UPROPERTY()
-	TObjectPtr<UMatchCountdownWidget> MatchCountdownWidget;
 
 	UPROPERTY()
 	TObjectPtr<UScreenWidgetController> ScreenWidgetController;

@@ -142,7 +142,6 @@ void AShadowCharacter::Die_Implementation()
 			}
 		}
 	);
-
 	GetWorldTimerManager().SetTimer(DeathTimer, DeathTimerDelegate, DeathTime, false);
 	FollowCamera->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 

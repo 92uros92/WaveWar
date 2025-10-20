@@ -17,10 +17,12 @@ void AWW_HUD::Tick(float DeltaSecond)
 {
 	Super::Tick(DeltaSecond);
 
-	if (!MatchCountdownWidget->Implements<UWidgetInterface>())
-		return;
+	UWidget* FoundWidget = ScreenWidget->GetWidgetFromName(TEXT("WBP_MatchCountdown"));
+	if (FoundWidget && FoundWidget->GetClass()->ImplementsInterface(UWidgetInterface::StaticClass()))
+	{
+		IWidgetInterface::Execute_SetScreenTime(FoundWidget);
+	}
 
-	IWidgetInterface::Execute_SetScreenTime(MatchCountdownWidget);
 }
 
 void AWW_HUD::InitScreenWidget(APlayerController* PCont, APlayerState* PSta, UAbilitySystemComponent* ASysCom, UAttributeSet* AttS)
