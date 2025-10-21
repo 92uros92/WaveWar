@@ -3,6 +3,7 @@
 ###### Developed with Unreal Engine 5
   - ###### Utilizing C++ and Blueprints.
   - ###### Using Unreal Engine's built-in Gameplay Ability System (GAS).
+  - ###### Using Common UI.
 
 ###### Goal of the game: Survive the onslaught of opponents in each wave!
 ## **** Game is in development state! ****
@@ -68,6 +69,22 @@ https://github.com/user-attachments/assets/33076489-aa43-4d8b-be85-8840f781e62e
 
 
 </details>
+<details>
+<summary>Spawning Enemy in intervals --> Part1</summary>
+
+
+https://github.com/user-attachments/assets/47010aef-db58-4734-94eb-d42198b46212
+
+
+</details>
+<details>
+<summary>Spawning Enemy in intervals--> Part2</summary>
+
+
+https://github.com/user-attachments/assets/a6f3e4c5-0e07-4184-9546-c3d7ebcafa81
+
+
+</details>
 
 ## UI
 <details>
@@ -99,6 +116,22 @@ https://github.com/user-attachments/assets/abbf6109-697a-4669-a29c-143cba9e36b4
 
 
 https://github.com/user-attachments/assets/26351a2f-88c0-4d43-8bdb-c72718138829
+
+
+</details>
+<details>
+<summary>Main Menu</summary>
+
+
+https://github.com/user-attachments/assets/4fc680cd-65c3-485b-97ef-615000602841
+
+
+</details>
+<details>
+<summary>Game Menu</summary>
+
+
+https://github.com/user-attachments/assets/a9545ae2-7825-485e-a280-dcc60703be99
 
 
 </details>
