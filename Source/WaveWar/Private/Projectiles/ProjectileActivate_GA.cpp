@@ -101,7 +101,7 @@ void UProjectileActivate_GA::TraceUnderCrosshair(FHitResult& HitResult)
 		else
 		{
 			HitTarget = HitResult.ImpactPoint;
-			DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 12.0f, 12, FColor::Red);
+			//DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 12.0f, 12, FColor::Red);
 		}
 	}
 }
