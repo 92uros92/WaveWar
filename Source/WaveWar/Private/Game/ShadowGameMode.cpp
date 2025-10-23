@@ -100,25 +100,29 @@ void AShadowGameMode::SpawnFromPoint()
 	}
 
 	int32 MaxSpawnRangeAttackers = 4;
+	if (RangeEnemySpawnCurve)
+	{
+		MaxSpawnRangeAttackers = RangeEnemySpawnCurve->GetFloatValue(GetWorld()->TimeSeconds);
+	}
 
 	if (NumOfAliveEnemys >= MaxSpawnRangeAttackers)
 	{
 		return;
 	}
-
-	for (AEnemySpawnPoint* Point : EnemySpawnPoint)
+	
+	for (TActorIterator<AEnemySpawnPoint> It(GetWorld()); It; ++It)
 	{
-		if (IsValid(Point))
+		AEnemySpawnPoint* SpawnPoint = *It;
+		if (IsValid(SpawnPoint))
 		{
-			Point->SpawnEnemy();
+			if (NumOfAliveEnemys >= MaxSpawnRangeAttackers)
+			{
+				return;
+			}
+
+			SpawnPoint->SpawnEnemy();
 		}
 	}
-
-	/*
-	TODO:
-		- klièi SpawnEnemy za Archer drugje
-	
-	*/
 }
 
 void AShadowGameMode::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)

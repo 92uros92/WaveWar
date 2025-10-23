@@ -71,6 +71,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	UCurveFloat* EnemySpawnCurve;
 
+	UPROPERTY(EditDefaultsOnly, Category = "AI")
+	UCurveFloat* RangeEnemySpawnCurve;
+
 	UPROPERTY(EditAnywhere, Category = "AI")
 	TArray<AEnemySpawnPoint*> EnemySpawnPoint;
 
