@@ -115,11 +115,6 @@ void AShadowGameMode::SpawnFromPoint()
 		AEnemySpawnPoint* SpawnPoint = *It;
 		if (IsValid(SpawnPoint))
 		{
-			if (NumOfAliveEnemys >= MaxSpawnRangeAttackers)
-			{
-				return;
-			}
-
 			SpawnPoint->SpawnEnemy();
 		}
 	}
