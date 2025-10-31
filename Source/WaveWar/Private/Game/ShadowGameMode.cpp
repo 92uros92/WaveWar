@@ -31,6 +31,11 @@ void AShadowGameMode::StartPlay()
 
 	// Timer to spawn in Archer enemy from EnemySpawnPoint
 	GetWorldTimerManager().SetTimer(SpawnArcherEnemyTimer, this, &AShadowGameMode::SpawnFromPoint, SpawnTimerInterval, true);
+
+	if (AmbientSounWave)
+	{
+		UGameplayStatics::PlaySound2D(GetWorld(), AmbientSounWave);
+	}
 }
 
 void AShadowGameMode::SpawnEnemyInInterval()
@@ -105,13 +110,13 @@ void AShadowGameMode::SpawnFromPoint()
 		MaxSpawnRangeAttackers = RangeEnemySpawnCurve->GetFloatValue(GetWorld()->TimeSeconds);
 	}
 
-	if (NumOfAliveEnemys >= MaxSpawnRangeAttackers)
-	{
-		return;
-	}
-	
 	for (TActorIterator<AEnemySpawnPoint> It(GetWorld()); It; ++It)
 	{
+		if (NumOfAliveEnemys >= MaxSpawnRangeAttackers)
+		{
+			return;
+		}
+
 		AEnemySpawnPoint* SpawnPoint = *It;
 		if (IsValid(SpawnPoint))
 		{

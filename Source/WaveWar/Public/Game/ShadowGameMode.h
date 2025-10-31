@@ -19,6 +19,7 @@ class EnvQueryTypes;
 class ULootData;
 class AEnemySpawnPoint;
 class AShadowEnemy;
+class USoundWave;
 
 
 UCLASS()
@@ -33,6 +34,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "LootData")
 	TObjectPtr<ULootData> LootData;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sound")
+	USoundWave* AmbientSounWave;
 
 	////****	FUNCTIONS	****////
 
