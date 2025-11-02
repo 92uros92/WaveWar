@@ -92,38 +92,49 @@ void AShadowGameMode::OnQueryInstanceCompleted(UEnvQueryInstanceBlueprintWrapper
 
 void AShadowGameMode::SpawnFromPoint()
 {
-	for (TActorIterator<AEnemySpawnPoint> It(GetWorld()); It; ++It)
+	AEnemySpawnPoint* SpawnPoint = nullptr;
+
+	int32 NumOfAliveEnemys = 0;
+	int32 MaxSpawnRangeAttackers = 4;
+
+	if (RangeEnemySpawnCurve)
 	{
-		int32 NumOfAliveEnemys = 0;
-		int32 MaxSpawnRangeAttackers = 4;
+		MaxSpawnRangeAttackers = RangeEnemySpawnCurve->GetFloatValue(GetWorld()->TimeSeconds);
+	}
 
-		if (RangeEnemySpawnCurve)
+	for (TActorIterator<AShadowEnemy> EnemyIt(GetWorld()); EnemyIt; ++EnemyIt)
+	{
+		AShadowEnemy* Enemy = *EnemyIt;
+
+
+		if ((Enemy->Execute_GetCharacterClass(Enemy) == ECharacterClass::Archer) && !Enemy->Execute_IsPlayerDead(Enemy))
 		{
-			MaxSpawnRangeAttackers = RangeEnemySpawnCurve->GetFloatValue(GetWorld()->TimeSeconds);
-		}
-
-		for (TActorIterator<AShadowEnemy> EnemyIt(GetWorld()); EnemyIt; ++EnemyIt)
-		{
-			AShadowEnemy* Enemy = *EnemyIt;
-
-
-			if ((Enemy->Execute_GetCharacterClass(Enemy) == ECharacterClass::Archer) && !Enemy->Execute_IsPlayerDead(Enemy))
-			{
-				NumOfAliveEnemys++;
-			}
-		}
-
-		if (NumOfAliveEnemys >= MaxSpawnRangeAttackers)
-		{
-			return;
-		}
-
-		AEnemySpawnPoint* SpawnPoint = *It;
-		if (IsValid(SpawnPoint))
-		{
-			SpawnPoint->SpawnEnemy();
+			NumOfAliveEnemys++;
 		}
 	}
+
+	if (NumOfAliveEnemys >= MaxSpawnRangeAttackers)
+	{
+		return;
+	}
+
+	for (TActorIterator<AEnemySpawnPoint> It(GetWorld()); It; ++It)
+	{
+		SpawnPoint = *It;
+		EnemySpawnPoints.Add(SpawnPoint);
+	}
+
+	if (!EnemySpawnPoints.IsEmpty())
+	{
+		for (AEnemySpawnPoint* Point : EnemySpawnPoints)
+		{
+			if (NumOfAliveEnemys <= MaxSpawnRangeAttackers)
+			{
+				Point->SpawnEnemy();
+			}
+		}
+	}
+
 }
 
 void AShadowGameMode::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
