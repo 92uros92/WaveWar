@@ -82,7 +82,7 @@ void AShadowGameMode::OnQueryInstanceCompleted(UEnvQueryInstanceBlueprintWrapper
 		return;
 	}
 
-	// If the query generated Actors the the array is filled with their locations --> Spawn EnemyClass at that location.
+	// If the query generated Actors array is filled with their locations --> Spawn EnemyClass at that location.
 	TArray<FVector> Locations = QueryInstance->GetResultsAsLocations();
 	if (Locations.IsValidIndex(0))
 	{
@@ -92,26 +92,27 @@ void AShadowGameMode::OnQueryInstanceCompleted(UEnvQueryInstanceBlueprintWrapper
 
 void AShadowGameMode::SpawnFromPoint()
 {
-	int32 NumOfAliveEnemys = 0;
-	for (TActorIterator<AShadowEnemy> It(GetWorld()); It; ++It)
-	{
-		AShadowEnemy* Enemy = *It;
-
-
-		if ((Enemy->Execute_GetCharacterClass(Enemy) == ECharacterClass::Archer) && !Enemy->Execute_IsPlayerDead(Enemy))
-		{
-			NumOfAliveEnemys++;
-		}
-	}
-
-	int32 MaxSpawnRangeAttackers = 4;
-	if (RangeEnemySpawnCurve)
-	{
-		MaxSpawnRangeAttackers = RangeEnemySpawnCurve->GetFloatValue(GetWorld()->TimeSeconds);
-	}
-
 	for (TActorIterator<AEnemySpawnPoint> It(GetWorld()); It; ++It)
 	{
+		int32 NumOfAliveEnemys = 0;
+		int32 MaxSpawnRangeAttackers = 4;
+
+		if (RangeEnemySpawnCurve)
+		{
+			MaxSpawnRangeAttackers = RangeEnemySpawnCurve->GetFloatValue(GetWorld()->TimeSeconds);
+		}
+
+		for (TActorIterator<AShadowEnemy> EnemyIt(GetWorld()); EnemyIt; ++EnemyIt)
+		{
+			AShadowEnemy* Enemy = *EnemyIt;
+
+
+			if ((Enemy->Execute_GetCharacterClass(Enemy) == ECharacterClass::Archer) && !Enemy->Execute_IsPlayerDead(Enemy))
+			{
+				NumOfAliveEnemys++;
+			}
+		}
+
 		if (NumOfAliveEnemys >= MaxSpawnRangeAttackers)
 		{
 			return;
