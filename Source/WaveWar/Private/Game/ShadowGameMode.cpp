@@ -126,12 +126,10 @@ void AShadowGameMode::SpawnFromPoint()
 
 	if (!EnemySpawnPoints.IsEmpty())
 	{
-		for (AEnemySpawnPoint* Point : EnemySpawnPoints)
+		if (NumOfAliveEnemys <= MaxSpawnRangeAttackers)
 		{
-			if (NumOfAliveEnemys <= MaxSpawnRangeAttackers)
-			{
-				Point->SpawnEnemy();
-			}
+			int32 Rand = FMath::RandRange(0, EnemySpawnPoints.Num());
+			EnemySpawnPoints[Rand]->SpawnEnemy();
 		}
 	}
 
