@@ -122,6 +122,7 @@ void AShadowCharacter::Die_Implementation()
 
 	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
 
+	DisableInput(GetController<APlayerController>());
 	DetachFromControllerPendingDestroy();
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
