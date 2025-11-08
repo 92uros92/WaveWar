@@ -91,4 +91,7 @@ protected:
 
 	UFUNCTION()
 	void SpawnFromPoint();
+
+	UFUNCTION()
+	void SpawnMeleeEnemy();
 };

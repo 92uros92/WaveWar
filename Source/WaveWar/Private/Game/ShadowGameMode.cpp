@@ -135,6 +135,11 @@ void AShadowGameMode::SpawnFromPoint()
 
 }
 
+void AShadowGameMode::SpawnMeleeEnemy()
+{
+
+}
+
 void AShadowGameMode::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
 {
 	AShadowGameMode* ShadowGM = Cast<AShadowGameMode>(UGameplayStatics::GetGameMode(WorldContextObject));
