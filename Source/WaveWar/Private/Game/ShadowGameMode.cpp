@@ -85,10 +85,10 @@ void AShadowGameMode::OnQueryInstanceCompleted(UEnvQueryInstanceBlueprintWrapper
 
 	// If the query generated Actors array is filled with their locations --> Spawn EnemyClass at that location.
 	TArray<FVector> Locations = QueryInstance->GetResultsAsLocations();
-	if (Locations.IsValidIndex(0))
+	if (Locations.IsValidIndex(0) && SpawnMeleeEnemyData)
 	{
-		//EnemyToSpawnArray = USpawnMeleeEnemyData::GetSpawnMeleeEnemy();
-		GetWorld()->SpawnActor<AActor>(EnemyClassToSpawn, Locations[0], FRotator::ZeroRotator);
+		int32 Rand = FMath::RandRange(0, 1);
+		GetWorld()->SpawnActor<AActor>(SpawnMeleeEnemyData->SpawnedEnemyArray[Rand].EnemyClassToSpawn, Locations[0], FRotator::ZeroRotator);
 	}
 }
 

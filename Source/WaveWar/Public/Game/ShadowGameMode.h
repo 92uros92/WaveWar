@@ -34,9 +34,7 @@ public:
 	TObjectPtr<UCharacterClassData> CharacterClassData;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Enemy Spawn Data")
-	TObjectPtr<USpawnMeleeEnemyData> SpawnMeleeEnemyData;
-
-	TArray<struct FEnemyToSpawnInfo> EnemyToSpawnArray;
+	TObjectPtr < USpawnMeleeEnemyData> SpawnMeleeEnemyData;
 
 	UPROPERTY(EditDefaultsOnly, Category = "LootData")
 	TObjectPtr<ULootData> LootData;
