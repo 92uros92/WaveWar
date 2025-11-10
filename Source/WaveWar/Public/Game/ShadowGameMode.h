@@ -20,6 +20,7 @@ class ULootData;
 class AEnemySpawnPoint;
 class AShadowEnemy;
 class USoundWave;
+class USpawnMeleeEnemyData;
 
 
 UCLASS()
@@ -31,6 +32,11 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Attributes Class|Character Class")
 	TObjectPtr<UCharacterClassData> CharacterClassData;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Enemy Spawn Data")
+	TObjectPtr<USpawnMeleeEnemyData> SpawnMeleeEnemyData;
+
+	TArray<struct FEnemyToSpawnInfo> EnemyToSpawnArray;
 
 	UPROPERTY(EditDefaultsOnly, Category = "LootData")
 	TObjectPtr<ULootData> LootData;

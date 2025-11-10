@@ -6,6 +6,7 @@
 #include "Interaction/CombatInterface.h"
 #include "Player/ShadowEnemy.h"
 #include "Actor/EnemySpawnPoint.h"
+#include "Data/SpawnMeleeEnemyData.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Character.h"
@@ -86,6 +87,7 @@ void AShadowGameMode::OnQueryInstanceCompleted(UEnvQueryInstanceBlueprintWrapper
 	TArray<FVector> Locations = QueryInstance->GetResultsAsLocations();
 	if (Locations.IsValidIndex(0))
 	{
+		//EnemyToSpawnArray = USpawnMeleeEnemyData::GetSpawnMeleeEnemy();
 		GetWorld()->SpawnActor<AActor>(EnemyClassToSpawn, Locations[0], FRotator::ZeroRotator);
 	}
 }
