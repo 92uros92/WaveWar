@@ -63,6 +63,8 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
+	FORCEINLINE AShadowCharacter* GetShadowCharacter() { return this; }
+
 	/** Begin AActor Interface **/
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
